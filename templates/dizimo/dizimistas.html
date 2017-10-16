@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+  <li class="breadcrumb-item active">Dizimistas</li>
+{% endblock %}
+
+{% block content %}
+  <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Nome</th>
+        <th>Endereço</th>
+        <th>Bairro</th>
+        <th>Cidade</th>
+        <th>Paróquia</th>
+        <th>Comunidade</th>
+        <th>Data de nascimento</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.endereco }}</td>
+          <td>{{ dizimista.bairro }}</td>
+          <td>{{ dizimista.cidade }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
