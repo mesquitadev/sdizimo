@@ -14,4 +14,10 @@
     {% include 'includes/form.html' %}
     <button type="submit" class="btn btn-success">Salvar</button>
   </form>
+
+  <script>
+    $(document).ready(function(){
+      $('#id_data_nascimento').mask("00/00/0000", {placeholder: "__/__/____"});
+    });
+  </script>
 {% endblock %}
