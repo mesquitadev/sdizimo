@@ -19,7 +19,7 @@ from apps.comum import views
 
 
 urlpatterns = [
-    url(r'^$', views.dashboard, name='dashboard'),
+    url(r'^$', views.inicio, name='inicio'),
     url(r'^', include('apps.dizimo.urls', namespace='dizimo')),  # dizimo app
     url(r'^admin/', admin.site.urls),
 ]

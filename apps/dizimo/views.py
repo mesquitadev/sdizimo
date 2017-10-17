@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Dizimista
+from .forms import DizimistaForm
 
 
 def dizimistas(request):
@@ -11,7 +12,12 @@ def dizimistas(request):
 
 
 def novo_dizimista(request):
-    context = {
-        'msg': 'novo dizimista'
-    }
-    return render(request, 'dizimo/novo_dizimista.html', context)
+    if request.method == 'POST':
+        form = DizimistaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dizimo:dizimistas')
+    else:
+        form = DizimistaForm()
+
+    return render(request, 'dizimo/novo_dizimista.html', {'form': form})

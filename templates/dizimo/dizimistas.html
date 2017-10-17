@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
   <li class="breadcrumb-item active">Dizimistas</li>
 {% endblock %}
 
 {% block content %}
+  <div class="mb-4">
+    <a href="{% url 'dizimo:novo_dizimista' %}" class="btn btn-primary">Novo dizimista</a>
+  </div>
+
   <table class="table">
     <thead class="thead-inverse">
       <tr>

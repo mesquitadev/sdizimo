@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
 # Create your views here.
-def dashboard(request):
+def inicio(request):
     context = {
         'welcome': 'Welcome!!!'
     }
-    return render(request, 'dashboard.html', context)
+    return render(request, 'inicio.html', context)
