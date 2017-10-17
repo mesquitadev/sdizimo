@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # third party apps
     'widget_tweaks',
+    'localflavor',
     # project apps
     'apps.comum',
     'apps.dizimo',

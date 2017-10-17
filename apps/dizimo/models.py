@@ -1,4 +1,5 @@
 from django.db import models
+from localflavor.br.models import BRStateField
 
 
 class Dizimista(models.Model):
@@ -17,6 +18,7 @@ class Dizimista(models.Model):
     endereco = models.CharField(max_length=250, blank=False, null=False, verbose_name='endereço')
     bairro = models.CharField(max_length=100, blank=False, null=False)
     cidade = models.CharField(max_length=100, blank=False, null=False)
+    estado = BRStateField(blank=False, null=False)
     paroquia = models.CharField(max_length=100, blank=False, null=False, verbose_name='paróquia')
     comunidade = models.CharField(max_length=100, blank=False, null=False)
     sexo = models.CharField(max_length=1, choices=SEXO, blank=False, null=False)
