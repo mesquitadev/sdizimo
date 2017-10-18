@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'localflavor',
     # project apps
+    'apps.autenticacao',
     'apps.comum',
     'apps.dizimo',
 ]

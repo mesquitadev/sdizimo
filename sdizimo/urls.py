@@ -19,7 +19,8 @@ from apps.comum import views
 
 
 urlpatterns = [
-    url(r'^$', views.inicio, name='inicio'),
     url(r'^', include('apps.dizimo.urls', namespace='dizimo')),  # dizimo app
+    url(r'^autenticacao/', include('apps.autenticacao.urls', namespace='dizimo')),  # autenticacao app
+    url(r'^$', views.inicio, name='inicio'),
     url(r'^admin/', admin.site.urls),
 ]
