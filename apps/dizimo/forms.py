@@ -1,4 +1,4 @@
-from bootstrap_datepicker.widgets import DatePicker
+# from bootstrap_datepicker.widgets import DatePicker
 from django import forms
 from .models import Dizimista
 
