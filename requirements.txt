@@ -1,5 +1,5 @@
 Django==1.11.6
-django-bootstrap-datepicker==1.2.3
+#django-bootstrap-datepicker==1.2.3
 django-widget-tweaks==1.4.1
 django-localflavor==1.5.2
 pylint==1.7.4
