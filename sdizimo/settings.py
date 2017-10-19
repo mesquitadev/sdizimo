@@ -133,8 +133,9 @@ STATICFILES_DIRS = [
 
 # Logout default url
 
-LOGOUT_REDIRECT_URL = 'autenticacao:login'
+LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = 'inicio'
+LOGIN_URL = 'login'
 
 
 # E-mail config
