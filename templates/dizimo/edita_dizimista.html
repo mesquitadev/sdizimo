@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Cadastro de novo dizimista{% endblock %}
+{% block title %}Editando {{ dizimista.nome }}{% endblock %}
 
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
   <li class="breadcrumb-item"><a href="{% url 'dizimo:dizimistas' %}">Dizimistas</a></li>
-  <li class="breadcrumb-item active">Novo dizimista</li>
+  <li class="breadcrumb-item active">Editando {{ dizimista.nome }}</li>
 {% endblock %}
 
 {% block content %}
@@ -13,6 +13,7 @@
     {% csrf_token %}
     {% include 'includes/form.html' %}
     <button type="submit" class="btn btn-success">Salvar</button>
+    <a href="{% url 'dizimo:dizimistas' %}" class="btn btn-outline-secondary" role="button">Cancelar</a>
   </form>
 
   <script>

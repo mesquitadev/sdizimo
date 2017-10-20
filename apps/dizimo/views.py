@@ -1,5 +1,8 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
+from django.views.generic import CreateView, UpdateView
+from django.urls import reverse_lazy
 
 from .models import Dizimista
 from .forms import DizimistaForm
@@ -14,14 +17,16 @@ def dizimistas(request):
     return render(request, 'dizimo/dizimistas.html', context)
 
 
-@login_required
-def novo_dizimista(request):
-    if request.method == 'POST':
-        form = DizimistaForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('dizimo:dizimistas')
-    else:
-        form = DizimistaForm()
+class NovoDizimista(LoginRequiredMixin, CreateView):
+    model = Dizimista
+    form_class = DizimistaForm
+    success_url = reverse_lazy('dizimo:dizimistas')
+    template_name = 'dizimo/novo_dizimista.html'
 
-    return render(request, 'dizimo/novo_dizimista.html', {'form': form})
+
+class EditaDizimista(LoginRequiredMixin, UpdateView):
+    model = Dizimista
+    form_class = DizimistaForm
+    success_url = reverse_lazy('dizimo:dizimistas')
+    template_name = 'dizimo/edita_dizimista.html'
+    context_object_name = 'dizimista'

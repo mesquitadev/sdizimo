@@ -15,6 +15,7 @@
   <table class="table">
     <thead class="thead-inverse">
       <tr>
+        <th>#</th>
         <th>Nome</th>
         <th>Endereço</th>
         <th>Bairro</th>
@@ -28,6 +29,10 @@
     <tbody>
       {% for dizimista in dizimistas %}
         <tr>
+          <td>
+            <a href="#" title="Exibir {{ dizimista.nome }}"><i class="fa fa-search" aria-hidden="true"></i></a>
+            <a href="{% url 'dizimo:edita_dizimista' dizimista.pk %}" title="Editar {{ dizimista.nome }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+          </td>
           <td>{{ dizimista.nome }}</td>
           <td>{{ dizimista.endereco }}</td>
           <td>{{ dizimista.bairro }}</td>
