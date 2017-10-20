@@ -4,7 +4,6 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    url(r'^signup/$', views.signup, name='signup'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
     url(r'^login/$', auth_views.LoginView.as_view(template_name='autenticacao/login.html'), name='login'),
 
@@ -13,6 +12,8 @@ urlpatterns = [
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', auth_views.PasswordResetConfirmView.as_view(template_name='autenticacao/password_reset_confirm.html'), name='password_reset_confirm'),
     url(r'^reset/complete/$', auth_views.PasswordResetCompleteView.as_view(template_name='autenticacao/password_reset_complete.html'), name='password_reset_complete'),
 
-    url(r'^perfil/senha/$', auth_views.PasswordChangeView.as_view(template_name='autenticacao/password_change.html'), name='password_change'),
-    url(r'^perfil/senha/alterada/$', auth_views.PasswordChangeDoneView.as_view(template_name='autenticacao/password_change_done.html'), name='password_change_done'),
+    url(r'^usuario/novo/$', views.signup, name='signup'),
+    url(r'^usuario/perfil/$', views.EditaUsuario.as_view(), name='perfil_usuario'),
+    url(r'^usuario/senha/$', auth_views.PasswordChangeView.as_view(template_name='autenticacao/password_change.html'), name='password_change'),
+    url(r'^usuario/senha/alterada/$', auth_views.PasswordChangeDoneView.as_view(template_name='autenticacao/password_change_done.html'), name='password_change_done'),
 ]
