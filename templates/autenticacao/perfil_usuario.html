@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load gravatar %}
+
 {% block title %}Meu perfil{% endblock %}
 
 {% block breadcrumb %}
@@ -9,6 +11,7 @@
 {% block content %}
   <div class="row">
     <div class="col-lg-6 col-md-8 col-sm-10">
+      <img src="{{ user|gravatar }}" alt="{{ user.username }}" class="img-thumbnail mb-3">
       <form method="post" novalidate>
         {% csrf_token %}
         {% include 'includes/form.html' %}

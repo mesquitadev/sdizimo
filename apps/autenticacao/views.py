@@ -25,6 +25,7 @@ class EditaUsuario(LoginRequiredMixin, UpdateView):
     fields = ('first_name', 'last_name', 'email', )
     template_name = 'autenticacao/perfil_usuario.html'
     success_url = reverse_lazy('perfil_usuario')
+    context_object_name = 'user'
 
     def get_object(self, queryset=None):
         return self.request.user
