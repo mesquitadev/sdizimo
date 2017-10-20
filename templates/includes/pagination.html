@@ -1,6 +1,16 @@
 {% if is_paginated %}
   <nav aria-label="Paginação" class="mb-4">
     <ul class="pagination">
+      {% if page_obj.number > 1 %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1">Primeira</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">Primeira</span>
+        </li>
+      {% endif %}
+
       {% if page_obj.has_previous %}
         <li class="page-item">
           <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
@@ -19,7 +29,7 @@
               <span class="sr-only">(current)</span>
             </span>
           </li>
-        {% else %}
+        {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
           <li class="page-item">
             <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
           </li>
@@ -28,11 +38,21 @@
 
       {% if page_obj.has_next %}
         <li class="page-item">
-          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Próximo</a>
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Próxima</a>
         </li>
       {% else %}
         <li class="page-item disabled">
-          <span class="page-link">Próximo</span>
+          <span class="page-link">Próxima</span>
+        </li>
+      {% endif %}
+
+      {% if page_obj.number != paginator.num_pages %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ paginator.num_pages }}">Última</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">Última</span>
         </li>
       {% endif %}
     </ul>
