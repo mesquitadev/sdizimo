@@ -1,20 +1,16 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView
 from django.urls import reverse_lazy
 
 from .models import Dizimista
 from .forms import DizimistaForm
 
 
-@login_required
-def dizimistas(request):
-    dizimistas = Dizimista.objects.all().order_by('nome')
-    context = {
-        'dizimistas': dizimistas
-    }
-    return render(request, 'dizimo/dizimistas.html', context)
+class ListaDizimistas(LoginRequiredMixin, ListView):
+    model = Dizimista
+    context_object_name = 'dizimistas'
+    template_name = 'dizimo/dizimistas.html'
+    paginate_by = 20
 
 
 class NovoDizimista(LoginRequiredMixin, CreateView):
