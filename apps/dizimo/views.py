@@ -1,8 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+
 from .models import Dizimista
 from .forms import DizimistaForm
 
 
+@login_required
 def dizimistas(request):
     dizimistas = Dizimista.objects.all().order_by('nome')
     context = {
@@ -11,6 +14,7 @@ def dizimistas(request):
     return render(request, 'dizimo/dizimistas.html', context)
 
 
+@login_required
 def novo_dizimista(request):
     if request.method == 'POST':
         form = DizimistaForm(request.POST)
