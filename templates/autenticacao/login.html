@@ -1,25 +1,13 @@
-{% extends 'autenticacao/new_base.html' %}
+{% extends 'autenticacao/base.html' %}
 
 {% block title %}SDízimo - Login{% endblock %}
 
 {% block content %}
-  <div class="row justify-content-center">
-    <div class="col-lg-4 col-md-6 col-sm-8">
-      <div class="card">
-        <div class="card-body">
-          <form method="post" novalidate>
-            {% csrf_token %}
-            <input type="hidden" name="next" value="{{ next }}">
-            {% include 'includes/form.html' %}
-            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
-          </form>
-        </div>
-      </div>
-      <div class="text-center py-2">
-        <small>
-          <a href="{% url 'password_reset' %}" class="text-muted">Esqueceu sua senha?</a>
-        </small>
-      </div>
-    </div>
-  </div>
+  <form id="login-form" method="post" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-primary">Entrar</button>
+  </form>
+  <a href="{% url 'password_reset' %}" class="forgot-pass">Esqueceu sua senha?</a>
 {% endblock %}
