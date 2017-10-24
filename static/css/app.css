@@ -1,20 +1,19 @@
-.navbar-brand {
-    font-family: 'Pacifico', cursive;
-}
-
+/* css para corrigir problema no login */
 .login-page::before {
-    z-index: 0;
+  z-index: 0;
 }
 
+/* login */
 #login-form {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .logo-login a {
-    color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 
 .logo-login a:hover,
 .logo-login a:active {
-    text-decoration: none;
+  text-decoration: none;
 }
+
