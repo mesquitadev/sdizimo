@@ -21,3 +21,9 @@
 nav.navbar .container-fluid {
   display: flow-root;
 }
+
+@media (max-width: 991px) {
+  .navbar-expand-lg>.container, .navbar-expand-lg>.container-fluid {
+      padding-left: 15px;
+  }
+}
