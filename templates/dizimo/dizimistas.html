@@ -2,49 +2,65 @@
 
 {% block title %}Dizimistas{% endblock %}
 
+{% block pageheader %}
+  Dizimistas
+{% endblock %}
+
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
-  <li class="breadcrumb-item active">Dizimistas</li>
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+      <li class="breadcrumb-item active">Dizimistas</li>
+    </ol>
+  </nav>
 {% endblock %}
 
 {% block content %}
-  <div class="mb-4">
+  <div class="mb-4 d-flex flex-row-reverse">
     <a href="{% url 'dizimo:novo_dizimista' %}" class="btn btn-primary">Novo dizimista</a>
   </div>
 
-  <table class="table">
-    <thead class="thead-inverse">
-      <tr>
-        <th>#</th>
-        <th>Nome</th>
-        <th>Endereço</th>
-        <th>Bairro</th>
-        <th>Cidade</th>
-        <th>Estado</th>
-        <th>Paróquia</th>
-        <th>Comunidade</th>
-        <th>Data de nascimento</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for dizimista in dizimistas %}
-        <tr>
-          <td>
-            <a href="#" title="Exibir {{ dizimista.nome }}"><i class="fa fa-search" aria-hidden="true"></i></a>
-            <a href="{% url 'dizimo:edita_dizimista' dizimista.pk %}" title="Editar {{ dizimista.nome }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-          </td>
-          <td>{{ dizimista.nome }}</td>
-          <td>{{ dizimista.endereco }}</td>
-          <td>{{ dizimista.bairro }}</td>
-          <td>{{ dizimista.cidade }}</td>
-          <td>{{ dizimista.estado }}</td>
-          <td>{{ dizimista.paroquia }}</td>
-          <td>{{ dizimista.comunidade }}</td>
-          <td>{{ dizimista.data_nascimento }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Listagem de Dizimistas</h3>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th>Endereço</th>
+            <th>Bairro</th>
+            <th>Cidade</th>
+            <th>Estado</th>
+            <th>Paróquia</th>
+            <th>Comunidade</th>
+            <th>Data de nascimento</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for dizimista in dizimistas %}
+            <tr>
+              <td>
+                <a href="#" title="Exibir {{ dizimista.nome }}"><i class="fa fa-search" aria-hidden="true"></i></a>
+                <a href="{% url 'dizimo:edita_dizimista' dizimista.pk %}" title="Editar {{ dizimista.nome }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+              </td>
+              <td>{{ dizimista.nome }}</td>
+              <td>{{ dizimista.endereco }}</td>
+              <td>{{ dizimista.bairro }}</td>
+              <td>{{ dizimista.cidade }}</td>
+              <td>{{ dizimista.estado }}</td>
+              <td>{{ dizimista.paroquia }}</td>
+              <td>{{ dizimista.comunidade }}</td>
+              <td>{{ dizimista.data_nascimento }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
+  
   {% include 'includes/pagination.html' %}
 {% endblock %}

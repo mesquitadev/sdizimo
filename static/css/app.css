@@ -38,3 +38,8 @@ nav.navbar .container-fluid {
   font-size: 1.5em;
   width: 25px;
 }
+
+/* css para corrigir alinhamento do breadcrumb */
+.breadcrumb {
+  padding: 20px 30px;
+}
