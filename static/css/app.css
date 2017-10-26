@@ -17,3 +17,7 @@
   text-decoration: none;
 }
 
+/* css para corrigir problema na navbar */
+nav.navbar .container-fluid {
+  display: flow-root;
+}
