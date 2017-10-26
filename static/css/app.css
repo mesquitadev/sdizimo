@@ -18,6 +18,10 @@
 }
 
 /* css para corrigir problema na navbar */
+nav.navbar {
+  z-index: 1000;
+}
+
 nav.navbar .container-fluid {
   display: flow-root;
 }
@@ -26,4 +30,11 @@ nav.navbar .container-fluid {
   .navbar-expand-lg>.container, .navbar-expand-lg>.container-fluid {
       padding-left: 15px;
   }
+}
+
+/* css para corrigir alinhamento dos fontawesome icons no sidebar */
+.side-navbar *[class*="fa-"] {
+  transform: translateY(2px);
+  font-size: 1.5em;
+  width: 25px;
 }

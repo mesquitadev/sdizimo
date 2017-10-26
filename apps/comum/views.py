@@ -5,6 +5,6 @@ from django.shortcuts import render
 @login_required
 def inicio(request):
     context = {
-        'welcome': 'Welcome!!!'
+        'menu': 'inicio'
     }
     return render(request, 'comum/inicio.html', context)

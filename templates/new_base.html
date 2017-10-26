@@ -50,9 +50,11 @@
                 <!-- Navbar Menu -->
                 <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
                   <!-- Search-->
-                  <li class="nav-item d-flex align-items-center"><a id="search" href="#"><i class="icon-search"></i></a></li>
+                  <li class="nav-item"><a id="search" href="#" class="nav-link p-2" data-toggle="tooltip" title="Pesquisar"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                  <li class="nav-item"><a href="{% url 'perfil_usuario' %}" class="nav-link p-2" data-toggle="tooltip" title="Perfil do usuário"><i class="fa fa-user-circle" aria-hidden="true"></i></a></li>
+                  <li class="nav-item"><a href="{% url 'perfil_usuario' %}" class="nav-link p-2" data-toggle="tooltip" title="Alterar senha"><i class="fa fa-unlock-alt" aria-hidden="true"></i></a></li>
                   <!-- Notifications-->
-                  <li class="nav-item dropdown"> <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-bell-o"></i><span class="badge bg-red">12</span></a>
+                  <!-- <li class="nav-item dropdown"> <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-bell-o"></i><span class="badge bg-red">12</span></a>
                     <ul aria-labelledby="notifications" class="dropdown-menu">
                       <li><a rel="nofollow" href="#" class="dropdown-item"> 
                           <div class="notification">
@@ -76,9 +78,9 @@
                           </div></a></li>
                       <li><a rel="nofollow" href="#" class="dropdown-item all-notifications text-center"> <strong>view all notifications                                            </strong></a></li>
                     </ul>
-                  </li>
+                  </li> -->
                   <!-- Messages                        -->
-                  <li class="nav-item dropdown"> <a id="messages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-envelope-o"></i><span class="badge bg-orange">10</span></a>
+                  <!-- <li class="nav-item dropdown"> <a id="messages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-envelope-o"></i><span class="badge bg-orange">10</span></a>
                     <ul aria-labelledby="notifications" class="dropdown-menu">
                       <li><a rel="nofollow" href="#" class="dropdown-item d-flex"> 
                           <div class="msg-profile"> <img src="{% static 'img/avatar-1.jpg' %}" alt="..." class="img-fluid rounded-circle"></div>
@@ -97,7 +99,7 @@
                           </div></a></li>
                       <li><a rel="nofollow" href="#" class="dropdown-item all-notifications text-center"> <strong>Read all messages    </strong></a></li>
                     </ul>
-                  </li>
+                  </li> -->
                   <!-- Logout    -->
                   <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link logout">Sair<i class="fa fa-sign-out"></i></a></li>
                 </ul>
@@ -120,7 +122,12 @@
                 {% endif %}
               </div>
             </div>
-            <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
+            <!-- Sidebar Navidation Menus-->
+            <ul class="list-unstyled">
+              <li {% if menu == 'inicio' %}class="active"{% endif %}><a href="{% url 'inicio' %}"><i class="fa fa-home" aria-hidden="true"></i>Início</a></li>
+              <li {% if menu == 'dizimistas' %}class="active"{% endif %}><a href="{% url 'dizimo:dizimistas' %}"><i class="fa fa-address-card" aria-hidden="true"></i>Dizimistas</a></li>
+            </ul>
+            <!-- <span class="heading">Main</span>
             <ul class="list-unstyled">
               <li class="active"> <a href="./"><i class="icon-home"></i>Home</a></li>
               <li><a href="#dashvariants" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Dropdown </a>
@@ -135,13 +142,14 @@
               <li> <a href="charts.html"> <i class="fa fa-bar-chart"></i>Charts </a></li>
               <li> <a href="forms.html"> <i class="icon-padnote"></i>Forms </a></li>
               <li> <a href="login.html"> <i class="icon-interface-windows"></i>Login Page</a></li>
-            </ul><span class="heading">Extras</span>
+            </ul>
+            <span class="heading">Extras</span>
             <ul class="list-unstyled">
               <li> <a href="#"> <i class="icon-flask"></i>Demo </a></li>
               <li> <a href="#"> <i class="icon-screen"></i>Demo </a></li>
               <li> <a href="#"> <i class="icon-mail"></i>Demo </a></li>
               <li> <a href="#"> <i class="icon-picture"></i>Demo </a></li>
-            </ul>
+            </ul> -->
           </nav>
           <div class="content-inner">
             <!-- Page Header-->
@@ -698,5 +706,11 @@
     <script src="{% static 'js/jquery.cookie.js' %}"></script>
     <script src="{% static 'js/charts-home.js' %}"></script>
     <script src="{% static 'js/front.js' %}"></script>
+    <!-- ativacao dos tooltips -->
+    <script>
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>
   </body>
 </html>
