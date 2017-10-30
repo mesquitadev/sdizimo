@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, UpdateView, ListView, DetailView
+from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 from django.urls import reverse_lazy
 
 from .models import Dizimista
@@ -20,8 +20,10 @@ class ListaDizimistas(LoginRequiredMixin, ListView):
 class NovoDizimista(LoginRequiredMixin, CreateView):
     model = Dizimista
     form_class = DizimistaForm
-    success_url = reverse_lazy('dizimo:dizimistas')
     template_name = 'dizimo/novo_dizimista.html'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_dizimista', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'
@@ -31,9 +33,11 @@ class NovoDizimista(LoginRequiredMixin, CreateView):
 class EditaDizimista(LoginRequiredMixin, UpdateView):
     model = Dizimista
     form_class = DizimistaForm
-    success_url = reverse_lazy('dizimo:dizimistas')
     template_name = 'dizimo/edita_dizimista.html'
     context_object_name = 'dizimista'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_dizimista', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'
@@ -49,3 +53,10 @@ class ExibeDizimista(LoginRequiredMixin, DetailView):
         kwargs['menu'] = 'dizimistas'
         kwargs['form_readonly'] = True
         return super().get_context_data(**kwargs)
+
+
+class ExcluiDizimista(LoginRequiredMixin, DeleteView):
+    model = Dizimista
+    success_url = reverse_lazy('dizimo:dizimistas')
+    template_name = 'dizimo/exclui_dizimista.html'
+    context_object_name = 'dizimista'

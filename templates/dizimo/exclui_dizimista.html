@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ dizimista.nome }}{% endblock %}
+
+{% block pageheader %}{{ dizimista.nome }}{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'dizimo:dizimistas' %}">Dizimistas</a></li>
+    <li class="breadcrumb-item active">{{ dizimista.nome }}</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">{{ dizimista.nome }}</h3>
+    </div>
+    <div class="card-body">
+      <form method="post" class="mb-4" novalidate>
+        {% csrf_token %}
+        <p>Tem certeza que deseja excluir "{{ dizimista.nome }}"?</p>
+        <button type="submit" class="btn btn-danger">Excluir</button>
+        <a href="{% url 'dizimo:exibe_dizimista' dizimista.pk %}" class="btn btn-outline-secondary" role="button">Cancelar</a>
+      </form>
+    </div>
+  </div>
+{% endblock %}
