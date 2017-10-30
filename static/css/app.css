@@ -39,6 +39,10 @@ nav.navbar .container-fluid {
   width: 25px;
 }
 
+.side-navbar.shrinked *[class*="fa-"] {
+  width: inherit;
+}
+
 /* css para corrigir alinhamento do breadcrumb */
 .breadcrumb {
   padding: 20px 30px;
