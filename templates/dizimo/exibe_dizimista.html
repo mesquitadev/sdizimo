@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ dizimista.nome }}{% endblock %}
+
+{% block pageheader %}{{ dizimista.nome }}{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'dizimo:dizimistas' %}">Dizimistas</a></li>
+    <li class="breadcrumb-item active">{{ dizimista.nome }}</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4 d-flex flex-row-reverse">
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="{% url 'dizimo:edita_dizimista' dizimista.pk %}" class="btn btn-primary">Editar</a></li>
+      <li class="list-inline-item"><a href="#" class="btn btn-danger">Excluir</a></li>
+    </ul>    
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">{{ dizimista.nome }}</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <tr>
+          <td width="150" class="text-right"><strong>Nome</strong></td>
+          <td colspan="3">{{dizimista.nome}}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>Endereço</strong></td>
+          <td colspan="3">{{dizimista.endereco}}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>Bairro</strong></td>
+          <td>{{dizimista.bairro}}</td>
+          <td class="text-right"><strong>Cidade</strong></td>
+          <td>{{dizimista.cidade}}/{{dizimista.estado}}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>Paróquia</strong></td>
+          <td>{{dizimista.paroquia}}</td>
+          <td class="text-right"><strong>Comunidade</strong></td>
+          <td>{{dizimista.comunidade}}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>Sexo</strong></td>
+          <td>{{dizimista.get_sexo_display}}</td>
+          <td class="text-right"><strong>Estado Civil</strong></td>
+          <td>{{dizimista.get_estado_civil_display}}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>Data de nascimento</strong></td>
+          <td colspan="3">{{dizimista.data_nascimento}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <a href="{% url 'dizimo:dizimistas' %}" class="btn btn-secondary" role="button">Voltar</a>
+{% endblock %}

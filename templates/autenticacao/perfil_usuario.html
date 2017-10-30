@@ -4,13 +4,23 @@
 
 {% block title %}Meu perfil{% endblock %}
 
+{% block pageheader %}Meu perfil{% endblock %}
+
 {% block breadcrumb %}
-  <li class="breadcrumb-item active">Meu perfil</li>
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+      <li class="breadcrumb-item active">Meu perfil</li>
+    </ol>
+  </nav>
 {% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-lg-6 col-md-8 col-sm-10">
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Meu perfil</h3>
+    </div>
+    <div class="card-body">
       <img src="{{ user|gravatar }}" alt="{{ user.username }}" class="img-thumbnail mb-3">
       <form method="post" novalidate>
         {% csrf_token %}

@@ -11,7 +11,11 @@
 {% for field in form %}
   <div class="form-group">
     {{ field.label_tag }}
-    {% render_field field class=field|input_class %}
+    {% if form_readonly %}
+      {% render_field field readonly='readonly' class=field|input_class %}
+    {% else %}
+      {% render_field field class=field|input_class %}
+    {% endif %}
     {% for error in field.errors %}
       <div class="invalid-feedback">
         {{ error }}

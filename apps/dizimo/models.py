@@ -26,6 +26,9 @@ class Dizimista(models.Model):
     data_nascimento = models.DateField(null=False, blank=False, verbose_name='data de nascimento')
     # TODO: falta colocar a foto, analisar uso do grappelli
 
+    class Meta:
+        ordering = ('nome', )
+
     def __str__(self):
         return self.nome
 

@@ -43,3 +43,8 @@ nav.navbar .container-fluid {
 .breadcrumb {
   padding: 20px 30px;
 }
+
+/* css para corrigir alinhamento de listas */
+form ul {
+  padding: 8px 35px;
+}
