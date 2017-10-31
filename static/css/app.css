@@ -52,3 +52,13 @@ nav.navbar .container-fluid {
 form ul {
   padding: 8px 35px;
 }
+
+
+/* css para corrigir tabela do formset */
+table.formset input.form-control {
+  padding: 6px 8px;
+}
+
+table.formset td {
+  vertical-align: text-bottom;
+}

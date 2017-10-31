@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 from django.urls import reverse_lazy
 
 from .models import Dizimista
-from .forms import DizimistaForm
+from .forms import DizimistaForm, TelefoneFormSet
 
 
 class ListaDizimistas(LoginRequiredMixin, ListView):
@@ -26,8 +27,24 @@ class NovoDizimista(LoginRequiredMixin, CreateView):
         return reverse_lazy('dizimo:exibe_dizimista', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
-        kwargs['menu'] = 'dizimistas'
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'dizimistas'
+        if self.request.POST:
+            context['formset'] = TelefoneFormSet(self.request.POST)
+        else:
+            context['formset'] = TelefoneFormSet()
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        if formset.is_valid():
+            self.object = form.save()
+            formset.instance = self.object
+            formset.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
 
 class EditaDizimista(LoginRequiredMixin, UpdateView):
@@ -40,8 +57,25 @@ class EditaDizimista(LoginRequiredMixin, UpdateView):
         return reverse_lazy('dizimo:exibe_dizimista', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
-        kwargs['menu'] = 'dizimistas'
-        return super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'dizimistas'
+        if self.request.POST:
+            context['formset'] = TelefoneFormSet(self.request.POST, instance=self.object)
+            context['formset'].full_clean()
+        else:
+            context['formset'] = TelefoneFormSet(instance=self.object)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        if formset.is_valid():
+            self.object = form.save()
+            formset.instance = self.object
+            formset.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
 
 class ExibeDizimista(LoginRequiredMixin, DetailView):

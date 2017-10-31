@@ -1,0 +1,48 @@
+{% load form_tags widget_tweaks %}
+
+{{ formset.management_form }}
+
+{% if formset.non_field_errors %}
+  <div class="alert alert-danger" role="alert">
+    {% for error in formset.non_field_errors %}
+      <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<table class="table formset">
+  {% for form in formset.forms %}
+    {% if forloop.first %}
+      <thead class="thead-light">
+          <tr>
+              {% for field in form.visible_fields %}
+                <th scope="col">{{ field.label|capfirst }}</th>
+              {% endfor %}
+          </tr>
+      </thead>
+    {% endif %}
+    <tr id="{{ form.prefix }}-row">
+        {% for field in form.visible_fields %}
+          <td>
+            {# Include the hidden fields in the form #}
+            {% if forloop.first %}
+              {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
+            {% endif %}
+            {% render_field field class=field|input_class %}
+            {% for error in field.errors %}
+              <div class="invalid-feedback">
+                {{ error }}
+              </div>
+            {% endfor %}
+            {% if field.help_text %}
+              <small class="form-text text-muted">
+                {{ field.help_text|safe }}
+              </small>
+            {% endif %}
+          </td>
+        {% endfor %}
+    </tr>
+  {% endfor %}
+</table>

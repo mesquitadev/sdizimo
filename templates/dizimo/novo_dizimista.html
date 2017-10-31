@@ -23,6 +23,8 @@
       <form method="post" class="mb-4" novalidate>
         {% csrf_token %}
         {% include 'includes/form.html' %}
+        <h3 class="h4 mt-5">Telefones</h3>
+        {% include 'includes/formset.html' %}
         <button type="submit" class="btn btn-success">Salvar</button>
       </form>
     </div>
@@ -31,6 +33,7 @@
   <script>
     $(document).ready(function(){
       $('#id_data_nascimento').mask("00/00/0000", {placeholder: "__/__/____"});
+      $('input[name$=-numero]').mask("(00) 00000-0000", {placeholder: "(__) _____-____"});
     });
   </script>
 {% endblock %}

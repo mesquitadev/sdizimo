@@ -59,6 +59,26 @@
           <td colspan="3">{{dizimista.data_nascimento}}</td>
         </tr>
       </table>
+
+      <h3 class="h4 mt-5">Telefones</h3>
+      <table class="table formset">
+        <thead class="thead-light">
+          <tr>
+              <th scope="col">Número</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Operadora</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for telefone in dizimista.telefones.all %}
+            <tr>
+              <td>{{telefone.numero}}</td>
+              <td>{{telefone.get_tipo_display}}</td>
+              <td>{{telefone.get_operadora_display}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
   <a href="{% url 'dizimo:dizimistas' %}" class="btn btn-secondary" role="button">Voltar</a>
