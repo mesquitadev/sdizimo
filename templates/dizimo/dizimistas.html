@@ -34,7 +34,7 @@
             <th scope="col">Estado</th>
             <th scope="col">Paróquia</th>
             <th scope="col">Comunidade</th>
-            <th scope="col">Data de nascimento</th>
+            {% comment %} <th scope="col">Data de nascimento</th> {% endcomment %}
           </tr>
         </thead>
         <tbody>
@@ -51,7 +51,7 @@
               <td>{{ dizimista.estado }}</td>
               <td>{{ dizimista.paroquia }}</td>
               <td>{{ dizimista.comunidade }}</td>
-              <td>{{ dizimista.data_nascimento }}</td>
+              {% comment %} <td>{{ dizimista.data_nascimento }}</td> {% endcomment %}
             </tr>
           {% endfor %}
         </tbody>
