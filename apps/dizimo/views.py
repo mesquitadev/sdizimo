@@ -1,17 +1,21 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
+from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy
+from search_views.search import SearchListView
 
 from .models import Dizimista
-from .forms import DizimistaForm, TelefoneFormSet
+from .filters import DizimistaFilter
+from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm
 
 
-class ListaDizimistas(LoginRequiredMixin, ListView):
+class ListaDizimistas(LoginRequiredMixin, SearchListView):
     model = Dizimista
     context_object_name = 'dizimistas'
     template_name = 'dizimo/dizimistas.html'
     paginate_by = 20
+    form_class = ConsultaDizimistaForm
+    filter_class = DizimistaFilter
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'

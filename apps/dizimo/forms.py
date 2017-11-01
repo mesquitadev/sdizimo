@@ -1,6 +1,6 @@
 # from bootstrap_datepicker.widgets import DatePicker
 from django import forms
-from django.forms.models import inlineformset_factory, formset_factory
+from django.forms.models import inlineformset_factory
 
 from .models import Dizimista, Telefone
 
@@ -20,4 +20,10 @@ class TelefoneForm(forms.ModelForm):
 
 
 # TelefoneFormSet = formset_factory(TelefoneForm, can_delete=True, extra=3)
-TelefoneFormSet = inlineformset_factory(Dizimista, Telefone, fields = ('numero', 'tipo', 'operadora'))
+TelefoneFormSet = inlineformset_factory(Dizimista, Telefone, fields=('numero', 'tipo', 'operadora'))
+
+
+class ConsultaDizimistaForm(forms.Form):
+    nome = forms.CharField(label='Nome', required=False)
+    paroquia = forms.CharField(label='Paróquia', required=False)
+    comunidade = forms.CharField(label='Comunidade', required=False)
