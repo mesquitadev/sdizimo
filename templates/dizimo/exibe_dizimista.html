@@ -29,34 +29,34 @@
     <div class="card-body">
       <table class="table table-striped">
         <tr>
-          <td width="150" class="text-right"><strong>Nome</strong></td>
-          <td colspan="3">{{dizimista.nome}}</td>
+          <td width="130" class="text-right"><strong>Nome</strong></td>
+          <td>{{dizimista.nome}}</td>
+          <td class="text-right"><strong>Nº Cad.</strong></td>
+          <td>{{dizimista.pk}}</td>
         </tr>
         <tr>
           <td class="text-right"><strong>Endereço</strong></td>
-          <td colspan="3">{{dizimista.endereco}}</td>
-        </tr>
-        <tr>
+          <td>{{dizimista.endereco}}</td>
           <td class="text-right"><strong>Bairro</strong></td>
           <td>{{dizimista.bairro}}</td>
+        </tr>
+        <tr>
           <td class="text-right"><strong>Cidade</strong></td>
           <td>{{dizimista.cidade}}/{{dizimista.estado}}</td>
+          <td class="text-right"><strong>Data de nascimento</strong></td>
+          <td>{{dizimista.data_nascimento}}</td>
         </tr>
         <tr>
           <td class="text-right"><strong>Paróquia</strong></td>
           <td>{{dizimista.paroquia}}</td>
-          <td class="text-right"><strong>Comunidade</strong></td>
-          <td>{{dizimista.comunidade}}</td>
-        </tr>
-        <tr>
           <td class="text-right"><strong>Sexo</strong></td>
           <td>{{dizimista.get_sexo_display}}</td>
-          <td class="text-right"><strong>Estado Civil</strong></td>
-          <td>{{dizimista.get_estado_civil_display}}</td>
         </tr>
         <tr>
-          <td class="text-right"><strong>Data de nascimento</strong></td>
-          <td colspan="3">{{dizimista.data_nascimento}}</td>
+          <td class="text-right"><strong>Comunidade</strong></td>
+          <td>{{dizimista.comunidade}}</td>
+          <td class="text-right"><strong>Estado Civil</strong></td>
+          <td>{{dizimista.get_estado_civil_display}}</td>
         </tr>
       </table>
 
