@@ -24,7 +24,7 @@ class Dizimista(models.Model):
     sexo = models.CharField(max_length=1, choices=SEXO, blank=False, null=False)
     estado_civil = models.CharField(max_length=1, choices=ESTADO_CIVIL, blank=False, null=False)
     data_nascimento = models.DateField(null=False, blank=False, verbose_name='data de nascimento')
-    # TODO: falta colocar a foto, analisar uso do grappelli
+    foto = models.ImageField(upload_to='dizimistas/fotos', null=True, blank=True)
 
     class Meta:
         ordering = ('nome', )

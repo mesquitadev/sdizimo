@@ -20,7 +20,7 @@
       <h3 class="h4">Cadastro de dizimista</h3>
     </div>
     <div class="card-body">
-      <form method="post" class="mb-4" novalidate>
+      <form method="post" class="mb-4" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
         {% include 'includes/form.html' %}
         <h3 class="h4 mt-5">Telefones</h3>

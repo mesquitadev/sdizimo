@@ -27,38 +27,97 @@
       <h3 class="h4">{{ dizimista.nome }}</h3>
     </div>
     <div class="card-body">
-      <table class="table table-striped">
-        <tr>
-          <td width="130" class="text-right"><strong>Nome</strong></td>
-          <td>{{dizimista.nome}}</td>
-          <td class="text-right"><strong>Nº Cad.</strong></td>
-          <td>{{dizimista.pk}}</td>
-        </tr>
-        <tr>
-          <td class="text-right"><strong>Endereço</strong></td>
-          <td>{{dizimista.endereco}}</td>
-          <td class="text-right"><strong>Bairro</strong></td>
-          <td>{{dizimista.bairro}}</td>
-        </tr>
-        <tr>
-          <td class="text-right"><strong>Cidade</strong></td>
-          <td>{{dizimista.cidade}}/{{dizimista.estado}}</td>
-          <td class="text-right"><strong>Data de nascimento</strong></td>
-          <td>{{dizimista.data_nascimento}}</td>
-        </tr>
-        <tr>
-          <td class="text-right"><strong>Paróquia</strong></td>
-          <td>{{dizimista.paroquia}}</td>
-          <td class="text-right"><strong>Sexo</strong></td>
-          <td>{{dizimista.get_sexo_display}}</td>
-        </tr>
-        <tr>
-          <td class="text-right"><strong>Comunidade</strong></td>
-          <td>{{dizimista.comunidade}}</td>
-          <td class="text-right"><strong>Estado Civil</strong></td>
-          <td>{{dizimista.get_estado_civil_display}}</td>
-        </tr>
-      </table>
+      <div class="container">
+        <div class="row">
+          <div class="col{% if dizimista.foto %}-9{% endif %}"></div>
+        </div>
+      </div>
+      {% if dizimista.foto %}
+        <div class="row">
+          <div class="col-8">
+            <table class="table table-striped">
+              <tr>
+                <td width="130" class="text-right"><strong>Nº Cad.</strong></td>
+                <td>{{dizimista.pk}}</td>
+              </tr>
+              <tr>
+                <td class="text-right"><strong>Nome</strong></td>
+                <td>{{dizimista.nome}}</td>
+              </tr>
+              <tr>
+                <td class="text-right"><strong>Endereço</strong></td>
+                <td>{{dizimista.endereco}}</td>
+              </tr>
+              <tr>
+                <td class="text-right"><strong>Bairro</strong></td>
+                <td>{{dizimista.bairro}}</td>
+              </tr>
+              <tr>
+                <td class="text-right"><strong>Cidade</strong></td>
+                <td>{{dizimista.cidade}}/{{dizimista.estado}}</td>
+              </tr>
+              <tr>
+                <td class="text-right"><strong>Data de nascimento</strong></td>
+                <td class="align-middle">{{dizimista.data_nascimento}}</td>
+              </tr>
+              <tr>
+                <td class="text-right"><strong>Paróquia</strong></td>
+                <td>{{dizimista.paroquia}}</td>
+              </tr>
+              <tr>
+                <td class="text-right"><strong>Comunidade</strong></td>
+                <td>{{dizimista.comunidade}}</td>
+              </tr>
+              <tr>
+                <td class="text-right"><strong>Sexo</strong></td>
+                <td>{{dizimista.get_sexo_display}}</td>
+              </tr>
+              <tr>
+                <td class="text-right"><strong>Estado Civil</strong></td>
+                <td>{{dizimista.get_estado_civil_display}}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col">
+            <div class="text-center">
+              <img src="{{ dizimista.foto.url }}" alt="Foto de {{ dizimista.nome }}" class="img-thumbnail" height="300">
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <table class="table table-striped">
+          <tr>
+            <td width="130" class="text-right"><strong>Nome</strong></td>
+            <td>{{dizimista.nome}}</td>
+            <td class="text-right"><strong>Nº Cad.</strong></td>
+            <td>{{dizimista.pk}}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Endereço</strong></td>
+            <td>{{dizimista.endereco}}</td>
+            <td class="text-right"><strong>Bairro</strong></td>
+            <td>{{dizimista.bairro}}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Cidade</strong></td>
+            <td>{{dizimista.cidade}}/{{dizimista.estado}}</td>
+            <td class="text-right"><strong>Data de nascimento</strong></td>
+            <td>{{dizimista.data_nascimento}}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Paróquia</strong></td>
+            <td>{{dizimista.paroquia}}</td>
+            <td class="text-right"><strong>Sexo</strong></td>
+            <td>{{dizimista.get_sexo_display}}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Comunidade</strong></td>
+            <td>{{dizimista.comunidade}}</td>
+            <td class="text-right"><strong>Estado Civil</strong></td>
+            <td>{{dizimista.get_estado_civil_display}}</td>
+          </tr>
+        </table>
+      {% endif %}
 
       <h3 class="h4 mt-5">Telefones</h3>
       <table class="table formset">

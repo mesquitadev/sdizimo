@@ -42,7 +42,6 @@
             <th scope="col">Nome</th>
             <th scope="col">Endereço</th>
             <th scope="col">Bairro</th>
-            <th scope="col">Cidade</th>
             <th scope="col">Paróquia</th>
             <th scope="col">Comunidade</th>
             {% comment %} <th scope="col">Data de nascimento</th> {% endcomment %}
@@ -51,15 +50,14 @@
         <tbody>
           {% for dizimista in dizimistas %}
             <tr>
-              <td scope="row">
+              <td scope="row" width="60">
                 <a href="{% url 'dizimo:exibe_dizimista' dizimista.pk %}" title="Exibir {{ dizimista.nome }}"><i class="fa fa-search" aria-hidden="true"></i></a>
                 <a href="{% url 'dizimo:edita_dizimista' dizimista.pk %}" title="Editar {{ dizimista.nome }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
               </td>
-              <td>{{ dizimista.pk }}</td>
+              <td width="80">{{ dizimista.pk }}</td>
               <td>{{ dizimista.nome }}</td>
               <td>{{ dizimista.endereco }}</td>
               <td>{{ dizimista.bairro }}</td>
-              <td>{{ dizimista.cidade }}</td>
               <td>{{ dizimista.paroquia }}</td>
               <td>{{ dizimista.comunidade }}</td>
               {% comment %} <td>{{ dizimista.data_nascimento }}</td> {% endcomment %}
