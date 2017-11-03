@@ -12,8 +12,12 @@ urlpatterns = [
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', auth_views.PasswordResetConfirmView.as_view(template_name='autenticacao/password_reset_confirm.html'), name='password_reset_confirm'),
     url(r'^reset/complete/$', auth_views.PasswordResetCompleteView.as_view(template_name='autenticacao/password_reset_complete.html'), name='password_reset_complete'),
 
-    url(r'^usuario/novo/$', views.signup, name='signup'),
-    url(r'^usuario/perfil/$', views.EditaUsuario.as_view(), name='perfil_usuario'),
+    url(r'^usuarios/$', views.ListaUsuarios.as_view(), name='usuarios'),
+    url(r'^usuarios/novo/$', views.NovoUsuario.as_view(), name='novo_usuario'),
+    url(r'^usuarios/(?P<pk>\d+)/exibe/$', views.ExibeUsuario.as_view(), name='exibe_usuario'),
+    url(r'^usuarios/(?P<pk>\d+)/exclui/$', views.ExcluiUsuario.as_view(), name='exclui_usuario'),
+    # url(r'^usuario/novo/$', views.signup, name='signup'),
+    url(r'^usuario/perfil/$', views.EditaMeuUsuario.as_view(), name='perfil_usuario'),
     url(r'^usuario/senha/$', auth_views.PasswordChangeView.as_view(template_name='autenticacao/password_change.html'), name='password_change'),
     url(r'^usuario/senha/alterada/$', auth_views.PasswordChangeDoneView.as_view(template_name='autenticacao/password_change_done.html'), name='password_change_done'),
 ]

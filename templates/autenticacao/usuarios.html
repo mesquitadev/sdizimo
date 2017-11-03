@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Usuários{% endblock %}
+
+{% block pageheader %}Usuários{% endblock %}
+
+{% block breadcrumb %}
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+      <li class="breadcrumb-item active">Usuários</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4 d-flex flex-row-reverse">
+    <a href="{% url 'novo_usuario' %}" class="btn btn-primary">Novo usuário</a>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Filtros para pesquisa</h3>
+    </div>
+    <div class="card-body">
+      <form method="GET">
+        {% include 'includes/filter_form.html' %}
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Listagem de Usuários</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead class="thead-inverse">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome de usuário</th>
+            <th scope="col">Nome completo</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Perfil</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for usuario in usuarios %}
+            <tr>
+              <td scope="row" width="60">
+                <a href="{% url 'exibe_usuario' usuario.pk %}" title="Exibir {{ usuario.username }}"><i class="fa fa-search" aria-hidden="true"></i></a>
+                <a href="#" title="Editar {{ usuario.username }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+              </td>
+              <td>{{ usuario.username }}</td>
+              <td>{{ usuario.get_full_name }}</td>
+              <td>{{ usuario.email }}</td>
+              <td>{{ usuario.perfil.get_papel_display }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% include 'includes/pagination.html' %}
+{% endblock %}

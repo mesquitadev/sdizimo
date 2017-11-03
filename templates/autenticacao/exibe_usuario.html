@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ usuario.username }}{% endblock %}
+
+{% block pageheader %}{{ usuario.username }}{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'usuarios' %}">Usuários</a></li>
+    <li class="breadcrumb-item active">{{ usuario.username }}</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4 d-flex flex-row-reverse">
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#" class="btn btn-primary">Editar</a></li>
+      <li class="list-inline-item"><a href="{% url 'exclui_usuario' usuario.pk %}" class="btn btn-danger">Excluir</a></li>
+    </ul>    
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">{{ usuario.username }}</h3>
+    </div>
+    <div class="card-body">
+      {% if usuario.perfil.foto %}
+        <div class="row">
+          <div class="col-8">
+            <table class="table table-striped">
+              <tr>
+                <td width="150" class="text-right"><strong>Nome de usuário</strong></td>
+                <td>{{ usuario.username }}</td>
+              </tr>
+              <tr>
+                <td class="text-right"><strong>Nome completo</strong></td>
+                <td>{{ usuario.get_full_name }}</td>
+              </tr>
+              <tr>
+                <td class="text-right"><strong>E-mail</strong></td>
+                <td>{{ usuario.email }}</td>
+              </tr>
+              <tr>
+                <td class="text-right"><strong>Perfil</strong></td>
+                <td>{{ usuario.perfil.get_papel_display }}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col">
+            <div class="text-center">
+              <img src="{{ usuario.perfil.foto.url }}" alt="Foto de {{ usuario.get_full_name }}" class="img-thumbnail" height="300">
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <table class="table table-striped">
+          <tr>
+            <td width="150" class="text-right"><strong>Nome de usuário</strong></td>
+            <td>{{ usuario.username }}</td>
+            <td class="text-right"><strong>Nome completo</strong></td>
+            <td>{{ usuario.get_full_name }}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>E-mail</strong></td>
+            <td>{{ usuario.email }}</td>
+            <td class="text-right"><strong>Perfil</strong></td>
+            <td>{{ usuario.perfil.get_papel_display }}</td>
+          </tr>
+        </table>
+      {% endif %}
+    </div>
+  </div>
+  <a href="{% url 'usuarios' %}" class="btn btn-secondary" role="button">Voltar</a>
+{% endblock %}

@@ -53,7 +53,6 @@ form ul {
   padding: 8px 35px;
 }
 
-
 /* css para corrigir tabela do formset */
 table.formset input.form-control {
   padding: 6px 8px;
@@ -61,4 +60,10 @@ table.formset input.form-control {
 
 table.formset td {
   vertical-align: text-bottom;
+}
+
+/* css para corrigir altura do select nos filtros de pesquisa */
+.filter-form select.form-control:not([size]):not([multiple]) {
+  height: 45px;
+  margin-bottom: 0;
 }

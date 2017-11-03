@@ -68,17 +68,16 @@
               <div class="avatar"><a href="{% url 'perfil_usuario' %}"><img src="{{ user|gravatar }}" alt="..." class="img-fluid rounded-circle"></a></div>
               <div class="title">
                 <h1 class="h4">{{ user.get_full_name }}</h1>
-                {% if user.is_superuser %}
-                  <p>Administrador</p>
-                {% else %}
-                  <p>Operador</p>
-                {% endif %}
+                <p>{{ user.perfil.get_papel_display }}</p>
               </div>
             </div>
             <!-- Sidebar Navidation Menus-->
             <ul class="list-unstyled">
               <li {% if menu == 'inicio' %}class="active"{% endif %}><a href="{% url 'inicio' %}"><i class="fa fa-home" aria-hidden="true"></i>Início</a></li>
               <li {% if menu == 'dizimistas' %}class="active"{% endif %}><a href="{% url 'dizimo:dizimistas' %}"><i class="fa fa-address-card" aria-hidden="true"></i>Dizimistas</a></li>
+              {% if user.is_superuser %}
+                <li {% if menu == 'usuarios' %}class="active"{% endif %}><a href="{% url 'usuarios' %}"><i class="fa fa-users" aria-hidden="true"></i>Usuários</a></li>
+              {% endif %}
             </ul>
           </nav>
           <div class="content-inner">
