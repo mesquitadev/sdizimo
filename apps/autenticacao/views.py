@@ -47,7 +47,7 @@ class NovoUsuario(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['menu'] = 'usuarios'
         if self.request.POST:
-            context['perfil_form'] = PerfilForm(self.request.POST)
+            context['perfil_form'] = PerfilForm(self.request.POST, self.request.FILES)
         else:
             context['perfil_form'] = PerfilForm()
         return context
@@ -56,9 +56,9 @@ class NovoUsuario(LoginRequiredMixin, CreateView):
         context = self.get_context_data()
         perfil_form = context['perfil_form']
         if perfil_form.is_valid():
-            usuario = form.save()
+            self.object = form.save()
             perfil = perfil_form.save(commit=False)
-            perfil.usuario = usuario
+            perfil.usuario = self.object
             if perfil.papel == Perfil.ADMINISTRADOR:
                 perfil.usuario.is_superuser = True
             perfil.save()
