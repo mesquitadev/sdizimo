@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load gravatar %}
+{% load static %}
 
 {% block title %}Meu perfil{% endblock %}
 
@@ -21,7 +21,11 @@
       <h3 class="h4">Meu perfil</h3>
     </div>
     <div class="card-body">
-      <img src="{{ user|gravatar }}" alt="{{ user.username }}" class="img-thumbnail mb-3">
+      {% if user.perfil.foto %}
+        <img src="{{ user.perfil.foto.url }}" alt="Foto de {{ user.username }}" class="img-thumbnail mb-3">
+      {% else %}
+        <img src="{% static 'img/no-user-foto.png' %}" alt="{{ user.username }}" class="img-thumbnail mb-3">
+      {% endif %}
       <form method="post" novalidate>
         {% csrf_token %}
         {% include 'includes/form.html' %}

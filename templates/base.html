@@ -1,4 +1,4 @@
-{% load static gravatar %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -65,7 +65,15 @@
           <nav class="side-navbar">
             <!-- Sidebar Header-->
             <div class="sidebar-header d-flex align-items-center">
-              <div class="avatar"><a href="{% url 'perfil_usuario' %}"><img src="{{ user|gravatar }}" alt="..." class="img-fluid rounded-circle"></a></div>
+              <div class="avatar">
+                <a href="{% url 'perfil_usuario' %}">
+                  {% if user.perfil.foto %}
+                    <img src="{{ user.perfil.foto.url }}" alt="Foto de {{ user.username }}" class="img-fluid rounded-circle">
+                  {% else %}
+                    <img src="{% static 'img/no-user-foto.png' %}" alt="{{ user.username }}" class="img-fluid rounded-circle">
+                  {% endif %}
+                </a>
+              </div>
               <div class="title">
                 <h1 class="h4">{{ user.get_full_name }}</h1>
                 <p>{{ user.perfil.get_papel_display }}</p>
