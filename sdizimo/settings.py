@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'localflavor',
     'sorl.thumbnail',
+    'compressor',
     # project apps
     'apps.autenticacao',
     'apps.comum',
@@ -127,9 +128,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
 
 
 # Media files
@@ -148,3 +157,9 @@ LOGIN_URL = 'login'
 # E-mail config
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+# django compressor
+
+COMPRESS_ENABLED = True
+COMPRESS_OUTPUT_DIR = 'cache'
