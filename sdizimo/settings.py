@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # third party apps
     'widget_tweaks',
     'localflavor',
+    'sorl.thumbnail',
     # project apps
     'apps.autenticacao',
     'apps.comum',

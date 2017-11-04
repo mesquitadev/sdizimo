@@ -1,4 +1,4 @@
-{% load static %}
+{% load static thumbnail %}
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -68,7 +68,9 @@
               <div class="avatar">
                 <a href="{% url 'perfil_usuario' %}">
                   {% if user.perfil.foto %}
-                    <img src="{{ user.perfil.foto.url }}" alt="Foto de {{ user.username }}" class="img-fluid rounded-circle">
+                    {% thumbnail user.perfil.foto "100x100" crop="center" as im %}
+                      <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="Foto de {{ user.username }}" class="img-fluid rounded-circle">
+                    {% endthumbnail %}
                   {% else %}
                     <img src="{% static 'img/no-user-foto.png' %}" alt="{{ user.username }}" class="img-fluid rounded-circle">
                   {% endif %}

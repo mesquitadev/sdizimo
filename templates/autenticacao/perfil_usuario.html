@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load static %}
+{% load static thumbnail %}
 
 {% block title %}Meu perfil{% endblock %}
 
@@ -22,7 +22,9 @@
     </div>
     <div class="card-body">
       {% if user.perfil.foto %}
-        <img src="{{ user.perfil.foto.url }}" alt="Foto de {{ user.username }}" class="img-thumbnail mb-3">
+        {% thumbnail user.perfil.foto "225x300" crop="center" as im %}
+          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="Foto de {{ user.username }}" class="img-thumbnail mb-3">
+        {% endthumbnail %}
       {% else %}
         <img src="{% static 'img/no-user-foto.png' %}" alt="{{ user.username }}" class="img-thumbnail mb-3">
       {% endif %}
