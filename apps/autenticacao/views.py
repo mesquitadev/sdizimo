@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from search_views.search import SearchListView
 
 from .filters import UsuarioFilter
-from .forms import ConsultaUsuarioForm, NovoUsuarioForm, PerfilForm, MeuPerfilForm, MeuUsuarioForm
+from .forms import ConsultaUsuarioForm, UsuarioForm, PerfilForm, MeuPerfilForm, MeuUsuarioForm
 from .models import Perfil
 
 
@@ -46,6 +46,7 @@ class ListaUsuarios(LoginRequiredMixin, SearchListView):
     paginate_by = 20
     form_class = ConsultaUsuarioForm
     filter_class = UsuarioFilter
+    ordering = 'username'
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'usuarios'
@@ -54,7 +55,7 @@ class ListaUsuarios(LoginRequiredMixin, SearchListView):
 
 class NovoUsuario(LoginRequiredMixin, CreateView):
     model = User
-    form_class = NovoUsuarioForm
+    form_class = UsuarioForm
     template_name = 'autenticacao/novo_usuario.html'
 
     def get_success_url(self):
@@ -78,6 +79,43 @@ class NovoUsuario(LoginRequiredMixin, CreateView):
             perfil.usuario = self.object
             if perfil.papel == Perfil.ADMINISTRADOR:
                 perfil.usuario.is_superuser = True
+            else:
+                perfil.usuario.is_superuser = False
+            perfil.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+
+class EditaUsuario(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = UsuarioForm
+    context_object_name = 'usuario'
+    template_name = 'autenticacao/edita_usuario.html'
+
+    def get_success_url(self):
+        return reverse_lazy('exibe_usuario', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'usuarios'
+        if self.request.POST:
+            context['perfil_form'] = PerfilForm(self.request.POST, self.request.FILES, instance=self.object.perfil)
+        else:
+            context['perfil_form'] = PerfilForm(instance=self.object.perfil)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        perfil_form = context['perfil_form']
+        if form.is_valid() and perfil_form.is_valid():
+            self.object = form.save()
+            perfil = perfil_form.save(commit=False)
+            perfil.usuario = self.object
+            if perfil.papel == Perfil.ADMINISTRADOR:
+                perfil.usuario.is_superuser = True
+            else:
+                perfil.usuario.is_superuser = False
             perfil.save()
             return redirect(self.get_success_url())
         else:

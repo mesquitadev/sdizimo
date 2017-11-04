@@ -11,7 +11,7 @@ class ConsultaUsuarioForm(forms.Form):
     perfil = forms.ChoiceField(label='Perfil', choices=Perfil.PAPEL_CHOICES_EMPTY, required=False)
 
 
-class NovoUsuarioForm(UserCreationForm):
+class UsuarioForm(UserCreationForm):
     username = forms.CharField(max_length=150, required=True, label='Nome de usuário', help_text='Obrigatório. 150 caracteres ou menos. Letras, números e @/./+/-/_ apenas.')
     email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
 

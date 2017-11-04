@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^usuarios/$', views.ListaUsuarios.as_view(), name='usuarios'),
     url(r'^usuarios/novo/$', views.NovoUsuario.as_view(), name='novo_usuario'),
     url(r'^usuarios/(?P<pk>\d+)/exibe/$', views.ExibeUsuario.as_view(), name='exibe_usuario'),
+    url(r'^usuarios/(?P<pk>\d+)/edita/$', views.EditaUsuario.as_view(), name='edita_usuario'),
     url(r'^usuarios/(?P<pk>\d+)/exclui/$', views.ExcluiUsuario.as_view(), name='exclui_usuario'),
     # url(r'^usuario/novo/$', views.signup, name='signup'),
     url(r'^usuario/perfil/$', views.EditaMeuUsuario.as_view(), name='perfil_usuario'),
