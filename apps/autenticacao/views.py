@@ -1,25 +1,42 @@
-from django.contrib.auth import login as auth_login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.views.generic import UpdateView, CreateView, DeleteView, DetailView
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from search_views.search import SearchListView
 
 from .filters import UsuarioFilter
-from .forms import ConsultaUsuarioForm, NovoUsuarioForm, PerfilForm
+from .forms import ConsultaUsuarioForm, NovoUsuarioForm, PerfilForm, MeuPerfilForm, MeuUsuarioForm
 from .models import Perfil
 
 
 class EditaMeuUsuario(LoginRequiredMixin, UpdateView):
     model = User
-    fields = ('first_name', 'last_name', 'email', )
+    form_class = MeuUsuarioForm
     template_name = 'autenticacao/perfil_usuario.html'
     success_url = reverse_lazy('perfil_usuario')
     context_object_name = 'user'
 
     def get_object(self, queryset=None):
         return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['perfil_form'] = MeuPerfilForm(self.request.POST, self.request.FILES, instance=self.object.perfil)
+        else:
+            context['perfil_form'] = MeuPerfilForm(instance=self.object.perfil)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        perfil_form = context['perfil_form']
+        if form.is_valid() and perfil_form.is_valid():
+            form.save()
+            perfil_form.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
 
 class ListaUsuarios(LoginRequiredMixin, SearchListView):
@@ -55,7 +72,7 @@ class NovoUsuario(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         perfil_form = context['perfil_form']
-        if perfil_form.is_valid():
+        if form.is_valid() and perfil_form.is_valid():
             self.object = form.save()
             perfil = perfil_form.save(commit=False)
             perfil.usuario = self.object

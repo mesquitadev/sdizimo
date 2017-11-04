@@ -68,7 +68,7 @@
               <div class="avatar">
                 <a href="{% url 'perfil_usuario' %}">
                   {% if user.perfil.foto %}
-                    {% thumbnail user.perfil.foto "100x100" crop="center" as im %}
+                    {% thumbnail user.perfil.foto "200x200" crop="center" as im %}
                       <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="Foto de {{ user.username }}" class="img-fluid rounded-circle">
                     {% endthumbnail %}
                   {% else %}
