@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'localflavor',
     'sorl.thumbnail',
     'compressor',
+    'djmoney',
     # project apps
     'apps.autenticacao',
     'apps.comum',

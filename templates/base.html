@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
     <!-- Font Icons CSS-->
-    <link rel="stylesheet" href="https://file.myfontastic.com/da58YPMQ7U5HY8Rb6UxkNf/icons.css">
+    {% comment %} <link rel="stylesheet" href="https://file.myfontastic.com/da58YPMQ7U5HY8Rb6UxkNf/icons.css"> {% endcomment %}
     {% compress css %}
     <!-- CSS files-->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
@@ -87,6 +87,7 @@
             <ul class="list-unstyled">
               <li {% if menu == 'inicio' %}class="active"{% endif %}><a href="{% url 'inicio' %}"><i class="fa fa-home" aria-hidden="true"></i>Início</a></li>
               <li {% if menu == 'dizimistas' %}class="active"{% endif %}><a href="{% url 'dizimo:dizimistas' %}"><i class="fa fa-address-card" aria-hidden="true"></i>Dizimistas</a></li>
+              <li {% if menu == 'ofertas' %}class="active"{% endif %}><a href="{% url 'dizimo:ofertas' %}"><i class="fa fa-money" aria-hidden="true"></i>Ofertas</a></li>
               {% if user.is_superuser %}
                 <li {% if menu == 'usuarios' %}class="active"{% endif %}><a href="{% url 'usuarios' %}"><i class="fa fa-users" aria-hidden="true"></i>Usuários</a></li>
               {% endif %}

@@ -8,4 +8,6 @@ urlpatterns = [
     url(r'^dizimistas/(?P<pk>\d+)/edita/$', views.EditaDizimista.as_view(), name='edita_dizimista'),
     url(r'^dizimistas/(?P<pk>\d+)/exibe/$', views.ExibeDizimista.as_view(), name='exibe_dizimista'),
     url(r'^dizimistas/(?P<pk>\d+)/exclui/$', views.ExcluiDizimista.as_view(), name='exclui_dizimista'),
+
+    url(r'^ofertas/$', views.ListaOfertas.as_view(), name='ofertas'),
 ]

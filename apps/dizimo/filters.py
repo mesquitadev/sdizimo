@@ -8,3 +8,11 @@ class DizimistaFilter(BaseFilter):
         'paroquia' : ['paroquia', ],
         'comunidade' : ['comunidade', ],
     }
+
+
+class OfertaFilter(BaseFilter):
+    search_fields = {
+        'usuario' : ['usuario', ],
+        'data_inicio' : {'operator' : '__gte', 'fields' : ['recebida_em']},
+        'data_fim' : {'operator' : '__lte', 'fields' : ['recebida_em']},
+    }

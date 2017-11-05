@@ -1,6 +1,7 @@
 Django==1.11.6
 #django-bootstrap-datepicker==1.2.3
 django-compressor==2.2
+django-money==0.12
 django-localflavor==1.5.2
 django-search-views==0.3.7
 django-widget-tweaks==1.4.1

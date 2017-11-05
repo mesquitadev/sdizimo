@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Ofertas{% endblock %}
+
+{% block pageheader %}Ofertas{% endblock %}
+
+{% block breadcrumb %}
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+      <li class="breadcrumb-item active">Ofertas</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4 d-flex flex-row-reverse">
+    <a href="#" class="btn btn-primary">Nova oferta</a>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Filtros para pesquisa</h3>
+    </div>
+    <div class="card-body">
+      <form method="GET">
+        {% include 'includes/filter_form.html' %}
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Listagem de Ofertas</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead class="thead-inverse">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Recebida em</th>
+            <th scope="col">Valor (R$)</th>
+            <th scope="col">Usuário responsável</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for oferta in ofertas %}
+            <tr>
+              <td scope="row" width="60">
+                <a href="#" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
+                <a href="#" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+              </td>
+              <td width="80">{{ oferta.recebida_em }}</td>
+              <td>{{ oferta.valor }}</td>
+              <td>{{ oferta.usuario.username }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% include 'includes/pagination.html' %}
+{% endblock %}

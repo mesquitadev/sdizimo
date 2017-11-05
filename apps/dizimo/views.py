@@ -4,10 +4,14 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy
 from search_views.search import SearchListView
 
-from .models import Dizimista
-from .filters import DizimistaFilter
-from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm
+from .models import Dizimista, Oferta
+from .filters import DizimistaFilter, OfertaFilter
+from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm
 
+
+###########################################################
+#  DIZIMISTAS                                             #
+###########################################################
 
 class ListaDizimistas(LoginRequiredMixin, SearchListView):
     model = Dizimista
@@ -98,3 +102,20 @@ class ExcluiDizimista(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('dizimo:dizimistas')
     template_name = 'dizimo/exclui_dizimista.html'
     context_object_name = 'dizimista'
+
+
+###########################################################
+#  OFERTAS                                                #
+###########################################################
+
+class ListaOfertas(LoginRequiredMixin, SearchListView):
+    model = Oferta
+    context_object_name = 'ofertas'
+    template_name = 'dizimo/ofertas.html'
+    paginate_by = 20
+    form_class = ConsultaOfertaForm
+    filter_class = OfertaFilter
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'ofertas'
+        return super().get_context_data(**kwargs)
