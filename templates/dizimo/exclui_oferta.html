@@ -30,8 +30,8 @@
       <form method="post" class="mb-4" novalidate>
         {% csrf_token %}
         <p>Tem certeza que deseja excluir esta oferta?</p>
-        <button type="submit" class="btn btn-danger">Excluir</button>
-        <a href="{% url 'dizimo:exibe_oferta' oferta.pk %}" class="btn btn-outline-secondary" role="button">Cancelar</a>
+        <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</button>
+        <a href="{% url 'dizimo:exibe_oferta' oferta.pk %}" class="btn btn-outline-secondary" role="button"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
       </form>
     </div>
   </div>

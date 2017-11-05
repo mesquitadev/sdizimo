@@ -125,9 +125,13 @@ USE_TZ = True
 
 USE_THOUSAND_SEPARATOR = True
 
-# DECIMAL_SEPARATOR = ','
+DATE_FORMAT = 'd/m/Y'
 
-# THOUSAND_SEPARATOR = '.'
+DATE_INPUT_FORMATS = ('%d/%m/%Y',)
+
+DATETIME_FORMAT = 'd/m/Y H:i'
+
+DATETIME_INPUT_FORMATS = ('%d/%m/%Y %H:%M:%S', '%d/%m/%Y %H:%M')
 
 
 # Static files (CSS, JavaScript, Images)

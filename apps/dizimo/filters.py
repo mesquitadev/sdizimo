@@ -12,7 +12,7 @@ class DizimistaFilter(BaseFilter):
 
 class OfertaFilter(BaseFilter):
     search_fields = {
-        'usuario' : ['usuario', ],
+        'usuario' : {'operator' : '__exact', 'fields' : ['usuario']},
         'data_inicio' : {'operator' : '__gte', 'fields' : ['recebida_em']},
         'data_fim' : {'operator' : '__lte', 'fields' : ['recebida_em']},
     }

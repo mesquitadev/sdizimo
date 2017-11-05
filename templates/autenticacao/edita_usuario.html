@@ -24,8 +24,8 @@
         {% csrf_token %}
         {% include 'includes/form.html' %}
         {% include 'includes/form.html' with form=perfil_form %}
-        <button type="submit" class="btn btn-success">Salvar</button>
-        <a href="{% url 'exibe_usuario' usuario.pk %}" class="btn btn-outline-secondary" role="button">Cancelar</a>
+        <button type="submit" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Salvar</button>
+        <a href="{% url 'exibe_usuario' usuario.pk %}" class="btn btn-outline-secondary" role="button"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
       </form>
     </div>
   </div>
