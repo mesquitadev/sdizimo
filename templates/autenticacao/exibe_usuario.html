@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static thumbnail %}
+
 {% block title %}{{ usuario.username }}{% endblock %}
 
 {% block pageheader %}{{ usuario.username }}{% endblock %}
@@ -27,50 +29,39 @@
       <h3 class="h4">{{ usuario.username }}</h3>
     </div>
     <div class="card-body">
-      {% if usuario.perfil.foto %}
-        <div class="row">
-          <div class="col-8">
-            <table class="table table-striped">
-              <tr>
-                <td width="150" class="text-right"><strong>Nome de usuário</strong></td>
-                <td>{{ usuario.username }}</td>
-              </tr>
-              <tr>
-                <td class="text-right"><strong>Nome completo</strong></td>
-                <td>{{ usuario.get_full_name }}</td>
-              </tr>
-              <tr>
-                <td class="text-right"><strong>E-mail</strong></td>
-                <td>{{ usuario.email }}</td>
-              </tr>
-              <tr>
-                <td class="text-right"><strong>Perfil</strong></td>
-                <td>{{ usuario.perfil.get_papel_display }}</td>
-              </tr>
-            </table>
-          </div>
-          <div class="col">
-            <div class="text-center">
-              <img src="{{ usuario.perfil.foto.url }}" alt="Foto de {{ usuario.get_full_name }}" class="img-thumbnail" height="300">
-            </div>
+      <div class="row">
+        <div class="col-9">
+          <table class="table table-striped">
+            <tr>
+              <td width="150" class="text-right"><strong>Nome de usuário</strong></td>
+              <td>{{ usuario.username }}</td>
+            </tr>
+            <tr>
+              <td class="text-right"><strong>Nome completo</strong></td>
+              <td>{{ usuario.get_full_name }}</td>
+            </tr>
+            <tr>
+              <td class="text-right"><strong>E-mail</strong></td>
+              <td>{{ usuario.email }}</td>
+            </tr>
+            <tr>
+              <td class="text-right"><strong>Perfil</strong></td>
+              <td>{{ usuario.perfil.get_papel_display }}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="col">
+          <div class="text-center">
+            {% if usuario.perfil.foto %}
+              {% thumbnail usuario.perfil.foto "225x300" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="Foto de {{ user.username }}" class="img-thumbnail">
+              {% endthumbnail %}
+            {% else %}
+              <img src="{% static 'img/no-user-foto.png' %}" alt="{{ user.username }}" class="img-thumbnail">
+            {% endif %}
           </div>
         </div>
-      {% else %}
-        <table class="table table-striped">
-          <tr>
-            <td width="150" class="text-right"><strong>Nome de usuário</strong></td>
-            <td>{{ usuario.username }}</td>
-            <td class="text-right"><strong>Nome completo</strong></td>
-            <td>{{ usuario.get_full_name }}</td>
-          </tr>
-          <tr>
-            <td class="text-right"><strong>E-mail</strong></td>
-            <td>{{ usuario.email }}</td>
-            <td class="text-right"><strong>Perfil</strong></td>
-            <td>{{ usuario.perfil.get_papel_display }}</td>
-          </tr>
-        </table>
-      {% endif %}
+      </div>
     </div>
   </div>
   <a href="{% url 'usuarios' %}" class="btn btn-secondary" role="button">Voltar</a>
