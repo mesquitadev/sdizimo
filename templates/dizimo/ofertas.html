@@ -59,6 +59,11 @@
       </table>
     </div>
   </div>
-
   {% include 'includes/pagination.html' %}
+  <script>
+    $(document).ready(function(){
+      $('#id_data_inicio').mask("00/00/0000", {placeholder: "__/__/____"});
+      $('#id_data_fim').mask("00/00/0000", {placeholder: "__/__/____"});
+    });
+  </script>
 {% endblock %}

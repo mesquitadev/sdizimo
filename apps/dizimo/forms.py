@@ -1,4 +1,4 @@
-# from bootstrap_datepicker.widgets import DatePicker
+from bootstrap_datepicker.widgets import DatePicker
 from django import forms
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
@@ -11,8 +11,6 @@ from .models import Dizimista, Telefone
 ###########################################################
 
 class DizimistaForm(forms.ModelForm):
-    # data_nascimento = forms.DateField(widget=DatePicker(options={"autoclose": True}))
-
     class Meta:
         model = Dizimista
         fields = '__all__'
@@ -24,7 +22,6 @@ class TelefoneForm(forms.ModelForm):
         fields = ('numero', 'tipo', 'operadora')
 
 
-# TelefoneFormSet = formset_factory(TelefoneForm, can_delete=True, extra=3)
 TelefoneFormSet = inlineformset_factory(Dizimista, Telefone, fields=('numero', 'tipo', 'operadora'))
 
 
@@ -41,5 +38,5 @@ class ConsultaDizimistaForm(forms.Form):
 
 class ConsultaOfertaForm(forms.Form):
     usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
-    data_inicio = forms.DateField(label='De', required=False)
-    data_fim = forms.DateField(label='Até', required=False)
+    data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
+    data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
