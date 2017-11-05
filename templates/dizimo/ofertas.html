@@ -15,7 +15,7 @@
 
 {% block content %}
   <div class="mb-4 d-flex flex-row-reverse">
-    <a href="#" class="btn btn-primary">Nova oferta</a>
+    <a href="{% url 'dizimo:nova_oferta' %}" class="btn btn-primary">Nova oferta</a>
   </div>
 
   <div class="card">
@@ -38,8 +38,8 @@
         <thead class="thead-inverse">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Recebida em</th>
             <th scope="col">Valor (R$)</th>
+            <th scope="col">Recebida em</th>
             <th scope="col">Usuário responsável</th>
           </tr>
         </thead>
@@ -47,11 +47,11 @@
           {% for oferta in ofertas %}
             <tr>
               <td scope="row" width="60">
-                <a href="#" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
+                <a href="{% url 'dizimo:exibe_oferta' oferta.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
                 <a href="#" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
               </td>
-              <td width="80">{{ oferta.recebida_em }}</td>
               <td>{{ oferta.valor }}</td>
+              <td>{{ oferta.recebida_em }}</td>
               <td>{{ oferta.usuario.username }}</td>
             </tr>
           {% endfor %}

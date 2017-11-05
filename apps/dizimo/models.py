@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from djmoney.models.fields import MoneyField
 from localflavor.br.models import BRStateField
 from sorl.thumbnail import ImageField
 
@@ -64,7 +63,7 @@ class Telefone(models.Model):
 class Oferta(models.Model):
     recebida_em = models.DateTimeField(auto_now_add=True, verbose_name='recebida em')
     usuario = models.ForeignKey(User, verbose_name='usuário')
-    valor = MoneyField(max_digits=10, decimal_places=2, default_currency='BRL')
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
         ordering = ('-recebida_em', )

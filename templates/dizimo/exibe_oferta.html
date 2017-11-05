@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}R$ {{ oferta.valor }}{% endblock %}
+
+{% block pageheader %}R$ {{ oferta.valor }}{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'dizimo:ofertas' %}">Ofertas</a></li>
+    <li class="breadcrumb-item active">R$ {{ oferta.valor }}</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4 d-flex flex-row-reverse">
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="{% url 'dizimo:exibe_oferta' oferta.pk %}" class="btn btn-primary">Editar</a></li>
+      <li class="list-inline-item"><a href="{% url 'dizimo:exclui_oferta' oferta.pk %}" class="btn btn-danger">Excluir</a></li>
+    </ul>    
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">R$ {{ oferta.valor }}</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <tr>
+          <td width="130" class="text-right"><strong>Valor</strong></td>
+          <td>R$ {{oferta.valor}}</td>
+          <td class="text-right"><strong>Recebida em</strong></td>
+          <td>{{oferta.recebida_em}}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>Usuário responsável</strong></td>
+          <td colspan="3" class="align-middle">{{oferta.usuario.get_full_name}} ({{oferta.usuario.username}})</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <a href="{% url 'dizimo:ofertas' %}" class="btn btn-secondary" role="button">Voltar</a>
+{% endblock %}

@@ -124,7 +124,6 @@
     <script src="{% static 'js/charts-2.5.0.min.js' %}"></script>
     {% compress js %}
     <script src="{% static 'js/jquery.cookie.js' %}"></script>
-    <script src="{% static 'js/charts-home.js' %}"></script>
     <script src="{% static 'js/front.js' %}"></script>
     <script src="{% static 'js/app.js' %}"></script>
     <!-- datepicker config -->
@@ -142,6 +141,7 @@
         $('[data-toggle="tooltip"]').tooltip()
       })
     </script>
+    {% block javascript %}{% endblock %}
     {% endcompress %}
   </body>
 </html>

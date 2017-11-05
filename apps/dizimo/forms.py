@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
 
-from .models import Dizimista, Telefone
+from .models import Dizimista, Telefone, Oferta
 
 
 ###########################################################
@@ -40,3 +40,12 @@ class ConsultaOfertaForm(forms.Form):
     usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
     data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
+
+
+class OfertaForm(forms.ModelForm):
+    valor = forms.DecimalField(label='Valor (R$)', max_digits=10, decimal_places=2, localize=True)
+
+    class Meta:
+        model = Oferta
+        fields = ('valor', )
+        localized_fields = ('valor', )

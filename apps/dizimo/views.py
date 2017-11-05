@@ -6,7 +6,7 @@ from search_views.search import SearchListView
 
 from .models import Dizimista, Oferta
 from .filters import DizimistaFilter, OfertaFilter
-from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm
+from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm
 
 
 ###########################################################
@@ -46,7 +46,7 @@ class NovoDizimista(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         formset = context['formset']
-        if formset.is_valid():
+        if form.is_valid() and formset.is_valid():
             self.object = form.save()
             formset.instance = self.object
             formset.save()
@@ -77,7 +77,7 @@ class EditaDizimista(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         context = self.get_context_data()
         formset = context['formset']
-        if formset.is_valid():
+        if form.is_valid() and formset.is_valid():
             self.object = form.save()
             formset.instance = self.object
             formset.save()
@@ -93,7 +93,6 @@ class ExibeDizimista(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'
-        kwargs['form_readonly'] = True
         return super().get_context_data(**kwargs)
 
 
@@ -119,3 +118,43 @@ class ListaOfertas(LoginRequiredMixin, SearchListView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'ofertas'
         return super().get_context_data(**kwargs)
+
+
+class NovaOferta(LoginRequiredMixin, CreateView):
+    model = Oferta
+    form_class = OfertaForm
+    template_name = 'dizimo/nova_oferta.html'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_oferta', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'ofertas'
+        return context
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.usuario = self.request.user
+            self.object.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+
+class ExibeOferta(LoginRequiredMixin, DetailView):
+    model = Oferta
+    context_object_name = 'oferta'
+    template_name = 'dizimo/exibe_oferta.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'ofertas'
+        return super().get_context_data(**kwargs)
+
+
+class ExcluiOferta(LoginRequiredMixin, DeleteView):
+    model = Oferta
+    success_url = reverse_lazy('dizimo:ofertas')
+    template_name = 'dizimo/exclui_oferta.html'
+    context_object_name = 'oferta'
