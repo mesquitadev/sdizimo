@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}R$ {{oferta.valor}}{% endblock %}
+
+{% block pageheader %}R$ {{oferta.valor}}{% endblock %}
+
+{% block breadcrumb %}
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'dizimo:ofertas' %}">Ofertas</a></li>
+      <li class="breadcrumb-item active">R$ {{oferta.valor}}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">R$ {{oferta.valor}}</h3>
+    </div>
+    <div class="card-body">
+      <form method="post" class="mb-4" novalidate>
+        {% csrf_token %}
+        {% include 'includes/form.html' %}
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a href="{% url 'dizimo:exibe_oferta' oferta.pk %}" class="btn btn-outline-secondary" role="button">Cancelar</a>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $('#id_valor').mask("#.##0,00", {reverse: true});
+    });
+  </script>
+{% endblock %}

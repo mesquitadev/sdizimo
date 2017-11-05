@@ -143,6 +143,21 @@ class NovaOferta(LoginRequiredMixin, CreateView):
             return self.render_to_response(self.get_context_data(form=form))
 
 
+class EditaOferta(LoginRequiredMixin, UpdateView):
+    model = Oferta
+    form_class = OfertaForm
+    template_name = 'dizimo/edita_oferta.html'
+    context_object_name = 'oferta'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_oferta', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'ofertas'
+        return context
+
+
 class ExibeOferta(LoginRequiredMixin, DetailView):
     model = Oferta
     context_object_name = 'oferta'

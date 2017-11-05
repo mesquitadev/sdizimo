@@ -27,18 +27,12 @@
       <h3 class="h4">R$ {{ oferta.valor }}</h3>
     </div>
     <div class="card-body">
-      <table class="table table-striped">
-        <tr>
-          <td width="130" class="text-right"><strong>Valor</strong></td>
-          <td>R$ {{oferta.valor}}</td>
-          <td class="text-right"><strong>Recebida em</strong></td>
-          <td>{{oferta.recebida_em}}</td>
-        </tr>
-        <tr>
-          <td class="text-right"><strong>Usuário responsável</strong></td>
-          <td colspan="3" class="align-middle">{{oferta.usuario.get_full_name}} ({{oferta.usuario.username}})</td>
-        </tr>
-      </table>
+      <form method="post" class="mb-4" novalidate>
+        {% csrf_token %}
+        <p>Tem certeza que deseja excluir esta oferta?</p>
+        <button type="submit" class="btn btn-danger">Excluir</button>
+        <a href="{% url 'dizimo:exibe_oferta' oferta.pk %}" class="btn btn-outline-secondary" role="button">Cancelar</a>
+      </form>
     </div>
   </div>
   <a href="{% url 'dizimo:ofertas' %}" class="btn btn-secondary" role="button">Voltar</a>
