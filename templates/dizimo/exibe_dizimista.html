@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load thumbnail %}
+
 {% block title %}{{ dizimista.nome }}{% endblock %}
 
 {% block pageheader %}{{ dizimista.nome }}{% endblock %}
@@ -29,7 +31,7 @@
     <div class="card-body">
       {% if dizimista.foto %}
         <div class="row">
-          <div class="col-8">
+          <div class="col-9">
             <table class="table table-striped">
               <tr>
                 <td width="130" class="text-right"><strong>Nº Cad.</strong></td>
@@ -75,7 +77,9 @@
           </div>
           <div class="col">
             <div class="text-center">
-              <img src="{{ dizimista.foto.url }}" alt="Foto de {{ dizimista.nome }}" class="img-thumbnail" height="300">
+              {% thumbnail dizimista.foto "225x300" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="Foto de {{ user.username }}" class="img-thumbnail">
+              {% endthumbnail %}
             </div>
           </div>
         </div>
