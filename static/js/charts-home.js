@@ -37,7 +37,7 @@ $(document).ready(function () {
             labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"],
             datasets: [
                 {
-                    label: "Page Visitors",
+                    label: "Dízimos",
                     fill: true,
                     lineTension: 0,
                     backgroundColor: "transparent",
@@ -60,7 +60,7 @@ $(document).ready(function () {
                     spanGaps: false
                 },
                 {
-                    label: "Page Views",
+                    label: "Ofertas",
                     fill: true,
                     lineTension: 0,
                     backgroundColor: "transparent",
