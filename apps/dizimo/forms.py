@@ -38,8 +38,8 @@ class ConsultaDizimistaForm(forms.Form):
 
 class ConsultaOfertaForm(forms.Form):
     usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
-    data_inicio = forms.DateTimeField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
-    data_fim = forms.DateTimeField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
+    data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
+    data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
 
 
 class OfertaForm(forms.ModelForm):

@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
@@ -118,6 +119,25 @@ class ListaOfertas(LoginRequiredMixin, SearchListView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'ofertas'
         return super().get_context_data(**kwargs)
+
+    def get_object_list(self, request, search_errors=None):
+        object_list = Oferta.objects.all()
+        self.form = ConsultaOfertaForm(request.GET)
+        if self.form and self.form.is_valid():
+            usuario = self.form.cleaned_data['usuario']
+            data_inicio = self.form.cleaned_data['data_inicio']
+            data_fim = self.form.cleaned_data['data_fim']
+
+            if usuario:
+                object_list = object_list.filter(usuario=usuario)
+            if data_inicio:
+                object_list = object_list.filter(recebida_em__gte=data_inicio)
+            if data_fim:
+                data_fim = datetime.combine(data_fim, datetime.max.time())
+                object_list = object_list.filter(recebida_em__lte=data_fim)
+        else:
+            print(self.form.errors)
+        return object_list
 
 
 class NovaOferta(LoginRequiredMixin, CreateView):
