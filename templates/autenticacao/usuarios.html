@@ -42,6 +42,7 @@
             <th scope="col">Nome completo</th>
             <th scope="col">E-mail</th>
             <th scope="col">Perfil</th>
+            <th scope="col">Último login</th>
           </tr>
         </thead>
         <tbody>
@@ -55,6 +56,7 @@
               <td>{{ usuario.get_full_name }}</td>
               <td>{{ usuario.email }}</td>
               <td>{{ usuario.perfil.get_papel_display }}</td>
+              <td>{{ usuario.last_login }}</td>
             </tr>
           {% endfor %}
         </tbody>
