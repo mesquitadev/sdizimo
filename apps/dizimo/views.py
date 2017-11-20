@@ -117,7 +117,8 @@ class ListaOfertas(LoginRequiredMixin, SearchListView):
     filter_class = OfertaFilter
 
     def get_context_data(self, **kwargs):
-        kwargs['menu'] = 'ofertas'
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'ofertas'
         return super().get_context_data(**kwargs)
 
     def get_object_list(self, request, search_errors=None):
@@ -150,7 +151,8 @@ class NovaOferta(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = 'ofertas'
+        context['menu'] = 'recebimentos'
+        context['menu_dropdown'] = 'ofertas'
         return context
 
     def form_valid(self, form):
@@ -174,7 +176,8 @@ class EditaOferta(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = 'ofertas'
+        context['menu'] = 'recebimentos'
+        context['menu_dropdown'] = 'ofertas'
         return context
 
 
@@ -184,7 +187,8 @@ class ExibeOferta(LoginRequiredMixin, DetailView):
     template_name = 'dizimo/exibe_oferta.html'
 
     def get_context_data(self, **kwargs):
-        kwargs['menu'] = 'ofertas'
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'ofertas'
         return super().get_context_data(**kwargs)
 
 

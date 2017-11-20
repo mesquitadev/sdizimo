@@ -67,3 +67,7 @@ table.formset td {
   height: 45px;
   margin-bottom: 0;
 }
+
+nav.side-navbar ul li.active-dropdown a {
+  background: #CBDDE8;
+}
