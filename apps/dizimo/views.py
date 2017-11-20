@@ -17,7 +17,7 @@ from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, Consul
 class ListaDizimistas(LoginRequiredMixin, SearchListView):
     model = Dizimista
     context_object_name = 'dizimistas'
-    template_name = 'dizimo/dizimistas.html'
+    template_name = 'dizimistas.html'
     paginate_by = 20
     form_class = ConsultaDizimistaForm
     filter_class = DizimistaFilter
@@ -30,7 +30,7 @@ class ListaDizimistas(LoginRequiredMixin, SearchListView):
 class NovoDizimista(LoginRequiredMixin, CreateView):
     model = Dizimista
     form_class = DizimistaForm
-    template_name = 'dizimo/novo_dizimista.html'
+    template_name = 'novo_dizimista.html'
 
     def get_success_url(self):
         return reverse_lazy('dizimo:exibe_dizimista', kwargs={'pk': self.object.pk})
@@ -59,7 +59,7 @@ class NovoDizimista(LoginRequiredMixin, CreateView):
 class EditaDizimista(LoginRequiredMixin, UpdateView):
     model = Dizimista
     form_class = DizimistaForm
-    template_name = 'dizimo/edita_dizimista.html'
+    template_name = 'edita_dizimista.html'
     context_object_name = 'dizimista'
 
     def get_success_url(self):
@@ -90,7 +90,7 @@ class EditaDizimista(LoginRequiredMixin, UpdateView):
 class ExibeDizimista(LoginRequiredMixin, DetailView):
     model = Dizimista
     context_object_name = 'dizimista'
-    template_name = 'dizimo/exibe_dizimista.html'
+    template_name = 'exibe_dizimista.html'
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'
@@ -100,7 +100,7 @@ class ExibeDizimista(LoginRequiredMixin, DetailView):
 class ExcluiDizimista(LoginRequiredMixin, DeleteView):
     model = Dizimista
     success_url = reverse_lazy('dizimo:dizimistas')
-    template_name = 'dizimo/exclui_dizimista.html'
+    template_name = 'exclui_dizimista.html'
     context_object_name = 'dizimista'
 
 
@@ -111,7 +111,7 @@ class ExcluiDizimista(LoginRequiredMixin, DeleteView):
 class ListaOfertas(LoginRequiredMixin, SearchListView):
     model = Oferta
     context_object_name = 'ofertas'
-    template_name = 'dizimo/ofertas.html'
+    template_name = 'ofertas.html'
     paginate_by = 20
     form_class = ConsultaOfertaForm
     filter_class = OfertaFilter
@@ -144,7 +144,7 @@ class ListaOfertas(LoginRequiredMixin, SearchListView):
 class NovaOferta(LoginRequiredMixin, CreateView):
     model = Oferta
     form_class = OfertaForm
-    template_name = 'dizimo/nova_oferta.html'
+    template_name = 'nova_oferta.html'
 
     def get_success_url(self):
         return reverse_lazy('dizimo:exibe_oferta', kwargs={'pk': self.object.pk})
@@ -168,7 +168,7 @@ class NovaOferta(LoginRequiredMixin, CreateView):
 class EditaOferta(LoginRequiredMixin, UpdateView):
     model = Oferta
     form_class = OfertaForm
-    template_name = 'dizimo/edita_oferta.html'
+    template_name = 'edita_oferta.html'
     context_object_name = 'oferta'
 
     def get_success_url(self):
@@ -184,7 +184,7 @@ class EditaOferta(LoginRequiredMixin, UpdateView):
 class ExibeOferta(LoginRequiredMixin, DetailView):
     model = Oferta
     context_object_name = 'oferta'
-    template_name = 'dizimo/exibe_oferta.html'
+    template_name = 'exibe_oferta.html'
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'recebimentos'
@@ -195,5 +195,5 @@ class ExibeOferta(LoginRequiredMixin, DetailView):
 class ExcluiOferta(LoginRequiredMixin, DeleteView):
     model = Oferta
     success_url = reverse_lazy('dizimo:ofertas')
-    template_name = 'dizimo/exclui_oferta.html'
+    template_name = 'exclui_oferta.html'
     context_object_name = 'oferta'

@@ -7,4 +7,4 @@ def inicio(request):
     context = {
         'menu': 'inicio'
     }
-    return render(request, 'comum/inicio.html', context)
+    return render(request, 'inicio.html', context)

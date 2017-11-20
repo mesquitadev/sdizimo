@@ -13,7 +13,7 @@ from .models import Perfil
 class EditaMeuUsuario(LoginRequiredMixin, UpdateView):
     model = User
     form_class = MeuUsuarioForm
-    template_name = 'autenticacao/perfil_usuario.html'
+    template_name = 'perfil_usuario.html'
     success_url = reverse_lazy('perfil_usuario')
     context_object_name = 'user'
 
@@ -42,7 +42,7 @@ class EditaMeuUsuario(LoginRequiredMixin, UpdateView):
 class ListaUsuarios(LoginRequiredMixin, SearchListView):
     model = User
     context_object_name = 'usuarios'
-    template_name = 'autenticacao/usuarios.html'
+    template_name = 'usuarios.html'
     paginate_by = 20
     form_class = ConsultaUsuarioForm
     filter_class = UsuarioFilter
@@ -56,7 +56,7 @@ class ListaUsuarios(LoginRequiredMixin, SearchListView):
 class NovoUsuario(LoginRequiredMixin, CreateView):
     model = User
     form_class = UsuarioForm
-    template_name = 'autenticacao/novo_usuario.html'
+    template_name = 'novo_usuario.html'
 
     def get_success_url(self):
         return reverse_lazy('exibe_usuario', kwargs={'pk': self.object.pk})
@@ -91,7 +91,7 @@ class EditaUsuario(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UsuarioForm
     context_object_name = 'usuario'
-    template_name = 'autenticacao/edita_usuario.html'
+    template_name = 'edita_usuario.html'
 
     def get_success_url(self):
         return reverse_lazy('exibe_usuario', kwargs={'pk': self.object.pk})
@@ -125,7 +125,7 @@ class EditaUsuario(LoginRequiredMixin, UpdateView):
 class ExibeUsuario(LoginRequiredMixin, DetailView):
     model = User
     context_object_name = 'usuario'
-    template_name = 'autenticacao/exibe_usuario.html'
+    template_name = 'exibe_usuario.html'
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'usuarios'
@@ -135,5 +135,5 @@ class ExibeUsuario(LoginRequiredMixin, DetailView):
 class ExcluiUsuario(LoginRequiredMixin, DeleteView):
     model = User
     success_url = reverse_lazy('usuarios')
-    template_name = 'autenticacao/exclui_usuario.html'
+    template_name = 'exclui_usuario.html'
     context_object_name = 'usuario'
