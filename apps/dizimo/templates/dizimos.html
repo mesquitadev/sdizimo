@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Dízimos{% endblock %}
+
+{% block pageheader %}Dízimos{% endblock %}
+
+{% block breadcrumb %}
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+      <li class="breadcrumb-item active">Dízimos</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4 d-flex flex-row-reverse">
+    <a href="{% url 'dizimo:novo_dizimo' %}" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i> Nova oferta</a>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Filtros para pesquisa</h3>
+    </div>
+    <div class="card-body">
+      <form method="GET">
+        {% include 'includes/filter_form.html' %}
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Listagem de Dízimos</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead class="thead-inverse">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Dizimista</th>
+            <th scope="col">Referência</th>
+            <th scope="col">Valor (R$)</th>
+            <th scope="col">Recebida em</th>
+            <th scope="col">Usuário responsável</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for dizimo in dizimos %}
+            <tr>
+              <td scope="row" width="60">
+                {% comment %} <a href="{% url 'dizimo:exibe_oferta' oferta.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
+                <a href="{% url 'dizimo:edita_oferta' oferta.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> {% endcomment %}
+              </td>
+              <td>{{ dizimo.dizimista }}</td>
+              <td>{{ dizimo.referencia|date:"m/Y" }}</td>
+              <td>{{ dizimo.valor }}</td>
+              <td>{{ dizimo.recebida_em }}</td>
+              <td>{{ dizimo.usuario.username }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% include 'includes/pagination.html' %}
+  <script>
+    $(document).ready(function(){
+      $('#id_data_inicio').mask("00/00/0000", {placeholder: "__/__/____"});
+      $('#id_data_fim').mask("00/00/0000", {placeholder: "__/__/____"});
+    });
+  </script>
+{% endblock %}

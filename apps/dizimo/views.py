@@ -5,9 +5,10 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy
 from search_views.search import SearchListView
 
-from .models import Dizimista, Oferta
-from .filters import DizimistaFilter, OfertaFilter
-from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm
+from .models import Dizimista, Oferta, Dizimo
+from .filters import DizimistaFilter, RecebimentoFilter
+from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
+    DizimoForm, ConsultaDizimoForm
 
 
 ###########################################################
@@ -114,7 +115,7 @@ class ListaOfertas(LoginRequiredMixin, SearchListView):
     template_name = 'ofertas.html'
     paginate_by = 20
     form_class = ConsultaOfertaForm
-    filter_class = OfertaFilter
+    filter_class = RecebimentoFilter
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'recebimentos'
@@ -197,3 +198,72 @@ class ExcluiOferta(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('dizimo:ofertas')
     template_name = 'exclui_oferta.html'
     context_object_name = 'oferta'
+
+
+###########################################################
+#  DIZIMOS                                                #
+###########################################################
+
+class ListaDizimos(LoginRequiredMixin, SearchListView):
+    model = Dizimo
+    context_object_name = 'dizimos'
+    template_name = 'dizimos.html'
+    paginate_by = 20
+    form_class = ConsultaDizimoForm
+    filter_class = RecebimentoFilter
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'dizimos'
+        return super().get_context_data(**kwargs)
+
+    def get_object_list(self, request, search_errors=None):
+        object_list = Dizimo.objects.all()
+        self.form = ConsultaDizimoForm(request.GET)
+        if self.form and self.form.is_valid():
+            dizimista = self.form.cleaned_data['dizimista']
+            referencia = self.form.cleaned_data['referencia']
+            usuario = self.form.cleaned_data['usuario']
+            data_inicio = self.form.cleaned_data['data_inicio']
+            data_fim = self.form.cleaned_data['data_fim']
+
+            if dizimista:
+                object_list = object_list.filter(dizimista__nome__icontains=dizimista)
+            if referencia:
+                data_referencia = datetime.strptime(referencia, '%m/%Y')
+                object_list = object_list.filter(referencia=data_referencia)
+            if usuario:
+                object_list = object_list.filter(usuario=usuario)
+            if data_inicio:
+                object_list = object_list.filter(recebida_em__gte=data_inicio)
+            if data_fim:
+                data_fim = datetime.combine(data_fim, datetime.max.time())
+                object_list = object_list.filter(recebida_em__lte=data_fim)
+        else:
+            print(self.form.errors)
+        return object_list
+
+
+class NovoDizimo(LoginRequiredMixin, CreateView):
+    model = Dizimo
+    form_class = DizimoForm
+    template_name = 'novo_dizimo.html'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:dizimos')
+    #     return reverse_lazy('dizimo:exibe_dizimo', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'recebimentos'
+        context['menu_dropdown'] = 'dizimos'
+        return context
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.usuario = self.request.user
+            self.object.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))

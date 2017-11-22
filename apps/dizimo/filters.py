@@ -10,7 +10,7 @@ class DizimistaFilter(BaseFilter):
     }
 
 
-class OfertaFilter(BaseFilter):
+class RecebimentoFilter(BaseFilter):
     search_fields = {
         'usuario' : {'operator' : '__exact', 'fields' : ['usuario']},
         'data_inicio' : {'operator' : '__gte', 'fields' : ['recebida_em']},

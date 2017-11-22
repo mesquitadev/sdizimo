@@ -14,4 +14,7 @@ urlpatterns = [
     url(r'^ofertas/(?P<pk>\d+)/edita/$', views.EditaOferta.as_view(), name='edita_oferta'),
     url(r'^ofertas/(?P<pk>\d+)/exibe/$', views.ExibeOferta.as_view(), name='exibe_oferta'),
     url(r'^ofertas/(?P<pk>\d+)/exclui/$', views.ExcluiOferta.as_view(), name='exclui_oferta'),
+
+    url(r'^dizimos/$', views.ListaDizimos.as_view(), name='dizimos'),
+    url(r'^dizimos/novo/$', views.NovoDizimo.as_view(), name='novo_dizimo'),
 ]
