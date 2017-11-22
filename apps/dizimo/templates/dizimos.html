@@ -49,8 +49,8 @@
           {% for dizimo in dizimos %}
             <tr>
               <td scope="row" width="60">
-                {% comment %} <a href="{% url 'dizimo:exibe_oferta' oferta.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
-                <a href="{% url 'dizimo:edita_oferta' oferta.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> {% endcomment %}
+                <a href="{% url 'dizimo:exibe_dizimo' dizimo.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
+                <a href="{% url 'dizimo:edita_dizimo' dizimo.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
               </td>
               <td>{{ dizimo.dizimista }}</td>
               <td>{{ dizimo.referencia|date:"m/Y" }}</td>

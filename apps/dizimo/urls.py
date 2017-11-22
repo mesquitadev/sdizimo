@@ -17,4 +17,7 @@ urlpatterns = [
 
     url(r'^dizimos/$', views.ListaDizimos.as_view(), name='dizimos'),
     url(r'^dizimos/novo/$', views.NovoDizimo.as_view(), name='novo_dizimo'),
+    url(r'^dizimos/(?P<pk>\d+)/edita/$', views.EditaDizimo.as_view(), name='edita_dizimo'),
+    url(r'^dizimos/(?P<pk>\d+)/exibe/$', views.ExibeDizimo.as_view(), name='exibe_dizimo'),
+    url(r'^dizimos/(?P<pk>\d+)/exclui/$', views.ExcluiDizimo.as_view(), name='exclui_dizimo'),
 ]

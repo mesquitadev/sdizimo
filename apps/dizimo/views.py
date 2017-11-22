@@ -250,8 +250,7 @@ class NovoDizimo(LoginRequiredMixin, CreateView):
     template_name = 'novo_dizimo.html'
 
     def get_success_url(self):
-        return reverse_lazy('dizimo:dizimos')
-    #     return reverse_lazy('dizimo:exibe_dizimo', kwargs={'pk': self.object.pk})
+        return reverse_lazy('dizimo:exibe_dizimo', kwargs={'pk': self.object.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -267,3 +266,37 @@ class NovoDizimo(LoginRequiredMixin, CreateView):
             return redirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
+
+
+class EditaDizimo(LoginRequiredMixin, UpdateView):
+    model = Dizimo
+    form_class = DizimoForm
+    template_name = 'edita_dizimo.html'
+    context_object_name = 'dizimo'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_dizimo', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'recebimentos'
+        context['menu_dropdown'] = 'dizimos'
+        return context
+
+
+class ExibeDizimo(LoginRequiredMixin, DetailView):
+    model = Dizimo
+    context_object_name = 'dizimo'
+    template_name = 'exibe_dizimo.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'dizimos'
+        return super().get_context_data(**kwargs)
+
+
+class ExcluiDizimo(LoginRequiredMixin, DeleteView):
+    model = Dizimo
+    success_url = reverse_lazy('dizimo:dizimos')
+    template_name = 'exclui_dizimo.html'
+    context_object_name = 'dizimo'

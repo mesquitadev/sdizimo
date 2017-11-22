@@ -85,4 +85,4 @@ class Dizimo(Recebimento):
         ordering = ('-referencia', '-recebida_em')
 
     def __str__(self):
-        return '({0}) - {1}: R$ {2}'.format(self.referencia, self.dizimista, self.valor)
+        return '{0}: R$ {1} - {2}'.format(self.dizimista, self.valor, self.referencia.strftime('%m/%Y'))

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ dizimo }}{% endblock %}
+
+{% block pageheader %}{{ dizimo }}{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'dizimo:dizimos' %}">Dízimos</a></li>
+    <li class="breadcrumb-item active">{{ dizimo }}</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4 d-flex flex-row-reverse">
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="{% url 'dizimo:edita_dizimo' dizimo.pk %}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a></li>
+      <li class="list-inline-item"><a href="{% url 'dizimo:exclui_dizimo' dizimo.pk %}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</a></li>
+    </ul>    
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">{{ dizimo }}</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <tr>
+          <td class="text-right" width="180"><strong>Dizimista</strong></td>
+          <td>{{dizimo.dizimista}}</td>
+          <td class="text-right"><strong>Referência</strong></td>
+          <td>{{dizimo.referencia|date:"m/Y"}}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>Recebida em</strong></td>
+          <td>{{dizimo.recebida_em}}</td>
+          <td class="text-right"><strong>Valor</strong></td>
+          <td>R$ {{dizimo.valor}}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>Usuário responsável</strong></td>
+          <td colspan="3" class="align-middle">{{dizimo.usuario.get_full_name}} ({{dizimo.usuario.username}})</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <a href="{% url 'dizimo:dizimos' %}" class="btn btn-secondary" role="button"><i class="fa fa-chevron-left" aria-hidden="true"></i> Voltar</a>
+{% endblock %}
