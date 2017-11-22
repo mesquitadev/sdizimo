@@ -75,7 +75,7 @@ class ConsultaDizimoForm(forms.Form):
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
 
     def __init__(self, *args, **kwargs):
-        super(ConsultaDizimoForm, self ).__init__(*args, **kwargs)
+        super(ConsultaDizimoForm, self).__init__(*args, **kwargs)
         lista_referencia = [['', '---------']]
         for referencia in Dizimo.objects.values_list('referencia', flat=True).order_by('-referencia').distinct():
             lista_referencia.append([referencia.strftime('%m/%Y'), referencia.strftime('%m/%Y')])
