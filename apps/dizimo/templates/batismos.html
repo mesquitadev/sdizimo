@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
 
-{% block title %}Dízimos{% endblock %}
+{% block title %}Batismos{% endblock %}
 
-{% block pageheader %}Dízimos{% endblock %}
+{% block pageheader %}Batismos{% endblock %}
 
 {% block breadcrumb %}
   <nav aria-label="breadcrumb" role="navigation">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
-      <li class="breadcrumb-item active">Dízimos</li>
+      <li class="breadcrumb-item active">Batismos</li>
     </ol>
   </nav>
 {% endblock %}
 
 {% block content %}
   <div class="mb-4 d-flex flex-row-reverse">
-    <a href="{% url 'dizimo:novo_dizimo' %}" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i> Novo dízimo</a>
+    <a href="{% url 'dizimo:novo_batismo' %}" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i> Novo batismo</a>
   </div>
 
   <div class="card">
@@ -31,32 +31,34 @@
 
   <div class="card">
     <div class="card-header d-flex align-items-center">
-      <h3 class="h4">Listagem de Dízimos</h3>
+      <h3 class="h4">Listagem de Batismos</h3>
     </div>
     <div class="card-body">
       <table class="table table-hover">
         <thead class="thead-inverse">
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Dizimista</th>
-            <th scope="col">Referência</th>
+            <th scope="col">Batizando</th>
+            <th scope="col">Solicitante</th>
+            <th scope="col">Data do batismo</th>
             <th scope="col">Valor (R$)</th>
             <th scope="col">Recebida em</th>
             <th scope="col">Usuário responsável</th>
           </tr>
         </thead>
         <tbody>
-          {% for dizimo in dizimos %}
+          {% for batismo in batismos %}
             <tr>
               <td scope="row" width="60">
-                <a href="{% url 'dizimo:exibe_dizimo' dizimo.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
-                <a href="{% url 'dizimo:edita_dizimo' dizimo.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <a href="{% url 'dizimo:exibe_batismo' batismo.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
+                <a href="{% url 'dizimo:edita_batismo' batismo.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
               </td>
-              <td>{{ dizimo.dizimista }}</td>
-              <td>{{ dizimo.referencia|date:"m/Y" }}</td>
-              <td>{{ dizimo.valor }}</td>
-              <td>{{ dizimo.recebida_em }}</td>
-              <td>{{ dizimo.usuario.username }}</td>
+              <td>{{ batismo.nome_batizando }}</td>
+              <td>{{ batismo.nome_solicitante }}</td>
+              <td>{{ batismo.data_batismo }}</td>
+              <td>{{ batismo.valor }}</td>
+              <td>{{ batismo.recebida_em }}</td>
+              <td>{{ batismo.usuario.username }}</td>
             </tr>
           {% endfor %}
         </tbody>

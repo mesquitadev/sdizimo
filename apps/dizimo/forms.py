@@ -5,7 +5,7 @@ from django.forms.models import inlineformset_factory
 
 from apps.comum.form_fields import MesAnoField
 
-from .models import Dizimista, Telefone, Oferta, Dizimo
+from .models import Dizimista, Telefone, Oferta, Dizimo, Batismo
 
 
 ###########################################################
@@ -81,3 +81,25 @@ class ConsultaDizimoForm(forms.Form):
             lista_referencia.append([referencia.strftime('%m/%Y'), referencia.strftime('%m/%Y')])
 
         self.fields['referencia'].choices = lista_referencia
+
+
+###########################################################
+#  BATISMOS                                               #
+###########################################################
+
+class BatismoForm(forms.ModelForm):
+    valor = forms.DecimalField(label='Valor (R$)', max_digits=10, decimal_places=2, localize=True, required=True)
+    data_batismo = forms.DateField(label='Data do batismo', required=True, widget=DatePicker(options={"autoclose": True}))
+
+    class Meta:
+        model = Batismo
+        fields = ('nome_batizando', 'nome_solicitante', 'data_batismo', 'valor')
+        localized_fields = ('valor', )
+
+
+class ConsultaBatismoForm(forms.Form):
+    nome_batizando = forms.CharField(label='Batizando', required=False)
+    nome_solicitante = forms.ChoiceField(label='Solicitante', required=False, choices=[])
+    usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
+    data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
+    data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))

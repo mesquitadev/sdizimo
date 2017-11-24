@@ -5,10 +5,10 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy
 from search_views.search import SearchListView
 
-from .models import Dizimista, Oferta, Dizimo
+from .models import Dizimista, Oferta, Dizimo, Batismo
 from .filters import DizimistaFilter, RecebimentoFilter
 from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
-    DizimoForm, ConsultaDizimoForm
+    DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm
 
 
 ###########################################################
@@ -300,3 +300,103 @@ class ExcluiDizimo(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('dizimo:dizimos')
     template_name = 'exclui_dizimo.html'
     context_object_name = 'dizimo'
+
+
+###########################################################
+#  BATISMOS                                               #
+###########################################################
+
+class ListaBatismos(LoginRequiredMixin, SearchListView):
+    model = Dizimo
+    context_object_name = 'batismos'
+    template_name = 'batismos.html'
+    paginate_by = 20
+    form_class = ConsultaBatismoForm
+    filter_class = RecebimentoFilter
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'batismos'
+        return super().get_context_data(**kwargs)
+
+    def get_object_list(self, request, search_errors=None):
+        object_list = Batismo.objects.all()
+        self.form = ConsultaBatismoForm(request.GET)
+        if self.form and self.form.is_valid():
+            nome_batizando = self.form.cleaned_data['nome_batizando']
+            nome_solicitante = self.form.cleaned_data['nome_solicitante']
+            usuario = self.form.cleaned_data['usuario']
+            data_inicio = self.form.cleaned_data['data_inicio']
+            data_fim = self.form.cleaned_data['data_fim']
+
+            if nome_batizando:
+                object_list = object_list.filter(nome_batizando__icontains=nome_batizando)
+            if nome_solicitante:
+                object_list = object_list.filter(nome_solicitante__icontains=nome_solicitante)
+            if usuario:
+                object_list = object_list.filter(usuario=usuario)
+            if data_inicio:
+                object_list = object_list.filter(data_batismo__gte=data_inicio)
+            if data_fim:
+                object_list = object_list.filter(rdata_batismo__lte=data_fim)
+        else:
+            print(self.form.errors)
+        return object_list
+
+
+class NovoBatismo(LoginRequiredMixin, CreateView):
+    model = Batismo
+    form_class = BatismoForm
+    template_name = 'novo_batismo.html'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_batismo', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'recebimentos'
+        context['menu_dropdown'] = 'batismos'
+        return context
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.usuario = self.request.user
+            self.object.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+
+class EditaBatismo(LoginRequiredMixin, UpdateView):
+    model = Batismo
+    form_class = BatismoForm
+    template_name = 'edita_batismo.html'
+    context_object_name = 'batismo'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_batismo', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'recebimentos'
+        context['menu_dropdown'] = 'batismos'
+        return context
+
+
+class ExibeBatismo(LoginRequiredMixin, DetailView):
+    model = Batismo
+    context_object_name = 'batismo'
+    template_name = 'exibe_batismo.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'batismos'
+        return super().get_context_data(**kwargs)
+
+
+class ExcluiBatismo(LoginRequiredMixin, DeleteView):
+    model = Batismo
+    success_url = reverse_lazy('dizimo:batismos')
+    template_name = 'exclui_batismo.html'
+    context_object_name = 'batismo'

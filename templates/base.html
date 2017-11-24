@@ -91,7 +91,7 @@
               <!-- <li {% if menu == 'ofertas' %}class="active"{% endif %}><a href="{% url 'dizimo:ofertas' %}"><i class="fa fa-money" aria-hidden="true"></i>Ofertas</a></li> -->
               <li><a href="#dashvariants" aria-expanded="{% if menu == 'recebimentos' %}true{% else %}false{% endif %}" data-toggle="collapse"> <i class="fa fa-money"></i>Recebimentos</a>
                 <ul id="dashvariants" class="collapse list-unstyled {% if menu == 'recebimentos' %}show{% endif %}">
-                  <li {% if menu_dropdown == 'batismos' %}class="active-dropdown"{% endif %}><a href="#">Batismos</a></li>
+                  <li {% if menu_dropdown == 'batismos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:batismos' %}">Batismos</a></li>
                   <li {% if menu_dropdown == 'dizimos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:dizimos' %}">Dízimos</a></li>
                   <li {% if menu_dropdown == 'doacoes' %}class="active-dropdown"{% endif %}><a href="#">Doações</a></li>
                   <li {% if menu_dropdown == 'ofertas' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:ofertas' %}">Ofertas</a></li>

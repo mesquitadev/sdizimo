@@ -86,3 +86,15 @@ class Dizimo(Recebimento):
 
     def __str__(self):
         return '{0}: R$ {1} - {2}'.format(self.dizimista, self.valor, self.referencia.strftime('%m/%Y'))
+
+
+class Batismo(Recebimento):
+    nome_batizando = models.CharField(max_length=250, verbose_name='nome do batizando')
+    nome_solicitante = models.CharField(max_length=250, verbose_name='nome do solicitante')
+    data_batismo = models.DateField(verbose_name='data do batismo')
+
+    class Meta:
+        ordering = ('-data_batismo', )
+
+    def __str__(self):
+        return '{0} batizado em {2}'.format(self.nome_batizando, self.data_batismo.strftime('%d/%m/%Y'))
