@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro de nova doação{% endblock %}
+
+{% block pageheader %}Cadastro de doação{% endblock %}
+
+{% block breadcrumb %}
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'dizimo:doacoes' %}">Doações</a></li>
+      <li class="breadcrumb-item active">Nova doação</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Cadastro de doação</h3>
+    </div>
+    <div class="card-body">
+      <form method="post" class="mb-4" novalidate>
+        {% csrf_token %}
+        {% include 'includes/form.html' %}
+        <button type="submit" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Salvar</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function(){
+      $('#id_valor').mask("#.##0,00", {reverse: true});
+    });
+  </script>
+{% endblock %}

@@ -5,7 +5,7 @@ from django.forms.models import inlineformset_factory
 
 from apps.comum.form_fields import MesAnoField
 
-from .models import Dizimista, Telefone, Oferta, Dizimo, Batismo
+from .models import Dizimista, Telefone, Oferta, Dizimo, Batismo, Doacao
 
 
 ###########################################################
@@ -100,6 +100,26 @@ class BatismoForm(forms.ModelForm):
 class ConsultaBatismoForm(forms.Form):
     nome_batizando = forms.CharField(label='Batizando', required=False)
     nome_solicitante = forms.CharField(label='Solicitante', required=False)
+    usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
+    data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
+    data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
+
+
+###########################################################
+#  DOACOES                                                #
+###########################################################
+
+class DoacaoForm(forms.ModelForm):
+    valor = forms.DecimalField(label='Valor (R$)', max_digits=10, decimal_places=2, localize=True, required=True)
+    
+    class Meta:
+        model = Doacao
+        fields = ('valor', 'descricao')
+        localized_fields = ('valor', )
+
+
+class ConsultaDoacaoForm(forms.Form):
+    descricao = forms.CharField(label='Descrição', required=False)
     usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
     data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))

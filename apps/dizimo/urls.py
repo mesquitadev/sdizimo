@@ -27,4 +27,10 @@ urlpatterns = [
     url(r'^batismos/(?P<pk>\d+)/edita/$', views.EditaBatismo.as_view(), name='edita_batismo'),
     url(r'^batismos/(?P<pk>\d+)/exibe/$', views.ExibeBatismo.as_view(), name='exibe_batismo'),
     url(r'^batismos/(?P<pk>\d+)/exclui/$', views.ExcluiBatismo.as_view(), name='exclui_batismo'),
+    # doacoes
+    url(r'^doacoes/$', views.ListaDoacoes.as_view(), name='doacoes'),
+    url(r'^doacoes/nova/$', views.NovaDoacao.as_view(), name='nova_doacao'),
+    url(r'^doacoes/(?P<pk>\d+)/edita/$', views.EditaDoacao.as_view(), name='edita_doacao'),
+    url(r'^doacoes/(?P<pk>\d+)/exibe/$', views.ExibeDoacao.as_view(), name='exibe_doacao'),
+    url(r'^doacoes/(?P<pk>\d+)/exclui/$', views.ExcluiDoacao.as_view(), name='exclui_doacao'),
 ]

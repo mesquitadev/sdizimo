@@ -5,10 +5,10 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy
 from search_views.search import SearchListView
 
-from .models import Dizimista, Oferta, Dizimo, Batismo
+from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao
 from .filters import DizimistaFilter, RecebimentoFilter
 from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
-    DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm
+    DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm, DoacaoForm, ConsultaDoacaoForm
 
 
 ###########################################################
@@ -400,3 +400,101 @@ class ExcluiBatismo(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('dizimo:batismos')
     template_name = 'exclui_batismo.html'
     context_object_name = 'batismo'
+
+
+###########################################################
+#  DOACOES                                                #
+###########################################################
+
+class ListaDoacoes(LoginRequiredMixin, SearchListView):
+    model = Doacao
+    context_object_name = 'doacoes'
+    template_name = 'doacoes.html'
+    paginate_by = 20
+    form_class = ConsultaDoacaoForm
+    filter_class = RecebimentoFilter
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'doacoes'
+        return super().get_context_data(**kwargs)
+
+    def get_object_list(self, request, search_errors=None):
+        object_list = Doacao.objects.all()
+        self.form = ConsultaDoacaoForm(request.GET)
+        if self.form and self.form.is_valid():
+            descricao = self.form.cleaned_data['descricao']
+            usuario = self.form.cleaned_data['usuario']
+            data_inicio = self.form.cleaned_data['data_inicio']
+            data_fim = self.form.cleaned_data['data_fim']
+
+            if descricao:
+                object_list = object_list.filter(descricao__icontains=descricao)
+            if usuario:
+                object_list = object_list.filter(usuario=usuario)
+            if data_inicio:
+                object_list = object_list.filter(recebida_em__gte=data_inicio)
+            if data_fim:
+                data_fim = datetime.combine(data_fim, datetime.max.time())
+                object_list = object_list.filter(recebida_em__lte=data_fim)
+        else:
+            print(self.form.errors)
+        return object_list
+
+
+class NovaDoacao(LoginRequiredMixin, CreateView):
+    model = Doacao
+    form_class = DoacaoForm
+    template_name = 'nova_doacao.html'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_doacao', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'recebimentos'
+        context['menu_dropdown'] = 'doacoes'
+        return context
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.usuario = self.request.user
+            self.object.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+
+class EditaDoacao(LoginRequiredMixin, UpdateView):
+    model = Doacao
+    form_class = DoacaoForm
+    template_name = 'edita_doacao.html'
+    context_object_name = 'doacao'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_doacao', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'recebimentos'
+        context['menu_dropdown'] = 'doacoes'
+        return context
+
+
+class ExibeDoacao(LoginRequiredMixin, DetailView):
+    model = Doacao
+    context_object_name = 'doacao'
+    template_name = 'exibe_doacao.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'doacoes'
+        return super().get_context_data(**kwargs)
+
+
+class ExcluiDoacao(LoginRequiredMixin, DeleteView):
+    model = Doacao
+    success_url = reverse_lazy('dizimo:doacoes')
+    template_name = 'exclui_doacao.html'
+    context_object_name = 'doacao'

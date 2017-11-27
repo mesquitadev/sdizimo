@@ -74,7 +74,7 @@ class Oferta(Recebimento):
         ordering = ('-recebida_em', )
 
     def __str__(self):
-        return 'R$ {0} - recebida em {1}'.format(self.valor, self.recebida_em)
+        return 'R$ {0} - registrada em {1}'.format(self.valor, self.recebida_em)
 
 
 class Dizimo(Recebimento):
@@ -98,3 +98,13 @@ class Batismo(Recebimento):
 
     def __str__(self):
         return '{0} batizado em {1}'.format(self.nome_batizando, self.data_batismo.strftime('%d/%m/%Y'))
+
+
+class Doacao(Recebimento):
+    descricao = models.CharField(max_length=500, verbose_name='descrição')
+
+    class Meta:
+        ordering = ('-recebida_em', )
+
+    def __str__(self):
+        return 'R$ {0} - registrada em {1}'.format(self.valor, self.recebida_em)
