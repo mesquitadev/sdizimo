@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ batismo }}{% endblock %}
+
+{% block pageheader %}{{ batismo }}{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'dizimo:batismos' %}">Batismos</a></li>
+    <li class="breadcrumb-item active">{{ batismo }}</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4 d-flex flex-row-reverse">
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="{% url 'dizimo:edita_batismo' batismo.pk %}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a></li>
+      <li class="list-inline-item"><a href="{% url 'dizimo:exclui_batismo' batismo.pk %}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</a></li>
+    </ul>    
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">{{ batismo }}</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <tr>
+          <td class="text-right" width="180"><strong>Batizando</strong></td>
+          <td>{{batismo.nome_batizando}}</td>
+          <td class="text-right"><strong>Data do Batismo</strong></td>
+          <td>{{batismo.data_batismo}}</td>
+        </tr>
+        <tr>
+            <td class="text-right" width="180"><strong>Solicitante</strong></td>
+            <td>{{batismo.nome_solicitante}}</td>
+          <td class="text-right"><strong>Valor</strong></td>
+          <td>R$ {{batismo.valor}}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>Usuário responsável</strong></td>
+          <td class="align-middle">{{batismo.usuario.get_full_name}} ({{batismo.usuario.username}})</td>
+          <td class="text-right"><strong>Registrado em</strong></td>
+          <td>{{batismo.recebida_em}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <a href="{% url 'dizimo:batismos' %}" class="btn btn-secondary" role="button"><i class="fa fa-chevron-left" aria-hidden="true"></i> Voltar</a>
+{% endblock %}

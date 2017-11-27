@@ -338,7 +338,7 @@ class ListaBatismos(LoginRequiredMixin, SearchListView):
             if data_inicio:
                 object_list = object_list.filter(data_batismo__gte=data_inicio)
             if data_fim:
-                object_list = object_list.filter(rdata_batismo__lte=data_fim)
+                object_list = object_list.filter(data_batismo__lte=data_fim)
         else:
             print(self.form.errors)
         return object_list

@@ -99,7 +99,7 @@ class BatismoForm(forms.ModelForm):
 
 class ConsultaBatismoForm(forms.Form):
     nome_batizando = forms.CharField(label='Batizando', required=False)
-    nome_solicitante = forms.ChoiceField(label='Solicitante', required=False, choices=[])
+    nome_solicitante = forms.CharField(label='Solicitante', required=False)
     usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
     data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))

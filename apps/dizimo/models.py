@@ -97,4 +97,4 @@ class Batismo(Recebimento):
         ordering = ('-data_batismo', )
 
     def __str__(self):
-        return '{0} batizado em {2}'.format(self.nome_batizando, self.data_batismo.strftime('%d/%m/%Y'))
+        return '{0} batizado em {1}'.format(self.nome_batizando, self.data_batismo.strftime('%d/%m/%Y'))
