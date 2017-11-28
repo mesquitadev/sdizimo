@@ -1,0 +1,264 @@
+[
+{
+  "model": "dizimo.dizimista",
+  "pk": 1,
+  "fields": {
+    "nome": "Jo\u00e3o das Flores Silva",
+    "endereco": "Rua 10, Casa 10",
+    "bairro": "Turu",
+    "cidade": "S\u00e3o Lu\u00eds",
+    "estado": "MA",
+    "paroquia": "Par\u00f3quia 1",
+    "comunidade": "Comunidade 1",
+    "sexo": "M",
+    "estado_civil": "C",
+    "data_nascimento": "1975-05-01",
+    "foto": ""
+  }
+},
+{
+  "model": "dizimo.dizimista",
+  "pk": 2,
+  "fields": {
+    "nome": "Daniel Lopes Soares Lima",
+    "endereco": "Rua Projetada, Cond. Majestic, Casa 51",
+    "bairro": "Vicente Fialho",
+    "cidade": "S\u00e3o Lu\u00eds",
+    "estado": "MA",
+    "paroquia": "Par\u00f3quia 1",
+    "comunidade": "Comunidade 1",
+    "sexo": "M",
+    "estado_civil": "C",
+    "data_nascimento": "1981-04-15",
+    "foto": "dizimistas/fotos/eu-2015-3.jpg"
+  }
+},
+{
+  "model": "dizimo.dizimista",
+  "pk": 3,
+  "fields": {
+    "nome": "Paulo Roberto Santos",
+    "endereco": "Avenida 10, Casa 20",
+    "bairro": "Cohama",
+    "cidade": "S\u00e3o Lu\u00eds",
+    "estado": "MA",
+    "paroquia": "Par\u00f3quia 1",
+    "comunidade": "Comunidade 1",
+    "sexo": "M",
+    "estado_civil": "C",
+    "data_nascimento": "1980-10-10",
+    "foto": ""
+  }
+},
+{
+  "model": "dizimo.dizimista",
+  "pk": 5,
+  "fields": {
+    "nome": "Jo\u00e3o Santos",
+    "endereco": "Avenida 10, Casa 20",
+    "bairro": "Centro",
+    "cidade": "S\u00e3o Lu\u00eds",
+    "estado": "MA",
+    "paroquia": "Par\u00f3quia 1",
+    "comunidade": "Comunidade 1",
+    "sexo": "M",
+    "estado_civil": "S",
+    "data_nascimento": "2000-12-23",
+    "foto": ""
+  }
+},
+{
+  "model": "dizimo.telefone",
+  "pk": 3,
+  "fields": {
+    "numero": "(98) 12312-3123",
+    "tipo": "CEL",
+    "operadora": "NET",
+    "dizimista": 3
+  }
+},
+{
+  "model": "dizimo.telefone",
+  "pk": 4,
+  "fields": {
+    "numero": "(98) 99133-0911",
+    "tipo": "CEL",
+    "operadora": "TIM",
+    "dizimista": 2
+  }
+},
+{
+  "model": "dizimo.telefone",
+  "pk": 5,
+  "fields": {
+    "numero": "(98) 03236-3834",
+    "tipo": "RES",
+    "operadora": "NET",
+    "dizimista": 2
+  }
+},
+{
+  "model": "dizimo.telefone",
+  "pk": 6,
+  "fields": {
+    "numero": "(33) 42342-3423",
+    "tipo": "RES",
+    "operadora": "TVN",
+    "dizimista": 1
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$36000$00gGaxJy7IhI$JVH5yHDhRDxcvF24M03vTxzO+fKmjT/3da719XHlmIE=",
+    "last_login": "2017-11-28T12:09:38.443Z",
+    "is_superuser": true,
+    "username": "daniel",
+    "first_name": "Daniel",
+    "last_name": "Lima",
+    "email": "danielslz@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2017-10-14T19:21:52.044Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 11,
+  "fields": {
+    "password": "pbkdf2_sha256$36000$dnLss7zYyuXK$UPNQGWFzXVx5jhqQeoG0QHHVXqrGSXcN5W4jYaPyi7E=",
+    "last_login": "2017-11-04T21:55:41.552Z",
+    "is_superuser": false,
+    "username": "lucas",
+    "first_name": "Lucas",
+    "last_name": "Lima",
+    "email": "lucas.lima@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2017-11-04T19:03:10.981Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 12,
+  "fields": {
+    "password": "pbkdf2_sha256$36000$G35IhvC5jGGl$KnQuvPcHP8bnunx+Z+sbCa978zmgEUUwGxAlhIRADPc=",
+    "last_login": "2017-11-14T19:13:27.399Z",
+    "is_superuser": false,
+    "username": "zefilho",
+    "first_name": "Jos\u00e9",
+    "last_name": "Filho",
+    "email": "barrosjosefilho.75@outlook.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2017-11-04T22:36:54.278Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "autenticacao.perfil",
+  "pk": 1,
+  "fields": {
+    "usuario": 1,
+    "papel": 1,
+    "foto": "usuarios/fotos/eu-2014.jpg"
+  }
+},
+{
+  "model": "autenticacao.perfil",
+  "pk": 9,
+  "fields": {
+    "usuario": 11,
+    "papel": 2,
+    "foto": "usuarios/fotos/3x4-Lucas.jpg"
+  }
+},
+{
+  "model": "autenticacao.perfil",
+  "pk": 10,
+  "fields": {
+    "usuario": 12,
+    "papel": 1,
+    "foto": ""
+  }
+},
+{
+  "model": "dizimo.oferta",
+  "pk": 1,
+  "fields": {
+    "recebida_em": "2017-11-22T18:39:06.078Z",
+    "usuario": 1,
+    "valor": "100.00"
+  }
+},
+{
+  "model": "dizimo.oferta",
+  "pk": 2,
+  "fields": {
+    "recebida_em": "2017-11-22T18:39:13.420Z",
+    "usuario": 1,
+    "valor": "250.00"
+  }
+},
+{
+  "model": "dizimo.dizimo",
+  "pk": 1,
+  "fields": {
+    "recebida_em": "2017-11-22T14:14:42.735Z",
+    "usuario": 1,
+    "valor": "120.50",
+    "dizimista": 2,
+    "referencia": "2017-10-01"
+  }
+},
+{
+  "model": "dizimo.dizimo",
+  "pk": 2,
+  "fields": {
+    "recebida_em": "2017-11-22T17:17:22.765Z",
+    "usuario": 1,
+    "valor": "100.00",
+    "dizimista": 1,
+    "referencia": "2017-09-01"
+  }
+},
+{
+  "model": "dizimo.dizimo",
+  "pk": 4,
+  "fields": {
+    "recebida_em": "2017-11-22T18:38:35.400Z",
+    "usuario": 1,
+    "valor": "150.00",
+    "dizimista": 3,
+    "referencia": "2017-10-01"
+  }
+},
+{
+  "model": "dizimo.batismo",
+  "pk": 1,
+  "fields": {
+    "recebida_em": "2017-11-27T12:20:14.118Z",
+    "usuario": 1,
+    "valor": "150.00",
+    "nome_batizando": "Lucas Raposo Silva Lima",
+    "nome_solicitante": "Daniel Lopes Soares Lima",
+    "data_batismo": "2017-11-15"
+  }
+},
+{
+  "model": "dizimo.doacao",
+  "pk": 1,
+  "fields": {
+    "recebida_em": "2017-11-27T12:57:18.723Z",
+    "usuario": 1,
+    "valor": "300.00",
+    "descricao": "Doa\u00e7\u00e3o para constru\u00e7\u00e3o de muro da nova sede"
+  }
+}
+]
