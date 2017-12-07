@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Aniversariantes{% endblock %}
+
+{% block pageheader %}Aniversariantes{% endblock %}
+
+{% block breadcrumb %}
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+      <li class="breadcrumb-item active">Aniversariantes</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+   <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Filtrar por mês</h3>
+    </div>
+    <div class="card-body">
+      <ul class="list-inline">
+        {% for mes in meses %}
+          <li class="list-inline-item">
+            <a class="btn {% if mes_escolhido == mes.numero %}btn-primary{% else %}btn-secondary{% endif %}" href="?mes={{ mes.numero }}">{{ mes.nome }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Listagem de Aniversariantes</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead class="thead-inverse">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nº Cad.</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Paróquia</th>
+            <th scope="col">Comunidade</th>
+            <th scope="col">Data de nascimento</th>
+            <th scope="col">Idade</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for dizimista in aniversariantes %}
+            <tr>
+              <td scope="row" width="60">
+                <a href="{% url 'dizimo:exibe_dizimista' dizimista.pk %}" title="Exibir {{ dizimista.nome }}"><i class="fa fa-search" aria-hidden="true"></i></a>
+                <a href="{% url 'dizimo:edita_dizimista' dizimista.pk %}" title="Editar {{ dizimista.nome }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+              </td>
+              <td width="80">{{ dizimista.pk }}</td>
+              <td>{{ dizimista.nome }}</td>
+              <td>{{ dizimista.paroquia }}</td>
+              <td>{{ dizimista.comunidade }}</td>
+              <td>{{ dizimista.data_nascimento }}</td>
+              <td>{{ dizimista.data_nascimento|timesince }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

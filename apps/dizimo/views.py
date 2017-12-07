@@ -1,6 +1,6 @@
 from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy
 from search_views.search import SearchListView
@@ -103,6 +103,35 @@ class ExcluiDizimista(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('dizimo:dizimistas')
     template_name = 'exclui_dizimista.html'
     context_object_name = 'dizimista'
+
+
+def aniversariantes(request):
+    mes_escolhido = int(request.GET.get('mes', datetime.today().month))
+    meses = (
+        {'numero': 1, 'nome': u'Janeiro'},
+        {'numero': 2, 'nome': u'Fevereiro'},
+        {'numero': 3, 'nome': u'Março'},
+        {'numero': 4, 'nome': u'Abril'},
+        {'numero': 5, 'nome': u'Maio'},
+        {'numero': 6, 'nome': u'Junho'},
+        {'numero': 7, 'nome': u'Julho'},
+        {'numero': 8, 'nome': u'Agosto'},
+        {'numero': 9, 'nome': u'Setembro'},
+        {'numero': 10, 'nome': u'Outubro'},
+        {'numero': 11, 'nome': u'Novembro'},
+        {'numero': 12, 'nome': u'Dezembro'},
+    )
+
+    lista_aniversariantes = Dizimista.objects.filter(data_nascimento__month=mes_escolhido).order_by('data_nascimento', 'nome')
+
+    context = {
+        'menu': 'relatorios',
+        'menu_dropdown': 'lista_aniversariantes',
+        'mes_escolhido': mes_escolhido,
+        'meses': meses,
+        'aniversariantes': lista_aniversariantes,
+    }
+    return render(request, 'aniversariantes.html', context)
 
 
 ###########################################################
