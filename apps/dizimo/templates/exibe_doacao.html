@@ -17,6 +17,7 @@
 {% block content %}
   <div class="mb-4 d-flex flex-row-reverse">
     <ul class="list-inline">
+      <li class="list-inline-item"><a href="{% url 'dizimo:nova_doacao' %}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> Nova doação</a></li>
       <li class="list-inline-item"><a href="{% url 'dizimo:edita_doacao' doacao.pk %}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a></li>
       <li class="list-inline-item"><a href="{% url 'dizimo:exclui_doacao' doacao.pk %}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</a></li>
     </ul>    
