@@ -21,7 +21,7 @@
     <div class="card-body">
       <ul class="list-inline">
         {% for mes in meses %}
-          <li class="list-inline-item">
+          <li class="list-inline-item lista-aniversariantes">
             <a class="btn {% if mes_escolhido == mes.numero %}btn-primary{% else %}btn-secondary{% endif %}" href="?mes={{ mes.numero }}">{{ mes.nome }}</a>
           </li>
         {% endfor %}

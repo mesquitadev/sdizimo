@@ -71,3 +71,7 @@ table.formset td {
 nav.side-navbar ul li.active-dropdown a {
   background: #CBDDE8;
 }
+
+.lista-aniversariantes {
+  margin-bottom: 15px;
+}
