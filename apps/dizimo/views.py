@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
@@ -8,7 +9,8 @@ from search_views.search import SearchListView
 from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao
 from .filters import DizimistaFilter, RecebimentoFilter
 from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
-    DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm, DoacaoForm, ConsultaDoacaoForm
+    DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm, DoacaoForm, ConsultaDoacaoForm, \
+    RecebimentosPorPeriodoForm
 
 
 ###########################################################
@@ -105,6 +107,7 @@ class ExcluiDizimista(LoginRequiredMixin, DeleteView):
     context_object_name = 'dizimista'
 
 
+@login_required
 def aniversariantes(request):
     mes_escolhido = int(request.GET.get('mes', datetime.today().month))
     meses = (
@@ -527,3 +530,45 @@ class ExcluiDoacao(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('dizimo:doacoes')
     template_name = 'exclui_doacao.html'
     context_object_name = 'doacao'
+
+
+###########################################################
+#  RELATORIOS                                             #
+###########################################################
+
+@login_required
+def recebimentos_por_periodo(request):
+    dizimos = []
+    ofertas = []
+    batismos = []
+    doacoes = []
+
+    form = RecebimentosPorPeriodoForm(request.POST or None)
+
+    if request.method == 'POST':
+        form = RecebimentosPorPeriodoForm(request.POST)
+        if form.is_valid():
+            data_inicio = form.cleaned_data['data_inicio']
+            data_fim = form.cleaned_data['data_fim']
+
+            # consulta dizimos
+            dizimos = Dizimo.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('referencia', 'dizimista__nome')
+            # consulta ofertas
+            ofertas = Oferta.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
+            # consulta batismos
+            batismos = Batismo.objects.filter(data_batismo__gte=data_inicio, data_batismo__lte=data_fim).order_by('data_batismo', 'nome_batizando')
+            # consulta doacoes
+            doacoes = Doacao.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
+    else:
+        form = RecebimentosPorPeriodoForm()
+
+    context = {
+        'menu': 'relatorios',
+        'menu_dropdown': 'recebimentos_periodo',
+        'form': form,
+        'dizimos': dizimos,
+        'ofertas': ofertas,
+        'batismos': batismos,
+        'doacoes': doacoes
+    }
+    return render(request, 'recebimentos_por_periodo.html', context)

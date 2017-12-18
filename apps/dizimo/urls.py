@@ -34,4 +34,6 @@ urlpatterns = [
     url(r'^doacoes/(?P<pk>\d+)/edita/$', views.EditaDoacao.as_view(), name='edita_doacao'),
     url(r'^doacoes/(?P<pk>\d+)/exibe/$', views.ExibeDoacao.as_view(), name='exibe_doacao'),
     url(r'^doacoes/(?P<pk>\d+)/exclui/$', views.ExcluiDoacao.as_view(), name='exclui_doacao'),
+    # relatorios
+    url(r'^recimentos/por-periodo/$', views.recebimentos_por_periodo, name='recebimentos_por_periodo'),
 ]

@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block title %}Batismos{% endblock %}
+
+{% block pageheader %}Batismos{% endblock %}
+
+{% block breadcrumb %}
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+      <li class="breadcrumb-item active">Recebimentos por Período</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Filtros para pesquisa</h3>
+    </div>
+    <div class="card-body">
+      <form method="POST" novalidate>
+        {% csrf_token %}
+        {% include 'includes/filter_form.html' %}
+      </form>
+    </div>
+  </div>
+
+  {% if batismos %}
+    <div class="card">
+      <div class="card-header d-flex align-items-center">
+        <h3 class="h4">Listagem de Batismos</h3>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead class="thead-inverse">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Batizando</th>
+              <th scope="col">Solicitante</th>
+              <th scope="col">Data do batismo</th>
+              <th scope="col">Valor (R$)</th>
+              <th scope="col">Registrado em</th>
+              <th scope="col">Usuário responsável</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for batismo in batismos %}
+              <tr>
+                <td scope="row" width="60">
+                  <a href="{% url 'dizimo:exibe_batismo' batismo.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
+                  <a href="{% url 'dizimo:edita_batismo' batismo.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                </td>
+                <td>{{ batismo.nome_batizando }}</td>
+                <td>{{ batismo.nome_solicitante }}</td>
+                <td>{{ batismo.data_batismo }}</td>
+                <td>{{ batismo.valor }}</td>
+                <td>{{ batismo.recebida_em }}</td>
+                <td>{{ batismo.usuario.username }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if dizimos %}
+    <div class="card">
+      <div class="card-header d-flex align-items-center">
+        <h3 class="h4">Listagem de Dízimos</h3>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead class="thead-inverse">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Dizimista</th>
+              <th scope="col">Referência</th>
+              <th scope="col">Valor (R$)</th>
+              <th scope="col">Registrado em</th>
+              <th scope="col">Usuário responsável</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for dizimo in dizimos %}
+              <tr>
+                <td scope="row" width="60">
+                  <a href="{% url 'dizimo:exibe_dizimo' dizimo.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
+                  <a href="{% url 'dizimo:edita_dizimo' dizimo.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                </td>
+                <td>{{ dizimo.dizimista }}</td>
+                <td>{{ dizimo.referencia|date:"m/Y" }}</td>
+                <td>{{ dizimo.valor }}</td>
+                <td>{{ dizimo.recebida_em }}</td>
+                <td>{{ dizimo.usuario.username }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if doacoes %}
+    <div class="card">
+      <div class="card-header d-flex align-items-center">
+        <h3 class="h4">Listagem de Doações</h3>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead class="thead-inverse">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Descrição</th>
+              <th scope="col">Valor (R$)</th>
+              <th scope="col">Registrado em</th>
+              <th scope="col">Usuário responsável</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for doacao in doacoes %}
+              <tr>
+                <td scope="row" width="60">
+                  <a href="{% url 'dizimo:exibe_doacao' doacao.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
+                  <a href="{% url 'dizimo:edita_doacao' doacao.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                </td>
+                <td>{{ doacao.descricao }}</td>
+                <td>{{ doacao.valor }}</td>
+                <td>{{ doacao.recebida_em }}</td>
+                <td>{{ doacao.usuario.username }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if ofertas %}
+    <div class="card">
+      <div class="card-header d-flex align-items-center">
+        <h3 class="h4">Listagem de Ofertas</h3>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead class="thead-inverse">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Valor (R$)</th>
+              <th scope="col">Registrado em</th>
+              <th scope="col">Usuário responsável</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for oferta in ofertas %}
+              <tr>
+                <td scope="row" width="60">
+                  <a href="{% url 'dizimo:exibe_oferta' oferta.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
+                  <a href="{% url 'dizimo:edita_oferta' oferta.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                </td>
+                <td>{{ oferta.valor }}</td>
+                <td>{{ oferta.recebida_em }}</td>
+                <td>{{ oferta.usuario.username }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% endif %}
+
+  <script>
+    $(document).ready(function(){
+      $('#id_data_inicio').mask("00/00/0000", {placeholder: "__/__/____"});
+      $('#id_data_fim').mask("00/00/0000", {placeholder: "__/__/____"});
+    });
+  </script>
+{% endblock %}
