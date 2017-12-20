@@ -72,6 +72,18 @@ nav.side-navbar ul li.active-dropdown a {
   background: #CBDDE8;
 }
 
+/* css cara corrigir links dos quadros da home */
+.dashboard a {
+  display: inline;
+  color: #333;
+}
+
+.dashboard a:hover,
+.dashboard a:active {
+  text-decoration: none;
+}
+
+/* aniversariantes */
 .lista-aniversariantes {
   margin-bottom: 15px;
 }

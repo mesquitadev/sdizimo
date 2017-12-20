@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render
@@ -16,6 +17,8 @@ def inicio(request):
 
     qtd_recebimentos = qtd_dizimos + qtd_batismos + qtd_doacoes + qtd_ofertas
 
+    qtd_aniversariantes = Dizimista.objects.filter(data_nascimento__month=datetime.today().month).count()
+
     context = {
         'menu': 'inicio',
         'qtd_dizimistas': qtd_dizimistas,
@@ -24,6 +27,7 @@ def inicio(request):
         'qtd_batismos': qtd_batismos,
         'qtd_doacoes': qtd_doacoes,
         'qtd_usuarios': qtd_usuarios,
-        'qtd_recebimentos': qtd_recebimentos
+        'qtd_recebimentos': qtd_recebimentos,
+        'qtd_aniversariantes': qtd_aniversariantes
     }
     return render(request, 'inicio.html', context)
