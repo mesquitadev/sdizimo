@@ -1,0 +1,34 @@
+{% extends 'base_print_landscape.html' %}
+
+{% block title %}
+  Relatório de Dizimistas
+{% endblock %}
+
+{% block content %}
+  <table class="table table-sm">
+    <thead class="thead-inverse">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nº Cad.</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Paróquia</th>
+        <th scope="col">Comunidade</th>
+        <th scope="col">Data de nascimento</th>
+        <th scope="col">Idade</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

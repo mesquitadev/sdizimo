@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>SDízimo - {% block title %}{% endblock %}</title>
+    <!-- Normalize or reset CSS with your favorite library -->
+    <link rel="stylesheet" href="{% static 'css/normalize.min.css' %}">
+    <!-- Load paper.css for happy printing -->
+    <link rel="stylesheet" href="{% static 'css/paper.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.blue.css' %}" id="theme-stylesheet">
+    <!-- Set page size here: A5, A4 or A3 -->
+    <!-- Set also "landscape" if you need -->
+    <style>@page { size: A4 }</style>
+  </head>
+
+  <!-- Set "A5", "A4" or "A3" for class name -->
+  <!-- Set also "landscape" if you need -->
+  <body class="A4">
+    <!-- Each sheet element should have the class "sheet" -->
+    <!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
+    <section class="sheet padding-10mm">
+      <!-- Write HTML just like a web page -->
+      <article>This is an A4 document.</article>
+      {% block content %}{% endblock %}
+    </section>
+  </body>
+</html>
