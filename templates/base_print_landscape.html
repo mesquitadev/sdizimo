@@ -3,7 +3,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>SDízimo - {% block title %}{% endblock %}</title>
+    <title>SDízimo {% if titulo_relatorio %} - {{ titulo_relatorio }}{% endif %}</title>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
     <!-- Normalize or reset CSS with your favorite library -->
     <link rel="stylesheet" href="{% static 'css/normalize.min.css' %}">
     <!-- Load paper.css for happy printing -->
@@ -14,9 +15,18 @@
     <!-- Set page size here: A5, A4 or A3 -->
     <!-- Set also "landscape" if you need -->
     <style>
-      @page { size: A4 landscape }
-      footer {
-        margin-bottom: 0;
+      @page { 
+        size: A4 landscape;
+        margin: 1cm 0; 
+      }
+      .sheet {
+        overflow: visible;
+        height: auto !important;
+      }
+      h1 {
+        padding: 10px 0;
+        border-top: 2px solid #e9ecef;
+        border-bottom: 2px solid #e9ecef;
       }
     </style>
   </head>
@@ -32,13 +42,22 @@
         <small>Sistema para controle e gerenciamento de dízimos e ofertas</small>
       </h1>
       <!-- Write HTML just like a web page -->
-      <div class="mt-4">
+      {% if titulo_relatorio %}
+        <div class="mt-4">
+            {{ titulo_relatorio }}
+        </div>
+      {% endif %}
+      <div class="mt-1">
         {% block content %}{% endblock %}
       </div>
 
-      <footer class="border border-right-0 border-left-0 border-bottom-0 mt-4 pt-1">
-        <small>Emitido em {% now 'SHORT_DATETIME_FORMAT' %}</small> 
+      <footer class="border border-right-0 border-left-0 border-bottom-0 mt-5 pt-1">
+        <small>Emitido por {{ user.get_full_name }} em {% now 'SHORT_DATETIME_FORMAT' %}.</small> 
       </footer>
     </section>
   </body>
 </html>
+
+<script type="text/javascript">
+  window.onload = function() { window.print(); }
+</script>

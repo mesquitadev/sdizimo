@@ -1,9 +1,5 @@
 {% extends 'base_print_landscape.html' %}
 
-{% block title %}
-  Relatório de Dizimistas
-{% endblock %}
-
 {% block content %}
   <table class="table table-sm">
     <thead class="thead-inverse">
@@ -21,7 +17,7 @@
       {% for dizimista in dizimistas %}
         <tr>
           <td>{{ forloop.counter }}</td>
-          <td>{{ dizimista.pk }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
           <td>{{ dizimista.nome }}</td>
           <td>{{ dizimista.paroquia }}</td>
           <td>{{ dizimista.comunidade }}</td>

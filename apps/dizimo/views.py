@@ -137,9 +137,16 @@ def aniversariantes(request):
     return render(request, 'aniversariantes.html', context)
 
 
+@login_required
 def relatorio_dizimistas(request):
     dizimistas = Dizimista.objects.all()
-    return render(request, 'relatorios/relatorio_dizimistas.html', {'dizimistas': dizimistas })
+    context = {
+        'menu': 'relatorios',
+        'menu_dropdown': 'relatorio_dizimistas',
+        'titulo_relatorio': 'Relatório de Dizimistas',
+        'dizimistas': dizimistas
+    }
+    return render(request, 'relatorios/relatorio_dizimistas.html', context)
 
 
 ###########################################################

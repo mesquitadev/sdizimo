@@ -54,7 +54,7 @@
                 <a href="{% url 'dizimo:exibe_dizimista' dizimista.pk %}" title="Exibir {{ dizimista.nome }}"><i class="fa fa-search" aria-hidden="true"></i></a>
                 <a href="{% url 'dizimo:edita_dizimista' dizimista.pk %}" title="Editar {{ dizimista.nome }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
               </td>
-              <td width="80">{{ dizimista.pk }}</td>
+              <td width="80">{{ dizimista.pk|stringformat:"03d" }}</td>
               <td>{{ dizimista.nome }}</td>
               <td>{{ dizimista.endereco }}</td>
               <td>{{ dizimista.bairro }}</td>

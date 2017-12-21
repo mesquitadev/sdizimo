@@ -36,7 +36,7 @@
             <table class="table table-striped">
               <tr>
                 <td width="130" class="text-right"><strong>Nº Cad.</strong></td>
-                <td>{{dizimista.pk}}</td>
+                <td>{{dizimista.pk|stringformat:"03d"}}</td>
               </tr>
               <tr>
                 <td class="text-right"><strong>Nome</strong></td>
@@ -90,7 +90,7 @@
             <td width="130" class="text-right"><strong>Nome</strong></td>
             <td>{{dizimista.nome}}</td>
             <td class="text-right"><strong>Nº Cad.</strong></td>
-            <td>{{dizimista.pk}}</td>
+            <td>{{dizimista.pk|stringformat:"03d"}}</td>
           </tr>
           <tr>
             <td class="text-right"><strong>Endereço</strong></td>
