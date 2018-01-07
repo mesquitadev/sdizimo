@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^dizimistas/(?P<pk>\d+)/exclui/$', views.ExcluiDizimista.as_view(), name='exclui_dizimista'),
     url(r'^dizimistas/aniversariantes/$', views.aniversariantes, name='aniversariantes'),
     url(r'^dizimistas/relatorio/$', views.relatorio_dizimistas, name='relatorio_dizimistas'),
+    url(r'^dizimistas/relatorios/relatorio_dizimistas.pdf$', views.RelatorioDizimistas.as_view(), name='relatorio_dizimistas2'),
     # ofertas
     url(r'^ofertas/$', views.ListaOfertas.as_view(), name='ofertas'),
     url(r'^ofertas/nova/$', views.NovaOferta.as_view(), name='nova_oferta'),

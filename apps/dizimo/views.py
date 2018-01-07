@@ -1,10 +1,12 @@
 from datetime import datetime
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy
 from search_views.search import SearchListView
+from wkhtmltopdf.views import PDFTemplateView
 
 from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao
 from .filters import DizimistaFilter, RecebimentoFilter
@@ -147,6 +149,19 @@ def relatorio_dizimistas(request):
         'dizimistas': dizimistas
     }
     return render(request, 'relatorios/relatorio_dizimistas.html', context)
+
+
+class RelatorioDizimistas(LoginRequiredMixin, PDFTemplateView):
+    template_name = 'relatorios/relatorio_dizimistas2.html'
+    filename = 'relatorio_dizimistas.pdf'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'relatorios'
+        context['menu_dropdown'] = 'relatorio_dizimistas'
+        context['titulo_relatorio'] = 'Relatório de Dizimistas'
+        context['dizimistas'] = Dizimista.objects.all()
+        return context
 
 
 ###########################################################
