@@ -1,0 +1,195 @@
+{% extends 'base_pdf_landscape.html' %}
+
+{% block content %}
+  <table class="table table-sm">
+    <thead class="thead">
+      <tr class="titulo_tabela">
+        <th scope="col" width="40">#</th>
+        <th scope="col" width="50">Nº Cad.</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Paróquia</th>
+        <th scope="col">Comunidade</th>
+        <th scope="col">Data de nascimento</th>
+        <th scope="col">Idade</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
+          <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.nome }}</td>
+          <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.paroquia }}</td>
+          <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.comunidade }}</td>
+          <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.data_nascimento|date:"d/m/Y" }}</td>
+          <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+      {% for dizimista in dizimistas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ dizimista.pk|stringformat:"03d" }}</td>
+          <td>{{ dizimista.nome }}</td>
+          <td>{{ dizimista.paroquia }}</td>
+          <td>{{ dizimista.comunidade }}</td>
+          <td>{{ dizimista.data_nascimento }}</td>
+          <td>{{ dizimista.data_nascimento|timesince }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

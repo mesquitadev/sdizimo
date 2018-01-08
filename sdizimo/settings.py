@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'localflavor',
     'sorl.thumbnail',
     'compressor',
-    'wkhtmltopdf',
+    'easy_pdf',
     # project apps
     'apps.autenticacao',
     'apps.comum',

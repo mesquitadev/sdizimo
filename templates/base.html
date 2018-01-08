@@ -99,7 +99,7 @@
               <li><a href="#menu_relatorios" aria-expanded="{% if menu == 'relatorios' %}true{% else %}false{% endif %}" data-toggle="collapse"> <i class="fa fa-file-pdf-o"></i>Relatórios</a>
                 <ul id="menu_relatorios" class="collapse list-unstyled {% if menu == 'relatorios' %}show{% endif %}">
                   <li {% if menu_dropdown == 'lista_aniversariantes' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:aniversariantes' %}">Aniversariantes</a></li>
-                  <li {% if menu_dropdown == 'relatorio_dizimistas' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:relatorio_dizimistas2' %}">Dizimistas</a></li>
+                  <li {% if menu_dropdown == 'relatorio_dizimistas' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:relatorio_dizimistas' %}">Dizimistas</a></li>
                   <li {% if menu_dropdown == 'recebimentos_periodo' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:recebimentos_por_periodo' %}">Relatório de recebimentos por período</a></li>
                   <li {% if menu_dropdown == 'recebimentos_mensal' %}class="active-dropdown"{% endif %}><a href="#">Relatório mensal de recebimentos</a></li>
                   <li {% if menu_dropdown == 'recebimentos_anual' %}class="active-dropdown"{% endif %}><a href="#">Relatório anual de recebimentos</a></li>
