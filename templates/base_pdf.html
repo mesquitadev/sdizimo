@@ -9,7 +9,22 @@
     <style>
       @page { 
         size: A4; 
-        margin: 1.5cm;
+        
+        @frame header_frame {           /* Static Frame */
+          -pdf-frame-content: header;
+          left: 40pt; width: 512pt; top: 40pt; height: 100pt;
+        }
+        @frame content_frame {          /* Content Frame */
+          left: 40pt; width: 512pt; top: 140pt; height: 659pt;
+        }
+        @frame footer_frame_1 {           /* Another static Frame */
+          -pdf-frame-content: footer_left;
+          left: 40pt; width: 512pt; top: 795pt; height: 30pt;
+        }
+        @frame footer_frame_2 {     /* Another static Frame */
+          -pdf-frame-content: footer_right;
+          left: 402pt; width: 150pt; top: 795pt; height: 30pt;
+        }
       }
     </style>
 
@@ -17,22 +32,28 @@
   </head>
 
   <body>
-    <h1>
-      <strong>SDízimo</strong><br>
-      <small>Sistema para controle e gerenciamento de dízimos e ofertas</small>
-    </h1>
-    {% if titulo_relatorio %}
-      <div class="titulo_relatorio">
-          {{ titulo_relatorio }}
-      </div>
-    {% endif %}
-    <div class="mt-1">
-      {% block content %}{% endblock %}
+    <div id="header">
+      <h1>
+        <strong>SDízimo</strong><br>
+        <small>Sistema para controle e gerenciamento de dízimos e ofertas</small>
+      </h1>
+      {% if titulo_relatorio %}
+        <div class="titulo_relatorio">
+            # {{ titulo_relatorio }}
+        </div>
+      {% endif %}
     </div>
 
-    <div class="footer">
+    <div id="footer_left">
       <small>Emitido por {{ user.get_full_name }} em {% now 'SHORT_DATETIME_FORMAT' %}.</small> 
-      {% comment %} <pdf:pagenumber /> {% endcomment %}
+    </div>
+    
+    <div id="footer_right">
+        <small>Página <pdf:pagenumber> de <pdf:pagecount></small>
+    </div>
+
+    <div class="content">
+      {% block content %}{% endblock %}
     </div>
   </body>
 </html>
