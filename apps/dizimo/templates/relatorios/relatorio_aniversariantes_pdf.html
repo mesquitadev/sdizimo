@@ -14,7 +14,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for dizimista in dizimistas %}
+      {% for dizimista in aniversariantes %}
         <tr>
           <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
           <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.pk|stringformat:"03d" }}</td>

@@ -29,6 +29,10 @@
     </div>
   </div>
 
+  <div class="mb-4 d-flex flex-row-reverse">
+    <a href="{% url 'dizimo:relatorio_aniversariantes_pdf' %}?mes={{ mes_escolhido }}" target="_blank" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a>
+  </div>
+
   <div class="card">
     <div class="card-header d-flex align-items-center">
       <h3 class="h4">Listagem de Aniversariantes</h3>

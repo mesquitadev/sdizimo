@@ -14,6 +14,7 @@ from .filters import DizimistaFilter, RecebimentoFilter
 from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
     DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm, DoacaoForm, ConsultaDoacaoForm, \
     RecebimentosPorPeriodoForm
+from .utils import MESES
 
 
 ###########################################################
@@ -113,20 +114,6 @@ class ExcluiDizimista(LoginRequiredMixin, DeleteView):
 @login_required
 def aniversariantes(request):
     mes_escolhido = int(request.GET.get('mes', datetime.today().month))
-    meses = (
-        {'numero': 1, 'nome': u'Janeiro'},
-        {'numero': 2, 'nome': u'Fevereiro'},
-        {'numero': 3, 'nome': u'Março'},
-        {'numero': 4, 'nome': u'Abril'},
-        {'numero': 5, 'nome': u'Maio'},
-        {'numero': 6, 'nome': u'Junho'},
-        {'numero': 7, 'nome': u'Julho'},
-        {'numero': 8, 'nome': u'Agosto'},
-        {'numero': 9, 'nome': u'Setembro'},
-        {'numero': 10, 'nome': u'Outubro'},
-        {'numero': 11, 'nome': u'Novembro'},
-        {'numero': 12, 'nome': u'Dezembro'},
-    )
 
     lista_aniversariantes = Dizimista.objects.filter(data_nascimento__month=mes_escolhido).order_by('data_nascimento', 'nome')
 
@@ -134,10 +121,27 @@ def aniversariantes(request):
         'menu': 'relatorios',
         'menu_dropdown': 'lista_aniversariantes',
         'mes_escolhido': mes_escolhido,
-        'meses': meses,
+        'meses': MESES,
         'aniversariantes': lista_aniversariantes,
     }
     return render(request, 'aniversariantes.html', context)
+
+
+class RelatorioAniversariantesPDF(LoginRequiredMixin, PDFTemplateView):
+    template_name = 'relatorios/relatorio_aniversariantes_pdf.html'
+    download_filename = 'relatorio_aniversariantes.pdf'
+    base_url = 'file://' + settings.STATIC_ROOT
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mes_escolhido = int(self.request.GET.get('mes', datetime.today().month))
+        mes = MESES[mes_escolhido-1]
+        lista_aniversariantes = Dizimista.objects.filter(data_nascimento__month=mes_escolhido).order_by('data_nascimento', 'nome')
+
+        context['titulo_relatorio'] = 'Relatório de Aniversariantes de {0}'.format(mes['nome'])
+        context['aniversariantes'] = lista_aniversariantes
+        context['user'] = self.request.user
+        return context
 
 
 @login_required
@@ -159,8 +163,6 @@ class RelatorioDizimistasPDF(LoginRequiredMixin, PDFTemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = 'relatorios'
-        context['menu_dropdown'] = 'relatorio_dizimistas'
         context['titulo_relatorio'] = 'Relatório de Dizimistas'
         context['dizimistas'] = Dizimista.objects.all()
         context['user'] = self.request.user
