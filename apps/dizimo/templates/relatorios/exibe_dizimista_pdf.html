@@ -1,0 +1,83 @@
+{% extends 'base_pdf.html' %}
+
+{% load thumbnail %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-body">
+      {% if dizimista.foto %}
+        <div id="foto" class="foto_dizimista mb-4">
+          <div class="text-center">
+            {% thumbnail dizimista.foto "150x200" crop="center" as im %}
+              <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="Foto de {{ user.username }}" class="img-thumbnail">
+            {% endthumbnail %}
+          </div>
+        </div>
+      {% endif %}
+      <div class="col-9">
+        <table class="table table-striped">
+          <tr>
+            <td width="130" class="text-right"><strong>Nº Cad.</strong></td>
+            <td>{{dizimista.pk|stringformat:"03d"}}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Nome</strong></td>
+            <td>{{dizimista.nome}}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Endereço</strong></td>
+            <td>{{dizimista.endereco}}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Bairro</strong></td>
+            <td>{{dizimista.bairro}}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Cidade</strong></td>
+            <td>{{dizimista.cidade}}/{{dizimista.estado}}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Data de nascimento</strong></td>
+            <td class="align-middle">{{dizimista.data_nascimento}}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Paróquia</strong></td>
+            <td>{{dizimista.paroquia}}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Comunidade</strong></td>
+            <td>{{dizimista.comunidade}}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Sexo</strong></td>
+            <td>{{dizimista.get_sexo_display}}</td>
+          </tr>
+          <tr>
+            <td class="text-right"><strong>Estado Civil</strong></td>
+            <td>{{dizimista.get_estado_civil_display}}</td>
+          </tr>
+        </table>
+      </div>
+      
+      <h3 class="telefones_dizimista">Telefones</h3>
+      <table class="table">
+        <thead class="thead">
+          <tr class="titulo_tabela">
+              <th scope="col">Número</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Operadora</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for telefone in dizimista.telefones.all %}
+            <tr>
+              <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{telefone.numero}}</td>
+              <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{telefone.get_tipo_display}}</td>
+              <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{telefone.get_operadora_display}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

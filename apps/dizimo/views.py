@@ -5,9 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy
-from easy_pdf.views import PDFTemplateView
+from easy_pdf.views import PDFTemplateView, PDFTemplateResponseMixin
 from search_views.search import SearchListView
-# from wkhtmltopdf.views import PDFTemplateView
 
 from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao
 from .filters import DizimistaFilter, RecebimentoFilter
@@ -101,6 +100,20 @@ class ExibeDizimista(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'
+        return super().get_context_data(**kwargs)
+
+
+class ExibeDizimistaPDF(LoginRequiredMixin, PDFTemplateResponseMixin, DetailView):
+    model = Dizimista
+    context_object_name = 'dizimista'
+    template_name = 'relatorios/exibe_dizimista_pdf.html'
+    download_filename = 'ficha_cadastral_dizimista.pdf'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'dizimistas'
+        kwargs['titulo_relatorio'] = 'Ficha cadastral de {0}'.format(self.object)
+        kwargs['user'] = self.request.user
+
         return super().get_context_data(**kwargs)
 
 
