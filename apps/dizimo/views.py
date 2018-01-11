@@ -182,6 +182,18 @@ class RelatorioDizimistasPDF(LoginRequiredMixin, PDFTemplateView):
         return context
 
 
+class FichaCadastralDizimistaPDF(LoginRequiredMixin, PDFTemplateView):
+    template_name = 'relatorios/ficha_cadastral_dizimista_pdf.html'
+    download_filename = 'ficha_cadastral_dizimista.pdf'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'relatorios'
+        kwargs['titulo_relatorio'] = 'Ficha cadastral de Dizimista'
+        kwargs['user'] = self.request.user
+
+        return super().get_context_data(**kwargs)
+
+
 ###########################################################
 #  OFERTAS                                                #
 ###########################################################

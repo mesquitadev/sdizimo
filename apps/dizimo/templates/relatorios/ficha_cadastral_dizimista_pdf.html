@@ -1,60 +1,54 @@
 {% extends 'base_pdf.html' %}
 
-{% load static thumbnail %}
+{% load static %}
 
 {% block content %}
   <div class="card">
     <div class="card-body">
       <div id="foto" class="foto_dizimista mb-4">
-        {% if dizimista.foto %}
-          {% thumbnail dizimista.foto "150x200" crop="center" as im %}
-            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="Foto de {{ user.username }}" class="img-thumbnail">
-          {% endthumbnail %}
-        {% else %}
-          <img src="{% static 'img/no-user-foto.png' %}" width="150" height="200" alt="Foto 3x4" class="img-thumbnail">
-        {% endif %}
+        <img src="{% static 'img/no-user-foto.png' %}" width="150" height="200" alt="Foto 3x4" class="img-thumbnail">
       </div>
       <div class="col-9">
         <table class="table tabela_dados">
           <tr>
             <td width="130"><strong>Nº Cad.</strong></td>
-            <td>{{dizimista.pk|stringformat:"03d"}}</td>
+            <td class="linha_dados">&nbsp;</td>
           </tr>
           <tr>
             <td><strong>Nome</strong></td>
-            <td>{{dizimista.nome}}</td>
+            <td class="linha_dados">&nbsp;</td>
           </tr>
           <tr>
             <td><strong>Endereço</strong></td>
-            <td>{{dizimista.endereco}}</td>
+            <td class="linha_dados">&nbsp;</td>
           </tr>
           <tr>
             <td><strong>Bairro</strong></td>
-            <td>{{dizimista.bairro}}</td>
+            <td class="linha_dados">&nbsp;</td>
           </tr>
           <tr>
             <td><strong>Cidade</strong></td>
-            <td>{{dizimista.cidade}}/{{dizimista.estado}}</td>
+            <td class="linha_dados">&nbsp;</td>
           </tr>
           <tr>
             <td><strong>Data de nascimento</strong></td>
-            <td class="align-middle">{{dizimista.data_nascimento}}</td>
+            <td class="linha_dados">&nbsp;</td>
           </tr>
           <tr>
             <td><strong>Paróquia</strong></td>
-            <td>{{dizimista.paroquia}}</td>
+            <td class="linha_dados">&nbsp;</td>
           </tr>
           <tr>
             <td><strong>Comunidade</strong></td>
-            <td>{{dizimista.comunidade}}</td>
+            <td class="linha_dados">&nbsp;</td>
           </tr>
           <tr>
             <td><strong>Sexo</strong></td>
-            <td>{{dizimista.get_sexo_display}}</td>
+            <td class="linha_dados">&nbsp;</td>
           </tr>
           <tr>
             <td><strong>Estado Civil</strong></td>
-            <td>{{dizimista.get_estado_civil_display}}</td>
+            <td class="linha_dados">&nbsp;</td>
           </tr>
         </table>
       </div>
@@ -69,13 +63,21 @@
           </tr>
         </thead>
         <tbody>
-          {% for telefone in dizimista.telefones.all %}
-            <tr>
-              <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{telefone.numero}}</td>
-              <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{telefone.get_tipo_display}}</td>
-              <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{telefone.get_operadora_display}}</td>
-            </tr>
-          {% endfor %}
+          <tr>
+            <td class='primeira_linha linha_dados'>&nbsp;</td>
+            <td class='primeira_linha linha_dados'>&nbsp;</td>
+            <td class='primeira_linha linha_dados'>&nbsp;</td>
+          </tr>
+          <tr>
+            <td class='primeira_linha linha_dados'>&nbsp;</td>
+            <td class='primeira_linha linha_dados'>&nbsp;</td>
+            <td class='primeira_linha linha_dados'>&nbsp;</td>
+          </tr>
+          <tr>
+            <td class='primeira_linha linha_dados'>&nbsp;</td>
+            <td class='primeira_linha linha_dados'>&nbsp;</td>
+            <td class='primeira_linha linha_dados'>&nbsp;</td>
+          </tr>
         </tbody>
       </table>
     </div>

@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^dizimistas/relatorios/aniversariantes/pdf$', views.RelatorioAniversariantesPDF.as_view(), name='relatorio_aniversariantes_pdf'),
     url(r'^dizimistas/relatorios/dizimistas/$', views.relatorio_dizimistas, name='relatorio_dizimistas'),
     url(r'^dizimistas/relatorios/dizimistas/pdf$', views.RelatorioDizimistasPDF.as_view(), name='relatorio_dizimistas_pdf'),
+    url(r'^dizimistas/relatorios/ficha_dizimista/pdf$', views.FichaCadastralDizimistaPDF.as_view(), name='ficha_cadastral_dizimista_pdf'),
     # ofertas
     url(r'^ofertas/$', views.ListaOfertas.as_view(), name='ofertas'),
     url(r'^ofertas/nova/$', views.NovaOferta.as_view(), name='nova_oferta'),
