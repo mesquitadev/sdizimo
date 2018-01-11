@@ -140,60 +140,6 @@ def aniversariantes(request):
     return render(request, 'aniversariantes.html', context)
 
 
-class RelatorioAniversariantesPDF(LoginRequiredMixin, PDFTemplateView):
-    template_name = 'relatorios/relatorio_aniversariantes_pdf.html'
-    download_filename = 'relatorio_aniversariantes.pdf'
-    base_url = 'file://' + settings.STATIC_ROOT
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        mes_escolhido = int(self.request.GET.get('mes', datetime.today().month))
-        mes = MESES[mes_escolhido-1]
-        lista_aniversariantes = Dizimista.objects.filter(data_nascimento__month=mes_escolhido).order_by('data_nascimento', 'nome')
-
-        context['titulo_relatorio'] = 'Relatório de Aniversariantes de {0}'.format(mes['nome'])
-        context['aniversariantes'] = lista_aniversariantes
-        context['user'] = self.request.user
-        return context
-
-
-@login_required
-def relatorio_dizimistas(request):
-    dizimistas = Dizimista.objects.all()
-    context = {
-        'menu': 'relatorios',
-        'menu_dropdown': 'relatorio_dizimistas',
-        'titulo_relatorio': 'Relatório de Dizimistas',
-        'dizimistas': dizimistas
-    }
-    return render(request, 'relatorios/relatorio_dizimistas.html', context)
-
-
-class RelatorioDizimistasPDF(LoginRequiredMixin, PDFTemplateView):
-    template_name = 'relatorios/relatorio_dizimistas_pdf.html'
-    download_filename = 'relatorio_dizimistas.pdf'
-    base_url = 'file://' + settings.STATIC_ROOT
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['titulo_relatorio'] = 'Relatório de Dizimistas'
-        context['dizimistas'] = Dizimista.objects.all()
-        context['user'] = self.request.user
-        return context
-
-
-class FichaCadastralDizimistaPDF(LoginRequiredMixin, PDFTemplateView):
-    template_name = 'relatorios/ficha_cadastral_dizimista_pdf.html'
-    download_filename = 'ficha_cadastral_dizimista.pdf'
-
-    def get_context_data(self, **kwargs):
-        kwargs['menu'] = 'relatorios'
-        kwargs['titulo_relatorio'] = 'Ficha cadastral de Dizimista'
-        kwargs['user'] = self.request.user
-
-        return super().get_context_data(**kwargs)
-
-
 ###########################################################
 #  OFERTAS                                                #
 ###########################################################
@@ -629,3 +575,90 @@ def recebimentos_por_periodo(request):
         'doacoes': doacoes
     }
     return render(request, 'recebimentos_por_periodo.html', context)
+
+
+class RelatorioRecebimentosPorPeriodoPDF(LoginRequiredMixin, PDFTemplateView):
+    template_name = 'relatorios/relatorio_recebimentos_por_periodo_pdf.html'
+    download_filename = 'relatorio_recebimentos_por_periodo.pdf'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        dt_inicio = self.request.GET.get('data_ini')
+        dt_fim = self.request.GET.get('data_fim')
+
+        # converte datas
+        if dt_inicio:
+            data_inicio = datetime.strptime(dt_inicio, '%d/%m/%Y')
+        if dt_fim:
+            data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
+
+        # consulta dizimos
+        dizimos = Dizimo.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('referencia', 'dizimista__nome')
+        # consulta ofertas
+        ofertas = Oferta.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
+        # consulta batismos
+        batismos = Batismo.objects.filter(data_batismo__gte=data_inicio, data_batismo__lte=data_fim).order_by('data_batismo', 'nome_batizando')
+        # consulta doacoes
+        doacoes = Doacao.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
+        
+        context['titulo_relatorio'] = 'Relatório de Recebimentos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
+        context['user'] = self.request.user
+        context['dizimos'] = dizimos
+        context['ofertas'] = ofertas
+        context['batismos'] = batismos
+        context['doacoes'] = doacoes
+        return context
+
+
+class RelatorioAniversariantesPDF(LoginRequiredMixin, PDFTemplateView):
+    template_name = 'relatorios/relatorio_aniversariantes_pdf.html'
+    download_filename = 'relatorio_aniversariantes.pdf'
+    base_url = 'file://' + settings.STATIC_ROOT
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mes_escolhido = int(self.request.GET.get('mes', datetime.today().month))
+        mes = MESES[mes_escolhido-1]
+        lista_aniversariantes = Dizimista.objects.filter(data_nascimento__month=mes_escolhido).order_by('data_nascimento', 'nome')
+
+        context['titulo_relatorio'] = 'Relatório de Aniversariantes de {0}'.format(mes['nome'])
+        context['aniversariantes'] = lista_aniversariantes
+        context['user'] = self.request.user
+        return context
+
+
+@login_required
+def relatorio_dizimistas(request):
+    dizimistas = Dizimista.objects.all()
+    context = {
+        'menu': 'relatorios',
+        'menu_dropdown': 'relatorio_dizimistas',
+        'titulo_relatorio': 'Relatório de Dizimistas',
+        'dizimistas': dizimistas
+    }
+    return render(request, 'relatorios/relatorio_dizimistas.html', context)
+
+
+class RelatorioDizimistasPDF(LoginRequiredMixin, PDFTemplateView):
+    template_name = 'relatorios/relatorio_dizimistas_pdf.html'
+    download_filename = 'relatorio_dizimistas.pdf'
+    base_url = 'file://' + settings.STATIC_ROOT
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo_relatorio'] = 'Relatório de Dizimistas'
+        context['dizimistas'] = Dizimista.objects.all()
+        context['user'] = self.request.user
+        return context
+
+
+class FichaCadastralDizimistaPDF(LoginRequiredMixin, PDFTemplateView):
+    template_name = 'relatorios/ficha_cadastral_dizimista_pdf.html'
+    download_filename = 'ficha_cadastral_dizimista.pdf'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'relatorios'
+        kwargs['titulo_relatorio'] = 'Ficha cadastral de Dizimista'
+        kwargs['user'] = self.request.user
+
+        return super().get_context_data(**kwargs)

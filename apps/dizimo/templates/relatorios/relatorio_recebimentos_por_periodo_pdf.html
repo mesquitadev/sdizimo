@@ -1,0 +1,114 @@
+{% extends 'base_pdf_landscape.html' %}
+
+{% block content %}
+  {% if batismos %}
+    <table class="table">
+      <caption>Listagem de Batismos</caption>
+      <thead class="thead">
+        <tr class="titulo_tabela">
+          <th width="40">#</th>
+          <th>Batizando</th>
+          <th>Solicitante</th>
+          <th width="170">Data do batismo</th>
+          <th width="120">Valor (R$)</th>
+          <th width="170">Registrado em</th>
+          <th width="200">Usuário responsável</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for batismo in batismos %}
+          <tr>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.nome_batizando }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.nome_solicitante }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.data_batismo|date:"d/m/Y" }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.valor }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.recebida_em|date:"d/m/Y H:i" }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.usuario.username }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="space20">&nbsp;</div>
+  {% endif %}
+
+  {% if dizimos %}
+    <table class="table">
+      <caption>Listagem de Dízimos</caption>
+      <thead>
+        <tr class="titulo_tabela">
+          <th width="40">#</th>
+          <th>Dizimista</th>
+          <th width="110">Referência</th>
+          <th width="110">Valor (R$)</th>
+          <th width="170">Registrado em</th>
+          <th width="200">Usuário responsável</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for dizimo in dizimos %}
+          <tr>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.dizimista }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.referencia|date:"m/Y" }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.valor }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.recebida_em|date:"d/m/Y H:i" }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.usuario.username }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="space20">&nbsp;</div>
+  {% endif %}
+
+  {% if doacoes %}
+    <table class="table">
+      <caption>Listagem de Doações</caption>
+      <thead>
+        <tr class="titulo_tabela">
+          <th width="40">#</th>
+          <th>Descrição</th>
+          <th width="100">Valor (R$)</th>
+          <th width="170">Registrado em</th>
+          <th width="180">Usuário responsável</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for doacao in doacoes %}
+          <tr>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.descricao }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.valor }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.recebida_em|date:"d/m/Y H:i" }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.usuario.username }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="space20">&nbsp;</div>
+  {% endif %}
+
+  {% if ofertas %}
+    <table class="table">
+      <caption>Listagem de Ofertas</caption>
+      <thead>
+        <tr class="titulo_tabela">
+          <th width="40">#</th>
+          <th>Valor (R$)</th>
+          <th width="170">Registrado em</th>
+          <th width="170">Usuário responsável</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for oferta in ofertas %}
+          <tr>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ oferta.valor }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ oferta.recebida_em|date:"d/m/Y H:i" }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ oferta.usuario.username }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% endblock %}

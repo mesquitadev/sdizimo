@@ -26,6 +26,12 @@
     </div>
   </div>
 
+  {% if batismos or dizimos or doacoes or ofertas %}
+    <div class="mb-4 d-flex flex-row-reverse">
+      <a href="{% url 'dizimo:relatorio_recebimentos_por_periodo_pdf' %}?data_ini={{form.data_inicio.value}}&data_fim={{form.data_fim.value}}" target="_blank" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a>
+    </div>
+  {% endif %}
+
   {% if batismos %}
     <div class="card">
       <div class="card-header d-flex align-items-center">
