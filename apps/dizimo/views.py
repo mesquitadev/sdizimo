@@ -2,6 +2,7 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy
@@ -594,19 +595,28 @@ class RelatorioRecebimentosPorPeriodoPDF(LoginRequiredMixin, PDFTemplateView):
 
         # consulta dizimos
         dizimos = Dizimo.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('referencia', 'dizimista__nome')
+        total_dizimos = dizimos.aggregate(total=Sum('valor'))
         # consulta ofertas
         ofertas = Oferta.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
+        total_ofertas = ofertas.aggregate(total=Sum('valor'))
         # consulta batismos
         batismos = Batismo.objects.filter(data_batismo__gte=data_inicio, data_batismo__lte=data_fim).order_by('data_batismo', 'nome_batizando')
+        total_batismos = batismos.aggregate(total=Sum('valor'))
         # consulta doacoes
         doacoes = Doacao.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
-        
+        total_doacoes = doacoes.aggregate(total=Sum('valor'))
+
         context['titulo_relatorio'] = 'Relatório de Recebimentos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
         context['user'] = self.request.user
         context['dizimos'] = dizimos
         context['ofertas'] = ofertas
         context['batismos'] = batismos
         context['doacoes'] = doacoes
+        context['total_dizimos'] = total_dizimos
+        context['total_ofertas'] = total_ofertas
+        context['total_batismos'] = total_batismos
+        context['total_doacoes'] = total_doacoes
+        context['total_geral'] = total_dizimos['total'] + total_ofertas['total'] + total_batismos['total'] + total_doacoes['total']
         return context
 
 
