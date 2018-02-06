@@ -39,9 +39,9 @@ class ConsultaDizimistaForm(forms.Form):
 ###########################################################
 
 class ConsultaOfertaForm(forms.Form):
-    usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
     data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
+    usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
 
 
 class OfertaForm(forms.ModelForm):
@@ -70,9 +70,9 @@ class DizimoForm(forms.ModelForm):
 class ConsultaDizimoForm(forms.Form):
     dizimista = forms.CharField(label='Dizimista', required=False)
     referencia = forms.ChoiceField(label='Referência', required=False, choices=[])
-    usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
     data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
+    usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
 
     def __init__(self, *args, **kwargs):
         super(ConsultaDizimoForm, self).__init__(*args, **kwargs)
@@ -100,9 +100,9 @@ class BatismoForm(forms.ModelForm):
 class ConsultaBatismoForm(forms.Form):
     nome_batizando = forms.CharField(label='Batizando', required=False)
     nome_solicitante = forms.CharField(label='Solicitante', required=False)
-    usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
     data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
+    usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
 
 
 ###########################################################
@@ -120,9 +120,9 @@ class DoacaoForm(forms.ModelForm):
 
 class ConsultaDoacaoForm(forms.Form):
     descricao = forms.CharField(label='Descrição', required=False)
-    usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
     data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
+    usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
 
 
 ###########################################################
