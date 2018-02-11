@@ -54,6 +54,7 @@ urlpatterns = [
     url(r'^dizimistas/relatorios/dizimistas/$', views.relatorio_dizimistas, name='relatorio_dizimistas'),
     url(r'^dizimistas/relatorios/dizimistas/pdf$', views.RelatorioDizimistasPDF.as_view(), name='relatorio_dizimistas_pdf'),
     url(r'^dizimistas/relatorios/ficha_dizimista/pdf$', views.FichaCadastralDizimistaPDF.as_view(), name='ficha_cadastral_dizimista_pdf'),
-    url(r'^relatorios/recimentos/por-periodo/$', views.recebimentos_por_periodo, name='relatorio_recebimentos_por_periodo'),
-    url(r'^relatorios/recimentos/por-periodo/pdf$', views.RelatorioRecebimentosPorPeriodoPDF.as_view(), name='relatorio_recebimentos_por_periodo_pdf'),
+
+    url(r'^relatorios/recimentos/geral/$', views.relatorio_geral_recebimentos, name='relatorio_geral_recebimentos'),
+    url(r'^relatorios/recimentos/geral/pdf$', views.RelatorioGeralRecebimentosPDF.as_view(), name='relatorio_geral_recebimentos_pdf'),
 ]

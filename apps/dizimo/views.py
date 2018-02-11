@@ -623,7 +623,7 @@ def dados_igreja(request):
 ###########################################################
 
 @login_required
-def recebimentos_por_periodo(request):
+def relatorio_geral_recebimentos(request):
     dizimos = []
     ofertas = []
     batismos = []
@@ -650,18 +650,18 @@ def recebimentos_por_periodo(request):
 
     context = {
         'menu': 'relatorios',
-        'menu_dropdown': 'recebimentos_periodo',
+        'menu_dropdown': 'relatorio_geral_recebimentos',
         'form': form,
         'dizimos': dizimos,
         'ofertas': ofertas,
         'batismos': batismos,
         'doacoes': doacoes
     }
-    return render(request, 'recebimentos_por_periodo.html', context)
+    return render(request, 'relatorios/relatorio_geral_recebimentos.html', context)
 
 
-class RelatorioRecebimentosPorPeriodoPDF(LoginRequiredMixin, PDFTemplateView):
-    template_name = 'relatorios/relatorio_recebimentos_por_periodo_pdf.html'
+class RelatorioGeralRecebimentosPDF(LoginRequiredMixin, PDFTemplateView):
+    template_name = 'relatorios/relatorio_geral_recebimentos_pdf.html'
     download_filename = 'relatorio_recebimentos_por_periodo.pdf'
 
     def get_context_data(self, **kwargs):
@@ -698,7 +698,7 @@ class RelatorioRecebimentosPorPeriodoPDF(LoginRequiredMixin, PDFTemplateView):
         if doacoes:
             total_geral += total_doacoes['total']
 
-        context['titulo_relatorio'] = 'Relatório de Recebimentos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
+        context['titulo_relatorio'] = 'Relatório Geral de Recebimentos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
         context['user'] = self.request.user
         context['dizimos'] = dizimos
         context['ofertas'] = ofertas

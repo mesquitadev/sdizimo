@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}Batismos{% endblock %}
+{% block title %}Relatório geral de recebimentos{% endblock %}
 
-{% block pageheader %}Batismos{% endblock %}
+{% block pageheader %}Relatório geral de recebimentos{% endblock %}
 
 {% block breadcrumb %}
   <nav aria-label="breadcrumb" role="navigation">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
-      <li class="breadcrumb-item active">Recebimentos por Período</li>
+      <li class="breadcrumb-item active">Relatório geral de recebimentos</li>
     </ol>
   </nav>
 {% endblock %}
@@ -28,7 +28,7 @@
 
   {% if batismos or dizimos or doacoes or ofertas %}
     <div class="mb-4 d-flex flex-row-reverse">
-      <a href="{% url 'dizimo:relatorio_recebimentos_por_periodo_pdf' %}?data_ini={{form.data_inicio.value}}&data_fim={{form.data_fim.value}}" target="_blank" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a>
+      <a href="{% url 'dizimo:relatorio_geral_recebimentos_pdf' %}?data_ini={{form.data_inicio.value}}&data_fim={{form.data_fim.value}}" target="_blank" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a>
     </div>
   {% endif %}
 
