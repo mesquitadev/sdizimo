@@ -605,6 +605,16 @@ class RelatorioRecebimentosPorPeriodoPDF(LoginRequiredMixin, PDFTemplateView):
         # consulta doacoes
         doacoes = Doacao.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
         total_doacoes = doacoes.aggregate(total=Sum('valor'))
+        # somatorio
+        total_geral = 0
+        if dizimos:
+            total_geral += total_dizimos['total']
+        if ofertas:
+            total_geral += total_ofertas['total']
+        if batismos:
+            total_geral += total_batismos['total']
+        if doacoes:
+            total_geral += total_doacoes['total']
 
         context['titulo_relatorio'] = 'Relatório de Recebimentos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
         context['user'] = self.request.user
@@ -616,7 +626,7 @@ class RelatorioRecebimentosPorPeriodoPDF(LoginRequiredMixin, PDFTemplateView):
         context['total_ofertas'] = total_ofertas
         context['total_batismos'] = total_batismos
         context['total_doacoes'] = total_doacoes
-        context['total_geral'] = total_dizimos['total'] + total_ofertas['total'] + total_batismos['total'] + total_doacoes['total']
+        context['total_geral'] = total_geral
         return context
 
 
