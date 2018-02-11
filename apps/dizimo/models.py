@@ -83,6 +83,7 @@ class Dizimo(Recebimento):
 
     class Meta:
         ordering = ('-referencia', '-recebida_em')
+        unique_together = ('dizimista', 'referencia')
 
     def __str__(self):
         return '{0}: R$ {1} - {2}'.format(self.dizimista, self.valor, self.referencia.strftime('%m/%Y'))
