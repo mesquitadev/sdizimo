@@ -5,7 +5,7 @@ from django.forms.models import inlineformset_factory
 
 from apps.comum.form_fields import MesAnoField
 
-from .models import Dizimista, Telefone, Oferta, Dizimo, Batismo, Doacao
+from .models import Dizimista, Telefone, Oferta, Dizimo, Batismo, Doacao, Paroquia
 
 
 ###########################################################
@@ -30,7 +30,7 @@ TelefoneFormSet = inlineformset_factory(Dizimista, Telefone, fields=('numero', '
 class ConsultaDizimistaForm(forms.Form):
     pk = forms.IntegerField(label='Nº Cad.', required=False)
     nome = forms.CharField(label='Nome', required=False)
-    paroquia = forms.CharField(label='Paróquia', required=False)
+    paroquia = forms.ModelChoiceField(label='Paróquia', required=False, queryset=Paroquia.objects.all().order_by('nome'))
     comunidade = forms.CharField(label='Comunidade', required=False)
 
 
@@ -111,7 +111,7 @@ class ConsultaBatismoForm(forms.Form):
 
 class DoacaoForm(forms.ModelForm):
     valor = forms.DecimalField(label='Valor (R$)', max_digits=10, decimal_places=2, localize=True, required=True)
-    
+
     class Meta:
         model = Doacao
         fields = ('valor', 'descricao')
@@ -123,6 +123,20 @@ class ConsultaDoacaoForm(forms.Form):
     data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
     usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
+
+
+###########################################################
+#  DIZIMISTAS                                             #
+###########################################################
+
+class ParoquiaForm(forms.ModelForm):
+    class Meta:
+        model = Paroquia
+        fields = '__all__'
+
+
+class ConsultaParoquiaForm(forms.Form):
+    nome = forms.CharField(label='Nome', required=False)
 
 
 ###########################################################

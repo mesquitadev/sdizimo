@@ -4,6 +4,16 @@ from localflavor.br.models import BRStateField
 from sorl.thumbnail import ImageField
 
 
+class Paroquia(models.Model):
+    nome = models.CharField(max_length=250, blank=False, null=False, unique=True)
+
+    class Meta:
+        ordering = ('nome', )
+
+    def __str__(self):
+        return self.nome
+
+
 class Dizimista(models.Model):
     SEXO = [
         ['M', u'Masculino'],
@@ -21,7 +31,7 @@ class Dizimista(models.Model):
     bairro = models.CharField(max_length=100, blank=False, null=False)
     cidade = models.CharField(max_length=100, blank=False, null=False)
     estado = BRStateField(blank=False, null=False)
-    paroquia = models.CharField(max_length=100, blank=False, null=False, verbose_name='paróquia')
+    paroquia = models.ForeignKey(Paroquia, blank=False, null=False, verbose_name='paróquia')
     comunidade = models.CharField(max_length=100, blank=False, null=False)
     sexo = models.CharField(max_length=1, choices=SEXO, blank=False, null=False)
     estado_civil = models.CharField(max_length=1, choices=ESTADO_CIVIL, blank=False, null=False)

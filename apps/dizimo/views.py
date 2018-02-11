@@ -9,11 +9,11 @@ from django.urls import reverse_lazy
 from easy_pdf.views import PDFTemplateView, PDFTemplateResponseMixin
 from search_views.search import SearchListView
 
-from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao
-from .filters import DizimistaFilter, RecebimentoFilter
+from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao, Paroquia
+from .filters import DizimistaFilter, RecebimentoFilter, ParoquiaFilter
 from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
     DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm, DoacaoForm, ConsultaDoacaoForm, \
-    RecebimentosPorPeriodoForm
+    RecebimentosPorPeriodoForm, ParoquiaForm, ConsultaParoquiaForm
 from .utils import MESES
 
 
@@ -534,6 +534,62 @@ class ExcluiDoacao(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('dizimo:doacoes')
     template_name = 'exclui_doacao.html'
     context_object_name = 'doacao'
+
+
+###########################################################
+#  PAROQUIAS                                              #
+###########################################################
+
+class ListaParoquias(LoginRequiredMixin, SearchListView):
+    model = Paroquia
+    context_object_name = 'paroquias'
+    template_name = 'paroquias.html'
+    paginate_by = 20
+    form_class = ConsultaParoquiaForm
+    filter_class = ParoquiaFilter
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'configuracoes'
+        kwargs['menu_dropdown'] = 'paroquias'
+        return super().get_context_data(**kwargs)
+
+
+class NovaParoquia(LoginRequiredMixin, CreateView):
+    model = Paroquia
+    form_class = ParoquiaForm
+    template_name = 'nova_paroquia.html'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:paroquias')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'configuracoes'
+        context['menu_dropdown'] = 'paroquias'
+        return context
+
+
+class EditaParoquia(LoginRequiredMixin, UpdateView):
+    model = Paroquia
+    form_class = ParoquiaForm
+    template_name = 'edita_paroquia.html'
+    context_object_name = 'paroquia'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:paroquias')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'configuracoes'
+        context['menu_dropdown'] = 'paroquias'
+        return context
+
+
+class ExcluiParoquia(LoginRequiredMixin, DeleteView):
+    model = Paroquia
+    success_url = reverse_lazy('dizimo:paroquias')
+    template_name = 'exclui_paroquia.html'
+    context_object_name = 'paroquia'
 
 
 ###########################################################
