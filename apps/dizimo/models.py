@@ -119,3 +119,12 @@ class Doacao(Recebimento):
 
     def __str__(self):
         return 'R$ {0} - registrada em {1}'.format(self.valor, self.recebida_em)
+
+
+class Igreja(models.Model):
+    nome = models.CharField(max_length=250, blank=False, null=False)
+    endereco = models.CharField(max_length=250, blank=False, null=False, verbose_name='endereço')
+    telefone = models.CharField(max_length=15, blank=False, null=False)
+
+    def __str__(self):
+        return self.nome

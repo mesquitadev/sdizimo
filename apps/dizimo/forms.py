@@ -5,7 +5,8 @@ from django.forms.models import inlineformset_factory
 
 from apps.comum.form_fields import MesAnoField
 
-from .models import Dizimista, Telefone, Oferta, Dizimo, Batismo, Doacao, Paroquia
+from .models import Dizimista, Telefone, Oferta, Dizimo, Batismo, Doacao,\
+    Paroquia, Igreja
 
 
 ###########################################################
@@ -126,7 +127,7 @@ class ConsultaDoacaoForm(forms.Form):
 
 
 ###########################################################
-#  DIZIMISTAS                                             #
+#  PAROQUIAS                                              #
 ###########################################################
 
 class ParoquiaForm(forms.ModelForm):
@@ -137,6 +138,16 @@ class ParoquiaForm(forms.ModelForm):
 
 class ConsultaParoquiaForm(forms.Form):
     nome = forms.CharField(label='Nome', required=False)
+
+
+###########################################################
+#  IGREJA                                             #
+###########################################################
+
+class IgrejaForm(forms.ModelForm):
+    class Meta:
+        model = Igreja
+        fields = '__all__'
 
 
 ###########################################################

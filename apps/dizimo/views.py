@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
@@ -9,11 +10,11 @@ from django.urls import reverse_lazy
 from easy_pdf.views import PDFTemplateView, PDFTemplateResponseMixin
 from search_views.search import SearchListView
 
-from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao, Paroquia
+from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao, Paroquia, Igreja
 from .filters import DizimistaFilter, RecebimentoFilter, ParoquiaFilter
 from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
     DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm, DoacaoForm, ConsultaDoacaoForm, \
-    RecebimentosPorPeriodoForm, ParoquiaForm, ConsultaParoquiaForm
+    RecebimentosPorPeriodoForm, ParoquiaForm, ConsultaParoquiaForm, IgrejaForm
 from .utils import MESES
 
 
@@ -590,6 +591,31 @@ class ExcluiParoquia(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('dizimo:paroquias')
     template_name = 'exclui_paroquia.html'
     context_object_name = 'paroquia'
+
+
+###########################################################
+#  IGREJA                                                 #
+###########################################################
+
+@login_required
+def dados_igreja(request):
+    igreja = Igreja.objects.first()
+    if request.method == 'POST':
+        form = IgrejaForm(request.POST, instance=igreja)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Dados atualizados com sucesso!')
+    else:
+        form = IgrejaForm(instance=igreja)
+
+    context = {
+        'form': form,
+        'menu': 'configuracoes',
+        'menu_dropdown': 'dados_igreja',
+        'igreja': igreja,
+    }
+
+    return render(request, 'dados_igreja.html', context)
 
 
 ###########################################################

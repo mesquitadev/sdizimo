@@ -45,6 +45,9 @@ urlpatterns = [
     url(r'^paroquias/(?P<pk>\d+)/edita/$', views.EditaParoquia.as_view(), name='edita_paroquia'),
     url(r'^paroquias/(?P<pk>\d+)/exclui/$', views.ExcluiParoquia.as_view(), name='exclui_paroquia'),
 
+    # igreja
+    url(r'^igreja/$', views.dados_igreja, name='dados_igreja'),
+
     # relatorios
     url(r'^dizimistas/relatorios/aniversariantes/$', views.aniversariantes, name='aniversariantes'),
     url(r'^dizimistas/relatorios/aniversariantes/pdf$', views.RelatorioAniversariantesPDF.as_view(), name='relatorio_aniversariantes_pdf'),
