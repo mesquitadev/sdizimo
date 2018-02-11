@@ -62,8 +62,8 @@ table.formset td {
   vertical-align: text-bottom;
 }
 
-/* css para corrigir altura do select nos filtros de pesquisa */
-.filter-form select.form-control:not([size]):not([multiple]) {
+/* css para corrigir altura do select */
+select.form-control:not([size]):not([multiple]) {
   height: 45px;
   margin-bottom: 0;
 }
