@@ -622,6 +622,70 @@ def dados_igreja(request):
 #  RELATORIOS                                             #
 ###########################################################
 
+def get_batismos(data_inicio, data_fim):
+    return Batismo.objects.filter(data_batismo__gte=data_inicio, data_batismo__lte=data_fim).order_by('data_batismo', 'nome_batizando')
+
+
+@login_required
+def relatorio_batismos(request):
+    batismos = []
+
+    form = RecebimentosPorPeriodoForm(request.POST or None)
+
+    if request.method == 'POST':
+        form = RecebimentosPorPeriodoForm(request.POST)
+        if form.is_valid():
+            data_inicio = form.cleaned_data['data_inicio']
+            data_fim = form.cleaned_data['data_fim']
+
+            # consulta batismos
+            batismos = get_batismos(data_inicio, data_fim)
+    else:
+        form = RecebimentosPorPeriodoForm()
+
+    context = {
+        'menu': 'relatorios',
+        'menu_dropdown': 'relatorio_batismos',
+        'form': form,
+        'titulo': 'Relatório de batismos',
+        'url_relatorio': 'dizimo:relatorio_batismos_pdf',
+        'batismos': batismos
+    }
+    return render(request, 'relatorios/relatorio_recebimentos.html', context)
+
+
+class RelatorioBatismosPDF(LoginRequiredMixin, PDFTemplateView):
+    template_name = 'relatorios/relatorio_recebimentos_pdf.html'
+    download_filename = 'relatorio_batismos_por_periodo.pdf'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        dt_inicio = self.request.GET.get('data_ini')
+        dt_fim = self.request.GET.get('data_fim')
+
+        # converte datas
+        if dt_inicio:
+            data_inicio = datetime.strptime(dt_inicio, '%d/%m/%Y')
+        if dt_fim:
+            data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
+
+        # consulta batismos
+        batismos = get_batismos(data_inicio, data_fim)
+        total_batismos = batismos.aggregate(total=Sum('valor'))
+
+        # somatorio
+        total_geral = 0
+        if batismos:
+            total_geral += total_batismos['total']
+
+        context['titulo_relatorio'] = 'Relatório de Batismos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
+        context['user'] = self.request.user
+        context['batismos'] = batismos
+        context['total_batismos'] = total_batismos
+        context['total_geral'] = total_geral
+        return context
+
+
 @login_required
 def relatorio_geral_recebimentos(request):
     dizimos = []
@@ -642,7 +706,7 @@ def relatorio_geral_recebimentos(request):
             # consulta ofertas
             ofertas = Oferta.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
             # consulta batismos
-            batismos = Batismo.objects.filter(data_batismo__gte=data_inicio, data_batismo__lte=data_fim).order_by('data_batismo', 'nome_batizando')
+            batismos = get_batismos(data_inicio, data_fim)
             # consulta doacoes
             doacoes = Doacao.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
     else:
@@ -652,16 +716,18 @@ def relatorio_geral_recebimentos(request):
         'menu': 'relatorios',
         'menu_dropdown': 'relatorio_geral_recebimentos',
         'form': form,
+        'titulo': 'Relatório geral de recebimentos',
+        'url_relatorio': 'dizimo:relatorio_geral_recebimentos_pdf',
         'dizimos': dizimos,
         'ofertas': ofertas,
         'batismos': batismos,
         'doacoes': doacoes
     }
-    return render(request, 'relatorios/relatorio_geral_recebimentos.html', context)
+    return render(request, 'relatorios/relatorio_recebimentos.html', context)
 
 
 class RelatorioGeralRecebimentosPDF(LoginRequiredMixin, PDFTemplateView):
-    template_name = 'relatorios/relatorio_geral_recebimentos_pdf.html'
+    template_name = 'relatorios/relatorio_recebimentos_pdf.html'
     download_filename = 'relatorio_recebimentos_por_periodo.pdf'
 
     def get_context_data(self, **kwargs):
@@ -682,7 +748,7 @@ class RelatorioGeralRecebimentosPDF(LoginRequiredMixin, PDFTemplateView):
         ofertas = Oferta.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
         total_ofertas = ofertas.aggregate(total=Sum('valor'))
         # consulta batismos
-        batismos = Batismo.objects.filter(data_batismo__gte=data_inicio, data_batismo__lte=data_fim).order_by('data_batismo', 'nome_batizando')
+        batismos = get_batismos(data_inicio, data_fim)
         total_batismos = batismos.aggregate(total=Sum('valor'))
         # consulta doacoes
         doacoes = Doacao.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')

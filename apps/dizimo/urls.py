@@ -57,4 +57,6 @@ urlpatterns = [
 
     url(r'^relatorios/recimentos/geral/$', views.relatorio_geral_recebimentos, name='relatorio_geral_recebimentos'),
     url(r'^relatorios/recimentos/geral/pdf$', views.RelatorioGeralRecebimentosPDF.as_view(), name='relatorio_geral_recebimentos_pdf'),
+    url(r'^relatorios/recimentos/batismos/$', views.relatorio_batismos, name='relatorio_batismos'),
+    url(r'^relatorios/recimentos/batismos/pdf$', views.RelatorioBatismosPDF.as_view(), name='relatorio_batismos_pdf'),
 ]
