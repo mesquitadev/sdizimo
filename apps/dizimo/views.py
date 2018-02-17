@@ -626,6 +626,18 @@ def get_batismos(data_inicio, data_fim):
     return Batismo.objects.filter(data_batismo__gte=data_inicio, data_batismo__lte=data_fim).order_by('data_batismo', 'nome_batizando')
 
 
+def get_dizimos(data_inicio, data_fim):
+    return Dizimo.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('referencia', 'dizimista__nome')
+
+
+def get_doacoes(data_inicio, data_fim):
+    return Doacao.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
+
+
+def get_ofertas(data_inicio, data_fim):
+    return Oferta.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
+
+
 @login_required
 def relatorio_batismos(request):
     batismos = []
@@ -650,6 +662,74 @@ def relatorio_batismos(request):
         'titulo': 'Relatório de batismos',
         'url_relatorio': 'dizimo:relatorio_batismos_pdf',
         'batismos': batismos
+    }
+    return render(request, 'relatorios/relatorio_recebimentos.html', context)
+
+
+@login_required
+def relatorio_dizimos(request):
+    dizimos = []
+
+    form = RecebimentosPorPeriodoForm(request.POST or None)
+
+    if request.method == 'POST':
+        form = RecebimentosPorPeriodoForm(request.POST)
+        if form.is_valid():
+            data_inicio = form.cleaned_data['data_inicio']
+            data_fim = form.cleaned_data['data_fim']
+
+            # consulta dizimos
+            dizimos = get_dizimos(data_inicio, data_fim)
+    else:
+        form = RecebimentosPorPeriodoForm()
+
+    context = {
+        'menu': 'relatorios',
+        'menu_dropdown': 'relatorio_dizimos',
+        'form': form,
+        'titulo': 'Relatório de Dízimos',
+        'url_relatorio': 'dizimo:relatorio_dizimos_pdf',
+        'dizimos': dizimos
+    }
+    return render(request, 'relatorios/relatorio_recebimentos.html', context)
+
+
+@login_required
+def relatorio_geral_recebimentos(request):
+    dizimos = []
+    ofertas = []
+    batismos = []
+    doacoes = []
+
+    form = RecebimentosPorPeriodoForm(request.POST or None)
+
+    if request.method == 'POST':
+        form = RecebimentosPorPeriodoForm(request.POST)
+        if form.is_valid():
+            data_inicio = form.cleaned_data['data_inicio']
+            data_fim = form.cleaned_data['data_fim']
+
+            # consulta dizimos
+            dizimos = get_dizimos(data_inicio, data_fim)
+            # consulta ofertas
+            ofertas = get_ofertas(data_inicio, data_fim)
+            # consulta batismos
+            batismos = get_batismos(data_inicio, data_fim)
+            # consulta doacoes
+            doacoes = get_doacoes(data_inicio, data_fim)
+    else:
+        form = RecebimentosPorPeriodoForm()
+
+    context = {
+        'menu': 'relatorios',
+        'menu_dropdown': 'relatorio_geral_recebimentos',
+        'form': form,
+        'titulo': 'Relatório geral de recebimentos',
+        'url_relatorio': 'dizimo:relatorio_geral_recebimentos_pdf',
+        'dizimos': dizimos,
+        'ofertas': ofertas,
+        'batismos': batismos,
+        'doacoes': doacoes
     }
     return render(request, 'relatorios/relatorio_recebimentos.html', context)
 
@@ -686,44 +766,36 @@ class RelatorioBatismosPDF(LoginRequiredMixin, PDFTemplateView):
         return context
 
 
-@login_required
-def relatorio_geral_recebimentos(request):
-    dizimos = []
-    ofertas = []
-    batismos = []
-    doacoes = []
+class RelatorioDizimosPDF(LoginRequiredMixin, PDFTemplateView):
+    template_name = 'relatorios/relatorio_recebimentos_pdf.html'
+    download_filename = 'relatorio_dizimos.pdf'
 
-    form = RecebimentosPorPeriodoForm(request.POST or None)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        dt_inicio = self.request.GET.get('data_ini')
+        dt_fim = self.request.GET.get('data_fim')
 
-    if request.method == 'POST':
-        form = RecebimentosPorPeriodoForm(request.POST)
-        if form.is_valid():
-            data_inicio = form.cleaned_data['data_inicio']
-            data_fim = form.cleaned_data['data_fim']
+        # converte datas
+        if dt_inicio:
+            data_inicio = datetime.strptime(dt_inicio, '%d/%m/%Y')
+        if dt_fim:
+            data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
-            # consulta dizimos
-            dizimos = Dizimo.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('referencia', 'dizimista__nome')
-            # consulta ofertas
-            ofertas = Oferta.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
-            # consulta batismos
-            batismos = get_batismos(data_inicio, data_fim)
-            # consulta doacoes
-            doacoes = Doacao.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
-    else:
-        form = RecebimentosPorPeriodoForm()
+        # consulta dizimos
+        dizimos = get_dizimos(data_inicio, data_fim)
+        total_dizimos = dizimos.aggregate(total=Sum('valor'))
 
-    context = {
-        'menu': 'relatorios',
-        'menu_dropdown': 'relatorio_geral_recebimentos',
-        'form': form,
-        'titulo': 'Relatório geral de recebimentos',
-        'url_relatorio': 'dizimo:relatorio_geral_recebimentos_pdf',
-        'dizimos': dizimos,
-        'ofertas': ofertas,
-        'batismos': batismos,
-        'doacoes': doacoes
-    }
-    return render(request, 'relatorios/relatorio_recebimentos.html', context)
+        # somatorio
+        total_geral = 0
+        if dizimos:
+            total_geral += total_dizimos['total']
+
+        context['titulo_relatorio'] = 'Relatório de Dízimos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
+        context['user'] = self.request.user
+        context['dizimos'] = dizimos
+        context['total_dizimos'] = total_dizimos
+        context['total_geral'] = total_geral
+        return context
 
 
 class RelatorioGeralRecebimentosPDF(LoginRequiredMixin, PDFTemplateView):
@@ -742,16 +814,16 @@ class RelatorioGeralRecebimentosPDF(LoginRequiredMixin, PDFTemplateView):
             data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
         # consulta dizimos
-        dizimos = Dizimo.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('referencia', 'dizimista__nome')
+        dizimos = get_dizimos(data_inicio, data_fim)
         total_dizimos = dizimos.aggregate(total=Sum('valor'))
         # consulta ofertas
-        ofertas = Oferta.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
+        ofertas = get_ofertas(data_inicio, data_fim)
         total_ofertas = ofertas.aggregate(total=Sum('valor'))
         # consulta batismos
         batismos = get_batismos(data_inicio, data_fim)
         total_batismos = batismos.aggregate(total=Sum('valor'))
         # consulta doacoes
-        doacoes = Doacao.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
+        doacoes = get_doacoes(data_inicio, data_fim)
         total_doacoes = doacoes.aggregate(total=Sum('valor'))
         # somatorio
         total_geral = 0
