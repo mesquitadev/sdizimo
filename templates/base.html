@@ -99,10 +99,11 @@
               <li><a href="#menu_relatorios" aria-expanded="{% if menu == 'relatorios' %}true{% else %}false{% endif %}" data-toggle="collapse"> <i class="fa fa-file-pdf-o"></i>Relatórios</a>
                 <ul id="menu_relatorios" class="collapse list-unstyled {% if menu == 'relatorios' %}show{% endif %}">
                   <li {% if menu_dropdown == 'lista_aniversariantes' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:aniversariantes' %}">Aniversariantes</a></li>
-                  <li {% if menu_dropdown == 'relatorio_batismos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:relatorio_batismos' %}">Batismos</a></li>
-                  <li {% if menu_dropdown == 'relatorio_dizimos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:relatorio_dizimos' %}">Dízimos</a></li>
                   <li {% if menu_dropdown == 'relatorio_dizimistas' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:relatorio_dizimistas' %}">Dizimistas</a></li>
                   <li {% if menu_dropdown == 'ficha_cadastral_dizimista' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:ficha_cadastral_dizimista_pdf' %}" target="_blank">Ficha Cadastral de Dizimista</a></li>
+                  <li {% if menu_dropdown == 'relatorio_batismos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:relatorio_batismos' %}">Batismos</a></li>
+                  <li {% if menu_dropdown == 'relatorio_dizimos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:relatorio_dizimos' %}">Dízimos</a></li>
+                  <li {% if menu_dropdown == 'relatorio_doacoes' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:relatorio_doacoes' %}">Doações</a></li>
                   <li {% if menu_dropdown == 'relatorio_geral_recebimentos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:relatorio_geral_recebimentos' %}">Relatório geral de recebimentos</a></li>
                 </ul>
               </li>

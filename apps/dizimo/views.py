@@ -695,6 +695,34 @@ def relatorio_dizimos(request):
 
 
 @login_required
+def relatorio_doacoes(request):
+    doacoes = []
+
+    form = RecebimentosPorPeriodoForm(request.POST or None)
+
+    if request.method == 'POST':
+        form = RecebimentosPorPeriodoForm(request.POST)
+        if form.is_valid():
+            data_inicio = form.cleaned_data['data_inicio']
+            data_fim = form.cleaned_data['data_fim']
+
+            # consulta doacoes
+            doacoes = get_doacoes(data_inicio, data_fim)
+    else:
+        form = RecebimentosPorPeriodoForm()
+
+    context = {
+        'menu': 'relatorios',
+        'menu_dropdown': 'relatorio_doacoes',
+        'form': form,
+        'titulo': 'Relatório de Doações',
+        'url_relatorio': 'dizimo:relatorio_doacoes_pdf',
+        'doacoes': doacoes
+    }
+    return render(request, 'relatorios/relatorio_recebimentos.html', context)
+
+
+@login_required
 def relatorio_geral_recebimentos(request):
     dizimos = []
     ofertas = []
@@ -724,7 +752,7 @@ def relatorio_geral_recebimentos(request):
         'menu': 'relatorios',
         'menu_dropdown': 'relatorio_geral_recebimentos',
         'form': form,
-        'titulo': 'Relatório geral de recebimentos',
+        'titulo': 'Relatório Geral de Recebimentos',
         'url_relatorio': 'dizimo:relatorio_geral_recebimentos_pdf',
         'dizimos': dizimos,
         'ofertas': ofertas,
@@ -736,7 +764,7 @@ def relatorio_geral_recebimentos(request):
 
 class RelatorioBatismosPDF(LoginRequiredMixin, PDFTemplateView):
     template_name = 'relatorios/relatorio_recebimentos_pdf.html'
-    download_filename = 'relatorio_batismos_por_periodo.pdf'
+    download_filename = 'relatorio_batismos.pdf'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -758,7 +786,7 @@ class RelatorioBatismosPDF(LoginRequiredMixin, PDFTemplateView):
         if batismos:
             total_geral += total_batismos['total']
 
-        context['titulo_relatorio'] = 'Relatório de Batismos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
+        context['titulo_relatorio'] = 'Relatório de batismos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
         context['user'] = self.request.user
         context['batismos'] = batismos
         context['total_batismos'] = total_batismos
@@ -790,10 +818,41 @@ class RelatorioDizimosPDF(LoginRequiredMixin, PDFTemplateView):
         if dizimos:
             total_geral += total_dizimos['total']
 
-        context['titulo_relatorio'] = 'Relatório de Dízimos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
+        context['titulo_relatorio'] = 'Relatório de dízimos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
         context['user'] = self.request.user
         context['dizimos'] = dizimos
         context['total_dizimos'] = total_dizimos
+        context['total_geral'] = total_geral
+        return context
+
+
+class RelatorioDoacoesPDF(LoginRequiredMixin, PDFTemplateView):
+    template_name = 'relatorios/relatorio_recebimentos_pdf.html'
+    download_filename = 'relatorio_doacoes.pdf'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        dt_inicio = self.request.GET.get('data_ini')
+        dt_fim = self.request.GET.get('data_fim')
+
+        # converte datas
+        if dt_inicio:
+            data_inicio = datetime.strptime(dt_inicio, '%d/%m/%Y')
+        if dt_fim:
+            data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
+
+        # consulta doacoes
+        doacoes = get_doacoes(data_inicio, data_fim)
+        total_doacoes = doacoes.aggregate(total=Sum('valor'))
+        # somatorio
+        total_geral = 0
+        if doacoes:
+            total_geral += total_doacoes['total']
+
+        context['titulo_relatorio'] = 'Relatório de doações relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
+        context['user'] = self.request.user
+        context['doacoes'] = doacoes
+        context['total_doacoes'] = total_doacoes
         context['total_geral'] = total_geral
         return context
 
@@ -836,7 +895,7 @@ class RelatorioGeralRecebimentosPDF(LoginRequiredMixin, PDFTemplateView):
         if doacoes:
             total_geral += total_doacoes['total']
 
-        context['titulo_relatorio'] = 'Relatório Geral de Recebimentos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
+        context['titulo_relatorio'] = 'Relatório geral de recebimentos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
         context['user'] = self.request.user
         context['dizimos'] = dizimos
         context['ofertas'] = ofertas
