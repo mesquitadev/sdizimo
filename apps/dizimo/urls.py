@@ -63,4 +63,6 @@ urlpatterns = [
     url(r'^relatorios/recimentos/dizimos/pdf$', views.RelatorioDizimosPDF.as_view(), name='relatorio_dizimos_pdf'),
     url(r'^relatorios/recimentos/doacoes/$', views.relatorio_doacoes, name='relatorio_doacoes'),
     url(r'^relatorios/recimentos/doacoes/pdf$', views.RelatorioDoacoesPDF.as_view(), name='relatorio_doacoes_pdf'),
+    url(r'^relatorios/recimentos/ofertas/$', views.relatorio_ofertas, name='relatorio_ofertas'),
+    url(r'^relatorios/recimentos/ofertas/pdf$', views.RelatorioOfertasPDF.as_view(), name='relatorio_ofertas_pdf'),
 ]

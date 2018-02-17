@@ -723,6 +723,34 @@ def relatorio_doacoes(request):
 
 
 @login_required
+def relatorio_ofertas(request):
+    ofertas = []
+
+    form = RecebimentosPorPeriodoForm(request.POST or None)
+
+    if request.method == 'POST':
+        form = RecebimentosPorPeriodoForm(request.POST)
+        if form.is_valid():
+            data_inicio = form.cleaned_data['data_inicio']
+            data_fim = form.cleaned_data['data_fim']
+
+            # consulta ofertas
+            ofertas = get_ofertas(data_inicio, data_fim)
+    else:
+        form = RecebimentosPorPeriodoForm()
+
+    context = {
+        'menu': 'relatorios',
+        'menu_dropdown': 'relatorio_ofertas',
+        'form': form,
+        'titulo': 'Relatório de Ofertas',
+        'url_relatorio': 'dizimo:relatorio_ofertas_pdf',
+        'ofertas': ofertas
+    }
+    return render(request, 'relatorios/relatorio_recebimentos.html', context)
+
+
+@login_required
 def relatorio_geral_recebimentos(request):
     dizimos = []
     ofertas = []
@@ -857,9 +885,40 @@ class RelatorioDoacoesPDF(LoginRequiredMixin, PDFTemplateView):
         return context
 
 
+class RelatorioOfertasPDF(LoginRequiredMixin, PDFTemplateView):
+    template_name = 'relatorios/relatorio_recebimentos_pdf.html'
+    download_filename = 'relatorio_ofertas.pdf'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        dt_inicio = self.request.GET.get('data_ini')
+        dt_fim = self.request.GET.get('data_fim')
+
+        # converte datas
+        if dt_inicio:
+            data_inicio = datetime.strptime(dt_inicio, '%d/%m/%Y')
+        if dt_fim:
+            data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
+
+        # consulta ofertas
+        ofertas = get_ofertas(data_inicio, data_fim)
+        total_ofertas = ofertas.aggregate(total=Sum('valor'))
+        # somatorio
+        total_geral = 0
+        if ofertas:
+            total_geral += total_ofertas['total']
+
+        context['titulo_relatorio'] = 'Relatório de ofertas relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
+        context['user'] = self.request.user
+        context['ofertas'] = ofertas
+        context['total_ofertas'] = total_ofertas
+        context['total_geral'] = total_geral
+        return context
+
+
 class RelatorioGeralRecebimentosPDF(LoginRequiredMixin, PDFTemplateView):
     template_name = 'relatorios/relatorio_recebimentos_pdf.html'
-    download_filename = 'relatorio_recebimentos_por_periodo.pdf'
+    download_filename = 'relatorio_geral_recebimentos.pdf'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
