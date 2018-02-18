@@ -1020,3 +1020,29 @@ class FichaCadastralDizimistaPDF(LoginRequiredMixin, PDFTemplateView):
         kwargs['user'] = self.request.user
 
         return super().get_context_data(**kwargs)
+
+
+class RelatorioIndividualDizimistaPDF(LoginRequiredMixin, PDFTemplateResponseMixin, DetailView):
+    model = Dizimista
+    context_object_name = 'dizimista'
+    template_name = 'relatorios/relatorio_recebimentos_pdf.html'
+    download_filename = 'relatorio_individual_dizimista.pdf'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # consulta dizimos
+        dizimos = self.object.dizimos.all().order_by('referencia')
+        total_dizimos = dizimos.aggregate(total=Sum('valor'))
+
+        # somatorio
+        total_geral = 0
+        if dizimos:
+            total_geral += total_dizimos['total']
+
+        context['titulo_relatorio'] = 'Relatório individual do dizimista {0}'.format(self.object)
+        context['user'] = self.request.user
+        context['dizimos'] = dizimos
+        context['total_dizimos'] = total_dizimos
+        context['total_geral'] = total_geral
+        return context
