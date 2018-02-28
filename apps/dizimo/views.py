@@ -339,6 +339,18 @@ class ExcluiDizimo(LoginRequiredMixin, DeleteView):
     context_object_name = 'dizimo'
 
 
+class ReciboDizimo(LoginRequiredMixin, DetailView):
+    model = Dizimo
+    context_object_name = 'dizimo'
+    template_name = 'recibos/recibo_dizimo.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'dizimos'
+        kwargs['igreja'] = Igreja.objects.first()
+        return super().get_context_data(**kwargs)
+
+
 ###########################################################
 #  BATISMOS                                               #
 ###########################################################

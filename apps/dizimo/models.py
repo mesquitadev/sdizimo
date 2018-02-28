@@ -112,7 +112,7 @@ class Batismo(Recebimento):
 
 
 class Doacao(Recebimento):
-    descricao = models.CharField(max_length=500, verbose_name='descrição')
+    descricao = models.CharField(max_length=250, verbose_name='descrição')
 
     class Meta:
         ordering = ('-recebida_em', )
@@ -128,3 +128,10 @@ class Igreja(models.Model):
 
     def __str__(self):
         return self.nome
+
+
+# class TipoSaida(models.Model):
+#     descricao = models.CharField(max_length=250, verbose_name='descrição')
+#
+#     def __str__(self):
+#         return self.descricao
