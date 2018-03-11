@@ -28,7 +28,7 @@
 
   {% if batismos or dizimos or doacoes or ofertas %}
     <div class="mb-4 d-flex flex-row-reverse">
-      <a href="{% url url_relatorio %}?data_ini={{form.data_inicio.value}}&data_fim={{form.data_fim.value}}" target="_blank" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a>
+      <a href="{% url url_relatorio %}?data_ini={{form.data_inicio.value}}&data_fim={{form.data_fim.value}}" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a>
     </div>
   {% endif %}
 

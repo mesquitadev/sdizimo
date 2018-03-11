@@ -1,7 +1,7 @@
-Django==1.11.9
+Django==1.11.11
 django-bootstrap-datepicker==1.2.3
 django-compressor==2.2
-django-easy-pdf==0.1.1
+django-easy-pdf==0.2.0.dev1
 django-localflavor==1.6.1
 django-search-views==0.3.7
 django-widget-tweaks==1.4.1

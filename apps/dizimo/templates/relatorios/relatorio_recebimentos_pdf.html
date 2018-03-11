@@ -1,10 +1,10 @@
-{% extends 'base_pdf_landscape.html' %}
+{% extends 'base_print_landscape.html' %}
 
 {% block content %}
   {% if batismos %}
-    <table class="table">
+    <table class="table table-hover">
       <caption>Listagem de Batismos</caption>
-      <thead class="thead">
+      <thead class="thead-inverse">
         <tr class="titulo_tabela">
           <th width="40">#</th>
           <th>Batizando</th>
@@ -37,7 +37,7 @@
           <td>{{ total_batismos.total }}</td>
         </tr>
       </tbody>
-      
+
     </table>
     <div class="space20">&nbsp;</div>
   {% endif %}

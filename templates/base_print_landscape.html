@@ -9,19 +9,40 @@
     <link rel="stylesheet" href="{% static 'css/normalize.min.css' %}">
     <!-- Load paper.css for happy printing -->
     <link rel="stylesheet" href="{% static 'css/paper.css' %}">
-    
+
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.blue.css' %}" id="theme-stylesheet">
     <!-- Set page size here: A5, A4 or A3 -->
     <!-- Set also "landscape" if you need -->
     <style>
-      @page { 
+      @page {
         size: A4 landscape;
-        margin: 1cm 0; 
-      }
-      .sheet {
-        overflow: visible;
-        height: auto !important;
+        margin: 2cm;
+
+        @top-left {
+          content: "SDízimo - Sistema para controle e gerenciamento de dízimos e ofertas";
+          font-size: 1.2em;
+          font-weight: bold;
+          border-bottom: 2px solid #e9ecef;
+        }
+
+        @bottom-left {
+          border-top: 1px solid #aaa;
+          content: "Emitido por {{ user.get_full_name }} em {% now 'SHORT_DATETIME_FORMAT' %}.";
+          font-size: 0.8em;
+          padding: 0.5em 0;
+          vertical-align: top;
+          width: 100%;
+        }
+
+        @bottom-right {
+          border-top: 1px solid #aaa;
+          content: "Página " counter(page) " de " counter(pages);
+          font-size: 0.8em;
+          padding: 0.5em 0;
+          vertical-align: top;
+          width: 100%;
+        }
       }
       h1 {
         padding: 10px 0;
@@ -52,7 +73,7 @@
       </div>
 
       <footer class="border border-right-0 border-left-0 border-bottom-0 mt-5 pt-1">
-        <small>Emitido por {{ user.get_full_name }} em {% now 'SHORT_DATETIME_FORMAT' %}.</small> 
+        <small>Emitido por {{ user.get_full_name }} em {% now 'SHORT_DATETIME_FORMAT' %}.</small>
       </footer>
     </section>
   </body>
