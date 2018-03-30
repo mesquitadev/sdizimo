@@ -19,7 +19,7 @@ PROJECT_PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!  
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '$g!aedey%=%ftvxs^i2i%ovkg76jrn$+)nj!yzdjdxg##uo_^u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     # third party apps
     'widget_tweaks',
     'localflavor',

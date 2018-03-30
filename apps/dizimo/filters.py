@@ -4,9 +4,9 @@ from search_views.filters import BaseFilter
 class DizimistaFilter(BaseFilter):
     search_fields = {
         'pk': ['pk', ],
-        'nome': ['nome', ],
+        'nome': {'operator': '__unaccent__icontains', 'fields': ['nome']},
         'paroquia': {'operator': '__exact', 'fields': ['paroquia']},
-        'comunidade': ['comunidade', ],
+        'comunidade': {'operator': '__unaccent__icontains', 'fields': ['comunidade']},
     }
 
 
@@ -20,5 +20,5 @@ class RecebimentoFilter(BaseFilter):
 
 class ParoquiaFilter(BaseFilter):
     search_fields = {
-        'nome': ['nome', ],
+        'nome': {'operator': '__unaccent__icontains', 'fields': ['nome']},
     }

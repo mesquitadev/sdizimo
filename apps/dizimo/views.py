@@ -265,7 +265,7 @@ class ListaDizimos(LoginRequiredMixin, SearchListView):
             data_fim = self.form.cleaned_data['data_fim']
 
             if dizimista:
-                object_list = object_list.filter(dizimista__nome__icontains=dizimista)
+                object_list = object_list.filter(dizimista__nome__unaccent__icontains=dizimista)
             if referencia:
                 data_referencia = datetime.strptime(referencia, '%m/%Y')
                 object_list = object_list.filter(referencia=data_referencia)
@@ -379,9 +379,9 @@ class ListaBatismos(LoginRequiredMixin, SearchListView):
             data_fim = self.form.cleaned_data['data_fim']
 
             if nome_batizando:
-                object_list = object_list.filter(nome_batizando__icontains=nome_batizando)
+                object_list = object_list.filter(nome_batizando__unaccent__icontains=nome_batizando)
             if nome_solicitante:
-                object_list = object_list.filter(nome_solicitante__icontains=nome_solicitante)
+                object_list = object_list.filter(nome_solicitante__unaccent__icontains=nome_solicitante)
             if usuario:
                 object_list = object_list.filter(usuario=usuario)
             if data_inicio:
@@ -478,7 +478,7 @@ class ListaDoacoes(LoginRequiredMixin, SearchListView):
             data_fim = self.form.cleaned_data['data_fim']
 
             if descricao:
-                object_list = object_list.filter(descricao__icontains=descricao)
+                object_list = object_list.filter(descricao__unaccent__icontains=descricao)
             if usuario:
                 object_list = object_list.filter(usuario=usuario)
             if data_inicio:
