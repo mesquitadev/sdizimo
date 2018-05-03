@@ -1,4 +1,4 @@
-Django==1.11.11
+Django==1.11.13
 django-bootstrap-datepicker==1.2.3
 django-compressor==2.2
 django-easy-pdf==0.2.0.dev1
@@ -11,4 +11,3 @@ pylint==1.7.4
 pylint-django==0.7.2
 psycopg2==2.7.3.2
 sorl-thumbnail==12.4.1
-# -e git+git://github.com/jazzband/sorl-thumbnail.git#egg=sorl-thumbnail
