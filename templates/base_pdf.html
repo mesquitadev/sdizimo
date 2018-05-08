@@ -5,11 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>SDízimo {% if titulo_relatorio %} - {{ titulo_relatorio }}{% endif %}</title>
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
-    
+
     <style>
-      @page { 
-        size: A4; 
-        
+      @page {
+        size: A4;
+
         @frame header_frame {           /* Static Frame */
           -pdf-frame-content: header;
           left: 40pt; width: 512pt; top: 40pt; height: 100pt;
@@ -46,9 +46,9 @@
     </div>
 
     <div id="footer_left">
-      <small>Emitido por {{ user.get_full_name }} em {% now 'SHORT_DATETIME_FORMAT' %}.</small> 
+      <small>Emitido por {{ user.get_full_name }} em {% now 'SHORT_DATETIME_FORMAT' %}.</small>
     </div>
-    
+
     <div id="footer_right">
         <small>Página <pdf:pagenumber> de <pdf:pagecount></small>
     </div>

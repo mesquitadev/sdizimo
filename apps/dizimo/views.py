@@ -110,11 +110,13 @@ class ExibeDizimistaPDF(LoginRequiredMixin, PDFTemplateResponseMixin, DetailView
     context_object_name = 'dizimista'
     template_name = 'relatorios/exibe_dizimista_pdf.html'
     download_filename = 'ficha_cadastral_dizimista.pdf'
+    # base_url = 'file://' + settings.STATIC_ROOT
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'
         kwargs['titulo_relatorio'] = 'Ficha cadastral de {0}'.format(self.object)
         kwargs['user'] = self.request.user
+        # kwargs['static_root'] = settings.STATIC_ROOT
 
         return super().get_context_data(**kwargs)
 
