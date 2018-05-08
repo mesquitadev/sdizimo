@@ -110,13 +110,11 @@ class ExibeDizimistaPDF(LoginRequiredMixin, PDFTemplateResponseMixin, DetailView
     context_object_name = 'dizimista'
     template_name = 'relatorios/exibe_dizimista_pdf.html'
     download_filename = 'ficha_cadastral_dizimista.pdf'
-    # base_url = 'file://' + settings.STATIC_ROOT
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'
         kwargs['titulo_relatorio'] = 'Ficha cadastral de {0}'.format(self.object)
         kwargs['user'] = self.request.user
-        # kwargs['static_root'] = settings.STATIC_ROOT
 
         return super().get_context_data(**kwargs)
 
@@ -341,15 +339,18 @@ class ExcluiDizimo(LoginRequiredMixin, DeleteView):
     context_object_name = 'dizimo'
 
 
-class ReciboDizimo(LoginRequiredMixin, DetailView):
+class ReciboDizimo(LoginRequiredMixin, PDFTemplateResponseMixin, DetailView):
     model = Dizimo
     context_object_name = 'dizimo'
     template_name = 'recibos/recibo_dizimo.html'
+    download_filename = 'recibo.pdf'
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'dizimos'
         kwargs['igreja'] = Igreja.objects.first()
+        kwargs['titulo_relatorio'] = 'Recibo'
+        kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
 
 

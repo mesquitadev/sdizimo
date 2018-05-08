@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>SDízimo {% if titulo_relatorio %} - {{ titulo_relatorio }}{% endif %}</title>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
+
+    <style>
+      @page {
+        size: A6;
+
+        @frame header_frame {           /* Static Frame */
+          -pdf-frame-content: header_recibo;
+          left: 30pt; width: 235pt; top: 30pt; height: 70pt;
+        }
+        @frame content_frame {          /* Content Frame */
+          left: 30pt; width: 235pt; top: 90pt;
+        }
+        @frame footer_frame_1 {           /* Another static Frame */
+          -pdf-frame-content: footer_left;
+          left: 30pt; width: 235pt; top: 380pt; height: 30pt;
+        }
+      }
+    </style>
+    {% block extra_style %}{% endblock %}
+
+    {% include 'includes/pdf_style.html' %}
+  </head>
+
+  <body>
+    <div id="header_recibo">
+      <h2><strong>SDízimo</strong></h2>
+      {% if titulo_relatorio %}
+        <div class="titulo_relatorio">
+            <h3># {{ titulo_relatorio }}</h3>
+        </div>
+      {% endif %}
+    </div>
+
+    <div id="footer_left">
+      <small>Emitido por {{ user.get_full_name }} em {% now 'SHORT_DATETIME_FORMAT' %}.</small>
+    </div>
+
+    <div class="content">
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>
