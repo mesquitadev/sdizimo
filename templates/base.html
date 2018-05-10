@@ -113,7 +113,7 @@
                   <li {% if menu_dropdown == 'paroquias' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:paroquias' %}">Paróquias</a></li>
                 </ul>
               </li>
-              {% if user.is_superuser %}
+              {% if user.perfil.eh_administrador %}
                 <li {% if menu == 'usuarios' %}class="active"{% endif %}><a href="{% url 'usuarios' %}"><i class="fa fa-users" aria-hidden="true"></i>Usuários</a></li>
               {% endif %}
             </ul>

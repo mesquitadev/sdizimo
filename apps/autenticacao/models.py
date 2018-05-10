@@ -19,6 +19,8 @@ class Perfil(models.Model):
     def __str__(self):
         return self.usuario.username
 
+    def eh_administrador(self):
+        return self.papel == self.ADMINISTRADOR
 
 # @receiver(post_save, sender=User)
 # def cria_perfil_usuario(sender, instance, created, **kwargs):
