@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django_cleanup.signals import cleanup_pre_delete
 from sorl.thumbnail import ImageField
 
 
@@ -21,6 +22,14 @@ class Perfil(models.Model):
 
     def eh_administrador(self):
         return self.papel == self.ADMINISTRADOR
+
+
+def sorl_delete(**kwargs):
+    from sorl.thumbnail import delete
+    delete(kwargs['file'])
+
+
+cleanup_pre_delete.connect(sorl_delete)
 
 # @receiver(post_save, sender=User)
 # def cria_perfil_usuario(sender, instance, created, **kwargs):

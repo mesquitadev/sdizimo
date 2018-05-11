@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'compressor',
     'easy_pdf',
+    'django_cleanup',
     # project apps
     'apps.autenticacao',
     'apps.comum',
