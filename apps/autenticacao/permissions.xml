@@ -1,0 +1,16 @@
+<groups>
+    <group>
+        <name>Administrador Usuários</name>
+        <models>
+            <model>
+                <app>autenticacao</app>
+                <name>perfil</name>
+                <permissions>
+                    <permission>add_perfil</permission>
+                    <permission>change_perfil</permission>
+                    <permission>delete_perfil</permission>
+                </permissions>
+            </model>
+        </models>
+    </group>
+</groups>

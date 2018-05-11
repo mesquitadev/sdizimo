@@ -32,7 +32,7 @@ ALLOWED_HOSTS = [
 
 # Application definition
 
-INSTALLED_APPS = [
+DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,18 +40,24 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
-    # third party apps
+)
+
+THIRD_PARTY_APPS = (
     'widget_tweaks',
     'localflavor',
     'sorl.thumbnail',
     'compressor',
     'easy_pdf',
     'django_cleanup',
-    # project apps
+)
+
+PROJECT_APPS = (
     'apps.autenticacao',
     'apps.comum',
     'apps.dizimo',
-]
+)
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
