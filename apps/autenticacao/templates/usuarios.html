@@ -48,15 +48,16 @@
         <tbody>
           {% for usuario in usuarios %}
             <tr>
-              <td scope="row" width="60">
+              <td scope="row" width="70">
                 <a href="{% url 'exibe_usuario' usuario.pk %}" title="Exibir {{ usuario.username }}"><i class="fa fa-search" aria-hidden="true"></i></a>
                 <a href="{% url 'edita_usuario' usuario.pk %}" title="Editar {{ usuario.username }}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <a href="{% url 'altera_senha_usuario' usuario.pk %}" title="Alterar senha de {{ usuario.username }}"><i class="fa fa-unlock-alt" aria-hidden="true"></i></a>
               </td>
               <td>{{ usuario.username }}</td>
               <td>{{ usuario.get_full_name }}</td>
               <td>{{ usuario.email }}</td>
               <td>{{ usuario.perfil.get_papel_display }}</td>
-              <td>{{ usuario.last_login }}</td>
+              <td>{{ usuario.last_login|default:"-" }}</td>
             </tr>
           {% endfor %}
         </tbody>

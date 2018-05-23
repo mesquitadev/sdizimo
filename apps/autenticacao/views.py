@@ -1,12 +1,14 @@
+from django.contrib import messages
+from django.contrib.auth.forms import AdminPasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.views.generic import UpdateView, CreateView, DeleteView, DetailView
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from search_views.search import SearchListView
 
 from .filters import UsuarioFilter
-from .forms import ConsultaUsuarioForm, UsuarioForm, PerfilForm, MeuPerfilForm, MeuUsuarioForm
+from .forms import ConsultaUsuarioForm, NovoUsuarioForm, EditaUsuarioForm, PerfilForm, MeuPerfilForm, MeuUsuarioForm
 from .models import Perfil
 
 
@@ -55,7 +57,7 @@ class ListaUsuarios(LoginRequiredMixin, SearchListView):
 
 class NovoUsuario(LoginRequiredMixin, CreateView):
     model = User
-    form_class = UsuarioForm
+    form_class = NovoUsuarioForm
     template_name = 'novo_usuario.html'
 
     def get_success_url(self):
@@ -89,7 +91,7 @@ class NovoUsuario(LoginRequiredMixin, CreateView):
 
 class EditaUsuario(LoginRequiredMixin, UpdateView):
     model = User
-    form_class = UsuarioForm
+    form_class = EditaUsuarioForm
     context_object_name = 'usuario'
     template_name = 'edita_usuario.html'
 
@@ -137,3 +139,22 @@ class ExcluiUsuario(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('usuarios')
     template_name = 'exclui_usuario.html'
     context_object_name = 'usuario'
+
+
+def altera_senha_usuario(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if request.method == 'POST':
+        form = AdminPasswordChangeForm(user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, 'Senha alterada com sucesso!')
+            return redirect(reverse_lazy('exibe_usuario', kwargs={'pk': user_id}))
+    else:
+        form = AdminPasswordChangeForm(user)
+
+    context = {
+        'menu': 'usuarios',
+        'form': form,
+        'usuario': user
+    }
+    return render(request, 'password_change.html', context)
