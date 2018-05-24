@@ -107,14 +107,16 @@
                   <li {% if menu_dropdown == 'relatorio_geral_recebimentos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:relatorio_geral_recebimentos' %}">Relatório geral de recebimentos</a></li>
                 </ul>
               </li>
-              <li><a href="#menu_configuracoes" aria-expanded="{% if menu == 'configuracoes' %}true{% else %}false{% endif %}" data-toggle="collapse"> <i class="fa fa-cog"></i>Configurações</a>
-                <ul id="menu_configuracoes" class="collapse list-unstyled {% if menu == 'configuracoes' %}show{% endif %}">
-                  <li {% if menu_dropdown == 'dados_igreja' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:dados_igreja' %}">Igreja</a></li>
-                  <li {% if menu_dropdown == 'paroquias' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:paroquias' %}">Paróquias</a></li>
-                </ul>
-              </li>
+                  <li><a href="#menu_configuracoes" aria-expanded="{% if menu == 'configuracoes' %}true{% else %}false{% endif %}" data-toggle="collapse"> <i class="fa fa-cog"></i>Configurações</a>
+                    <ul id="menu_configuracoes" class="collapse list-unstyled {% if menu == 'configuracoes' %}show{% endif %}">
+                      {% if user.perfil.eh_administrador %}
+                        <li {% if menu_dropdown == 'dados_igreja' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:dados_igreja' %}">Igreja</a></li>
+                      {% endif %}
+                      <li {% if menu_dropdown == 'paroquias' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:paroquias' %}">Paróquias</a></li>
+                    </ul>
+                  </li>
               {% if user.perfil.eh_administrador %}
-                <li {% if menu == 'usuarios' %}class="active"{% endif %}><a href="{% url 'usuarios' %}"><i class="fa fa-users" aria-hidden="true"></i>Usuários</a></li>
+                  <li {% if menu == 'usuarios' %}class="active"{% endif %}><a href="{% url 'usuarios' %}"><i class="fa fa-users" aria-hidden="true"></i>Usuários</a></li>
               {% endif %}
             </ul>
           </nav>

@@ -1,6 +1,7 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.forms import AdminPasswordChangeForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.views.generic import UpdateView, CreateView, DeleteView, DetailView
 from django.shortcuts import render, redirect, get_object_or_404
@@ -41,7 +42,7 @@ class EditaMeuUsuario(LoginRequiredMixin, UpdateView):
             return self.render_to_response(self.get_context_data(form=form))
 
 
-class ListaUsuarios(LoginRequiredMixin, SearchListView):
+class ListaUsuarios(LoginRequiredMixin, PermissionRequiredMixin, SearchListView):
     model = User
     context_object_name = 'usuarios'
     template_name = 'usuarios.html'
@@ -49,16 +50,20 @@ class ListaUsuarios(LoginRequiredMixin, SearchListView):
     form_class = ConsultaUsuarioForm
     filter_class = UsuarioFilter
     ordering = 'username'
+    permission_required = 'perfil.add_perfil'
+    raise_exception = True
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'usuarios'
         return super().get_context_data(**kwargs)
 
 
-class NovoUsuario(LoginRequiredMixin, CreateView):
+class NovoUsuario(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = User
     form_class = NovoUsuarioForm
     template_name = 'novo_usuario.html'
+    permission_required = 'perfil.add_perfil'
+    raise_exception = True
 
     def get_success_url(self):
         return reverse_lazy('exibe_usuario', kwargs={'pk': self.object.pk})
@@ -89,11 +94,13 @@ class NovoUsuario(LoginRequiredMixin, CreateView):
             return self.render_to_response(self.get_context_data(form=form))
 
 
-class EditaUsuario(LoginRequiredMixin, UpdateView):
+class EditaUsuario(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = User
     form_class = EditaUsuarioForm
     context_object_name = 'usuario'
     template_name = 'edita_usuario.html'
+    permission_required = 'perfil.add_perfil'
+    raise_exception = True
 
     def get_success_url(self):
         return reverse_lazy('exibe_usuario', kwargs={'pk': self.object.pk})
@@ -124,23 +131,29 @@ class EditaUsuario(LoginRequiredMixin, UpdateView):
             return self.render_to_response(self.get_context_data(form=form))
 
 
-class ExibeUsuario(LoginRequiredMixin, DetailView):
+class ExibeUsuario(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = User
     context_object_name = 'usuario'
     template_name = 'exibe_usuario.html'
+    permission_required = 'perfil.add_perfil'
+    raise_exception = True
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'usuarios'
         return super().get_context_data(**kwargs)
 
 
-class ExcluiUsuario(LoginRequiredMixin, DeleteView):
+class ExcluiUsuario(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = User
     success_url = reverse_lazy('usuarios')
     template_name = 'exclui_usuario.html'
     context_object_name = 'usuario'
+    permission_required = 'perfil.add_perfil'
+    raise_exception = True
 
 
+@login_required
+@permission_required('perfil.add_perfil', raise_exception=True)
 def altera_senha_usuario(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if request.method == 'POST':

@@ -4,15 +4,6 @@
         <models>
             <model>
                 <app>dizimo</app>
-                <name>paroquia</name>
-                <permissions>
-                    <permission>add_paroquia</permission>
-                    <permission>change_paroquia</permission>
-                    <permission>delete_paroquia</permission>
-                </permissions>
-            </model>
-            <model>
-                <app>dizimo</app>
                 <name>igreja</name>
                 <permissions>
                     <permission>add_igreja</permission>
@@ -25,6 +16,15 @@
     <group>
         <name>Administrador Dízimos; Supervisor Dízimos</name>
         <models>
+            <model>
+                <app>dizimo</app>
+                <name>paroquia</name>
+                <permissions>
+                    <permission>add_paroquia</permission>
+                    <permission>change_paroquia</permission>
+                    <permission>delete_paroquia</permission>
+                </permissions>
+            </model>
             <model>
                 <app>dizimo</app>
                 <name>dizimista</name>
@@ -75,6 +75,14 @@
     <group>
         <name>Operador Dízimos</name>
         <models>
+            <model>
+                <app>dizimo</app>
+                <name>paroquia</name>
+                <permissions>
+                    <permission>add_paroquia</permission>
+                    <permission>change_paroquia</permission>
+                </permissions>
+            </model>
             <model>
                 <app>dizimo</app>
                 <name>dizimista</name>

@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.shortcuts import redirect, render
@@ -613,6 +613,7 @@ class ExcluiParoquia(LoginRequiredMixin, DeleteView):
 ###########################################################
 
 @login_required
+@permission_required('igreja.change_igreja', raise_exception=True)
 def dados_igreja(request):
     igreja = Igreja.objects.first()
     if request.method == 'POST':
