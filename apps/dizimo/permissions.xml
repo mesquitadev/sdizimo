@@ -9,6 +9,8 @@
                     <permission>add_igreja</permission>
                     <permission>change_igreja</permission>
                     <permission>delete_igreja</permission>
+                    <permission>view_igreja</permission>
+                    <permission>list_igreja</permission>
                 </permissions>
             </model>
         </models>
@@ -23,6 +25,8 @@
                     <permission>add_paroquia</permission>
                     <permission>change_paroquia</permission>
                     <permission>delete_paroquia</permission>
+                    <permission>view_paroquia</permission>
+                    <permission>list_paroquia</permission>
                 </permissions>
             </model>
             <model>
@@ -32,6 +36,8 @@
                     <permission>add_dizimista</permission>
                     <permission>change_dizimista</permission>
                     <permission>delete_dizimista</permission>
+                    <permission>view_dizimista</permission>
+                    <permission>list_dizimista</permission>
                 </permissions>
             </model>
             <model>
@@ -41,6 +47,8 @@
                     <permission>add_oferta</permission>
                     <permission>change_oferta</permission>
                     <permission>delete_oferta</permission>
+                    <permission>view_oferta</permission>
+                    <permission>list_oferta</permission>
                 </permissions>
             </model>
             <model>
@@ -50,6 +58,8 @@
                     <permission>add_dizimo</permission>
                     <permission>change_dizimo</permission>
                     <permission>delete_dizimo</permission>
+                    <permission>view_dizimo</permission>
+                    <permission>list_dizimo</permission>
                 </permissions>
             </model>
             <model>
@@ -59,6 +69,8 @@
                     <permission>add_batismo</permission>
                     <permission>change_batismo</permission>
                     <permission>delete_batismo</permission>
+                    <permission>view_batismo</permission>
+                    <permission>list_batismo</permission>
                 </permissions>
             </model>
             <model>
@@ -68,6 +80,8 @@
                     <permission>add_doacao</permission>
                     <permission>change_doacao</permission>
                     <permission>delete_doacao</permission>
+                    <permission>view_doacao</permission>
+                    <permission>list_doacao</permission>
                 </permissions>
             </model>
         </models>
@@ -81,6 +95,8 @@
                 <permissions>
                     <permission>add_paroquia</permission>
                     <permission>change_paroquia</permission>
+                    <permission>view_paroquia</permission>
+                    <permission>list_paroquia</permission>
                 </permissions>
             </model>
             <model>
@@ -89,6 +105,8 @@
                 <permissions>
                     <permission>add_dizimista</permission>
                     <permission>change_dizimista</permission>
+                    <permission>view_dizimista</permission>
+                    <permission>list_dizimista</permission>
                 </permissions>
             </model>
             <model>
@@ -96,6 +114,8 @@
                 <name>oferta</name>
                 <permissions>
                     <permission>add_oferta</permission>
+                    <permission>view_oferta</permission>
+                    <permission>list_oferta</permission>
                 </permissions>
             </model>
             <model>
@@ -103,6 +123,8 @@
                 <name>dizimo</name>
                 <permissions>
                     <permission>add_dizimo</permission>
+                    <permission>view_dizimo</permission>
+                    <permission>list_dizimo</permission>
                 </permissions>
             </model>
             <model>
@@ -110,6 +132,8 @@
                 <name>batismo</name>
                 <permissions>
                     <permission>add_batismo</permission>
+                    <permission>view_batismo</permission>
+                    <permission>list_batismo</permission>
                 </permissions>
             </model>
             <model>
@@ -117,6 +141,8 @@
                 <name>doacao</name>
                 <permissions>
                     <permission>add_doacao</permission>
+                    <permission>view_doacao</permission>
+                    <permission>list_doacao</permission>
                 </permissions>
             </model>
         </models>
