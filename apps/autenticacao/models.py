@@ -19,6 +19,12 @@ class Perfil(models.Model):
     papel = models.PositiveSmallIntegerField(choices=PAPEL_CHOICES, default=ADMINISTRADOR)
     foto = ImageField(upload_to='usuarios/fotos', null=True, blank=True)
 
+    class Meta:
+        permissions = (
+            ("view_perfil", "Can view perfil"),
+            ("list_perfil", "Can list perfil"),
+        )
+
     def __str__(self):
         return self.usuario.username
 

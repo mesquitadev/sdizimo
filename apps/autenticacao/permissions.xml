@@ -9,6 +9,8 @@
                     <permission>add_perfil</permission>
                     <permission>change_perfil</permission>
                     <permission>delete_perfil</permission>
+                    <permission>view_perfil</permission>
+                    <permission>list_perfil</permission>
                 </permissions>
             </model>
         </models>

@@ -50,7 +50,7 @@ class ListaUsuarios(LoginRequiredMixin, PermissionRequiredMixin, SearchListView)
     form_class = ConsultaUsuarioForm
     filter_class = UsuarioFilter
     ordering = 'username'
-    permission_required = 'perfil.add_perfil'
+    permission_required = 'perfil.list_perfil'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -99,7 +99,7 @@ class EditaUsuario(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = EditaUsuarioForm
     context_object_name = 'usuario'
     template_name = 'edita_usuario.html'
-    permission_required = 'perfil.add_perfil'
+    permission_required = 'perfil.change_perfil'
     raise_exception = True
 
     def get_success_url(self):
@@ -135,7 +135,7 @@ class ExibeUsuario(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = User
     context_object_name = 'usuario'
     template_name = 'exibe_usuario.html'
-    permission_required = 'perfil.add_perfil'
+    permission_required = 'perfil.view_perfil'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -148,12 +148,12 @@ class ExcluiUsuario(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('usuarios')
     template_name = 'exclui_usuario.html'
     context_object_name = 'usuario'
-    permission_required = 'perfil.add_perfil'
+    permission_required = 'perfil.delete_perfil'
     raise_exception = True
 
 
 @login_required
-@permission_required('perfil.add_perfil', raise_exception=True)
+@permission_required('perfil.change_perfil', raise_exception=True)
 def altera_senha_usuario(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if request.method == 'POST':
