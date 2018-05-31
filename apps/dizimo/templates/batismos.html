@@ -51,7 +51,9 @@
             <tr>
               <td scope="row" width="60">
                 <a href="{% url 'dizimo:exibe_batismo' batismo.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
-                <a href="{% url 'dizimo:edita_batismo' batismo.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                {% if perms.dizimo.change_batismo %}
+                    <a href="{% url 'dizimo:edita_batismo' batismo.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                {% endif %}
               </td>
               <td>{{ batismo.nome_batizando }}</td>
               <td>{{ batismo.nome_solicitante }}</td>

@@ -18,9 +18,13 @@
   <div class="mb-4 d-flex flex-row-reverse">
     <ul class="list-inline">
       <li class="list-inline-item"><a href="{% url 'dizimo:nova_oferta' %}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> Nova oferta</a></li>
-      <li class="list-inline-item"><a href="{% url 'dizimo:edita_oferta' oferta.pk %}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a></li>
-      <li class="list-inline-item"><a href="{% url 'dizimo:exclui_oferta' oferta.pk %}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</a></li>
-    </ul>    
+      {% if perms.dizimo.change_oferta %}
+        <li class="list-inline-item"><a href="{% url 'dizimo:edita_oferta' oferta.pk %}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a></li>
+      {% endif %}
+      {% if perms.dizimo.delete_oferta %}
+        <li class="list-inline-item"><a href="{% url 'dizimo:exclui_oferta' oferta.pk %}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</a></li>
+      {% endif %}
+    </ul>
   </div>
 
   <div class="card">

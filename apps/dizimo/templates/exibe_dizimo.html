@@ -18,8 +18,12 @@
   <div class="mb-4 d-flex flex-row-reverse">
     <ul class="list-inline">
       <li class="list-inline-item"><a href="{% url 'dizimo:novo_dizimo' %}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> Novo dízimo</a></li>
-      <li class="list-inline-item"><a href="{% url 'dizimo:edita_dizimo' dizimo.pk %}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a></li>
-      <li class="list-inline-item"><a href="{% url 'dizimo:exclui_dizimo' dizimo.pk %}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</a></li>
+      {% if perms.dizimo.change_dizimo %}
+        <li class="list-inline-item"><a href="{% url 'dizimo:edita_dizimo' dizimo.pk %}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a></li>
+      {% endif %}
+      {% if perms.dizimo.delete_dizimo %}
+        <li class="list-inline-item"><a href="{% url 'dizimo:exclui_dizimo' dizimo.pk %}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</a></li>
+      {% endif %}
       <li class="list-inline-item"><a href="{% url 'dizimo:recibo_dizimo' dizimo.pk %}" target="_blank" class="btn btn-dark"><i class="fa fa-print" aria-hidden="true"></i> Recibo</a></li>
     </ul>
   </div>

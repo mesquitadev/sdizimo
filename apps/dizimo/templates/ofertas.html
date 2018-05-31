@@ -48,7 +48,9 @@
             <tr>
               <td scope="row" width="60">
                 <a href="{% url 'dizimo:exibe_oferta' oferta.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
-                <a href="{% url 'dizimo:edita_oferta' oferta.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                {% if perms.dizimo.change_oferta %}
+                    <a href="{% url 'dizimo:edita_oferta' oferta.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                {% endif %}
               </td>
               <td>{{ oferta.valor }}</td>
               <td>{{ oferta.recebida_em }}</td>

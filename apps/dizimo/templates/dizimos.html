@@ -50,7 +50,9 @@
             <tr>
               <td scope="row" width="60">
                 <a href="{% url 'dizimo:exibe_dizimo' dizimo.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
-                <a href="{% url 'dizimo:edita_dizimo' dizimo.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                {% if perms.dizimo.change_dizimo %}
+                    <a href="{% url 'dizimo:edita_dizimo' dizimo.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                {% endif %}
               </td>
               <td>{{ dizimo.dizimista }}</td>
               <td>{{ dizimo.referencia|date:"m/Y" }}</td>
