@@ -29,7 +29,7 @@ class ListaDizimistas(LoginRequiredMixin, PermissionRequiredMixin, SearchListVie
     paginate_by = 20
     form_class = ConsultaDizimistaForm
     filter_class = DizimistaFilter
-    permission_required = 'dizimista.list_dizimista'
+    permission_required = 'dizimo.list_dizimista'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -41,7 +41,7 @@ class NovoDizimista(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Dizimista
     form_class = DizimistaForm
     template_name = 'novo_dizimista.html'
-    permission_required = 'dizimista.add_dizimista'
+    permission_required = 'dizimo.add_dizimista'
     raise_exception = True
 
     def get_success_url(self):
@@ -73,7 +73,7 @@ class EditaDizimista(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = DizimistaForm
     template_name = 'edita_dizimista.html'
     context_object_name = 'dizimista'
-    permission_required = 'dizimista.change_dizimista'
+    permission_required = 'dizimo.change_dizimista'
     raise_exception = True
 
     def get_success_url(self):
@@ -105,7 +105,7 @@ class ExibeDizimista(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Dizimista
     context_object_name = 'dizimista'
     template_name = 'exibe_dizimista.html'
-    permission_required = 'dizimista.view_dizimista'
+    permission_required = 'dizimo.view_dizimista'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -118,7 +118,7 @@ class ExibeDizimistaPDF(LoginRequiredMixin, PDFTemplateResponseMixin, Permission
     context_object_name = 'dizimista'
     template_name = 'relatorios/exibe_dizimista_pdf.html'
     download_filename = 'ficha_cadastral_dizimista.pdf'
-    permission_required = 'dizimista.view_dizimista'
+    permission_required = 'dizimo.view_dizimista'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -134,11 +134,12 @@ class ExcluiDizimista(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('dizimo:dizimistas')
     template_name = 'exclui_dizimista.html'
     context_object_name = 'dizimista'
-    permission_required = 'dizimista.delete_dizimista'
+    permission_required = 'dizimo.delete_dizimista'
     raise_exception = True
 
 
 @login_required
+@permission_required('dizimo.list_dizimista', raise_exception=True)
 def aniversariantes(request):
     mes_escolhido = int(request.GET.get('mes', datetime.today().month))
 
@@ -165,7 +166,7 @@ class ListaOfertas(LoginRequiredMixin, PermissionRequiredMixin, SearchListView):
     paginate_by = 20
     form_class = ConsultaOfertaForm
     filter_class = RecebimentoFilter
-    permission_required = 'oferta.list_oferta'
+    permission_required = 'dizimo.list_oferta'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -197,7 +198,7 @@ class NovaOferta(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Oferta
     form_class = OfertaForm
     template_name = 'nova_oferta.html'
-    permission_required = 'oferta.add_oferta'
+    permission_required = 'dizimo.add_oferta'
     raise_exception = True
 
     def get_success_url(self):
@@ -224,7 +225,7 @@ class EditaOferta(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = OfertaForm
     template_name = 'edita_oferta.html'
     context_object_name = 'oferta'
-    permission_required = 'oferta.change_oferta'
+    permission_required = 'dizimo.change_oferta'
     raise_exception = True
 
     def get_success_url(self):
@@ -241,7 +242,7 @@ class ExibeOferta(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Oferta
     context_object_name = 'oferta'
     template_name = 'exibe_oferta.html'
-    permission_required = 'oferta.view_oferta'
+    permission_required = 'dizimo.view_oferta'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -255,7 +256,7 @@ class ExcluiOferta(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('dizimo:ofertas')
     template_name = 'exclui_oferta.html'
     context_object_name = 'oferta'
-    permission_required = 'oferta.delete_oferta'
+    permission_required = 'dizimo.delete_oferta'
     raise_exception = True
 
 
@@ -399,7 +400,7 @@ class ListaBatismos(LoginRequiredMixin, PermissionRequiredMixin, SearchListView)
     paginate_by = 20
     form_class = ConsultaBatismoForm
     filter_class = RecebimentoFilter
-    permission_required = 'batismo.list_batismo'
+    permission_required = 'dizimo.list_batismo'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -436,7 +437,7 @@ class NovoBatismo(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Batismo
     form_class = BatismoForm
     template_name = 'novo_batismo.html'
-    permission_required = 'batismo.add_batismo'
+    permission_required = 'dizimo.add_batismo'
     raise_exception = True
 
     def get_success_url(self):
@@ -463,7 +464,7 @@ class EditaBatismo(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = BatismoForm
     template_name = 'edita_batismo.html'
     context_object_name = 'batismo'
-    permission_required = 'batismo.change_batismo'
+    permission_required = 'dizimo.change_batismo'
     raise_exception = True
 
     def get_success_url(self):
@@ -480,7 +481,7 @@ class ExibeBatismo(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Batismo
     context_object_name = 'batismo'
     template_name = 'exibe_batismo.html'
-    permission_required = 'batismo.view_batismo'
+    permission_required = 'dizimo.view_batismo'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -494,7 +495,7 @@ class ExcluiBatismo(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('dizimo:batismos')
     template_name = 'exclui_batismo.html'
     context_object_name = 'batismo'
-    permission_required = 'batismo.delete_batismo'
+    permission_required = 'dizimo.delete_batismo'
     raise_exception = True
 
 
@@ -509,7 +510,7 @@ class ListaDoacoes(LoginRequiredMixin, PermissionRequiredMixin, SearchListView):
     paginate_by = 20
     form_class = ConsultaDoacaoForm
     filter_class = RecebimentoFilter
-    permission_required = 'doacao.list_doacao'
+    permission_required = 'dizimo.list_doacao'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -544,7 +545,7 @@ class NovaDoacao(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Doacao
     form_class = DoacaoForm
     template_name = 'nova_doacao.html'
-    permission_required = 'doacao.add_doacao'
+    permission_required = 'dizimo.add_doacao'
     raise_exception = True
 
     def get_success_url(self):
@@ -571,7 +572,7 @@ class EditaDoacao(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = DoacaoForm
     template_name = 'edita_doacao.html'
     context_object_name = 'doacao'
-    permission_required = 'doacao.change_doacao'
+    permission_required = 'dizimo.change_doacao'
     raise_exception = True
 
     def get_success_url(self):
@@ -588,7 +589,7 @@ class ExibeDoacao(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Doacao
     context_object_name = 'doacao'
     template_name = 'exibe_doacao.html'
-    permission_required = 'doacao.view_doacao'
+    permission_required = 'dizimo.view_doacao'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -602,7 +603,7 @@ class ExcluiDoacao(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('dizimo:doacoes')
     template_name = 'exclui_doacao.html'
     context_object_name = 'doacao'
-    permission_required = 'doacao.delete_doacao'
+    permission_required = 'dizimo.delete_doacao'
     raise_exception = True
 
 
@@ -617,7 +618,7 @@ class ListaParoquias(LoginRequiredMixin, PermissionRequiredMixin, SearchListView
     paginate_by = 20
     form_class = ConsultaParoquiaForm
     filter_class = ParoquiaFilter
-    permission_required = 'paroquia.list_paroquia'
+    permission_required = 'dizimo.list_paroquia'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -630,7 +631,7 @@ class NovaParoquia(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Paroquia
     form_class = ParoquiaForm
     template_name = 'nova_paroquia.html'
-    permission_required = 'paroquia.add_paroquia'
+    permission_required = 'dizimo.add_paroquia'
     raise_exception = True
 
     def get_success_url(self):
@@ -648,7 +649,7 @@ class EditaParoquia(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = ParoquiaForm
     template_name = 'edita_paroquia.html'
     context_object_name = 'paroquia'
-    permission_required = 'paroquia.change_paroquia'
+    permission_required = 'dizimo.change_paroquia'
     raise_exception = True
 
     def get_success_url(self):
@@ -666,7 +667,7 @@ class ExcluiParoquia(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('dizimo:paroquias')
     template_name = 'exclui_paroquia.html'
     context_object_name = 'paroquia'
-    permission_required = 'paroquia.delete_paroquia'
+    permission_required = 'dizimo.delete_paroquia'
     raise_exception = True
 
 
@@ -675,7 +676,7 @@ class ExcluiParoquia(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 ###########################################################
 
 @login_required
-@permission_required('igreja.change_igreja', raise_exception=True)
+@permission_required('dizimo.change_igreja', raise_exception=True)
 def dados_igreja(request):
     igreja = Igreja.objects.first()
     if request.method == 'POST':
@@ -717,7 +718,7 @@ def get_ofertas(data_inicio, data_fim):
 
 
 @login_required
-@permission_required('batismo.list_batismo', raise_exception=True)
+@permission_required('dizimo.list_batismo', raise_exception=True)
 def relatorio_batismos(request):
     batismos = []
 
@@ -775,7 +776,7 @@ def relatorio_dizimos(request):
 
 
 @login_required
-@permission_required('doacao.list_doacao', raise_exception=True)
+@permission_required('dizimo.list_doacao', raise_exception=True)
 def relatorio_doacoes(request):
     doacoes = []
 
@@ -804,7 +805,7 @@ def relatorio_doacoes(request):
 
 
 @login_required
-@permission_required('oferta.list_oferta', raise_exception=True)
+@permission_required('dizimo.list_oferta', raise_exception=True)
 def relatorio_ofertas(request):
     ofertas = []
 
@@ -876,7 +877,7 @@ def relatorio_geral_recebimentos(request):
 class RelatorioBatismosPDF(LoginRequiredMixin, PermissionRequiredMixin, PDFTemplateView):
     template_name = 'relatorios/relatorio_recebimentos_pdf.html'
     download_filename = 'relatorio_batismos.pdf'
-    permission_required = 'batismo.list_batismo'
+    permission_required = 'dizimo.list_batismo'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -944,7 +945,7 @@ class RelatorioDizimosPDF(LoginRequiredMixin, PermissionRequiredMixin, PDFTempla
 class RelatorioDoacoesPDF(LoginRequiredMixin, PermissionRequiredMixin, PDFTemplateView):
     template_name = 'relatorios/relatorio_recebimentos_pdf.html'
     download_filename = 'relatorio_doacoes.pdf'
-    permission_required = 'doacao.list_doacao'
+    permission_required = 'dizimo.list_doacao'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -977,7 +978,7 @@ class RelatorioDoacoesPDF(LoginRequiredMixin, PermissionRequiredMixin, PDFTempla
 class RelatorioOfertasPDF(LoginRequiredMixin, PermissionRequiredMixin, PDFTemplateView):
     template_name = 'relatorios/relatorio_recebimentos_pdf.html'
     download_filename = 'relatorio_ofertas.pdf'
-    permission_required = 'oferta.list_oferta'
+    permission_required = 'dizimo.list_oferta'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -1065,7 +1066,7 @@ class RelatorioAniversariantesPDF(LoginRequiredMixin, PermissionRequiredMixin, P
     template_name = 'relatorios/relatorio_aniversariantes_pdf.html'
     download_filename = 'relatorio_aniversariantes.pdf'
     base_url = 'file://' + settings.STATIC_ROOT
-    permission_required = 'dizimista.list_dizimista'
+    permission_required = 'dizimo.list_dizimista'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -1081,7 +1082,7 @@ class RelatorioAniversariantesPDF(LoginRequiredMixin, PermissionRequiredMixin, P
 
 
 @login_required
-@permission_required('dizimista.list_dizimista', raise_exception=True)
+@permission_required('dizimo.list_dizimista', raise_exception=True)
 def relatorio_dizimistas(request):
     dizimistas = Dizimista.objects.all()
     context = {
@@ -1097,7 +1098,7 @@ class RelatorioDizimistasPDF(LoginRequiredMixin, PermissionRequiredMixin, PDFTem
     template_name = 'relatorios/relatorio_dizimistas_pdf.html'
     download_filename = 'relatorio_dizimistas.pdf'
     base_url = 'file://' + settings.STATIC_ROOT
-    permission_required = 'dizimista.list_dizimista'
+    permission_required = 'dizimo.list_dizimista'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -1125,7 +1126,7 @@ class RelatorioIndividualDizimistaPDF(LoginRequiredMixin, PermissionRequiredMixi
     context_object_name = 'dizimista'
     template_name = 'relatorios/relatorio_recebimentos_pdf.html'
     download_filename = 'relatorio_individual_dizimista.pdf'
-    permission_required = 'dizimista.view_dizimista'
+    permission_required = 'dizimo.view_dizimista'
     raise_exception = True
 
     def get_context_data(self, **kwargs):
