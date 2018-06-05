@@ -84,6 +84,28 @@
                     <permission>list_doacao</permission>
                 </permissions>
             </model>
+            <model>
+                <app>dizimo</app>
+                <name>tipopagamento</name>
+                <permissions>
+                    <permission>add_tipopagamento</permission>
+                    <permission>change_tipopagamento</permission>
+                    <permission>delete_tipopagamento</permission>
+                    <permission>view_tipopagamento</permission>
+                    <permission>list_tipopagamento</permission>
+                </permissions>
+            </model>
+            <model>
+                <app>dizimo</app>
+                <name>pagamento</name>
+                <permissions>
+                    <permission>add_pagamento</permission>
+                    <permission>change_pagamento</permission>
+                    <permission>delete_pagamento</permission>
+                    <permission>view_pagamento</permission>
+                    <permission>list_pagamento</permission>
+                </permissions>
+            </model>
         </models>
     </group>
     <group>

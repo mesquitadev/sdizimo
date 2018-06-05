@@ -22,7 +22,7 @@
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.nome_batizando }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.nome_solicitante }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.data_batismo|date:"d/m/Y" }}</td>
-            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.recebida_em|date:"d/m/Y H:i" }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.cadastrado_em|date:"d/m/Y H:i" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.usuario.username }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.valor }}</td>
           </tr>
@@ -61,7 +61,7 @@
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.dizimista }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.referencia|date:"m/Y" }}</td>
-            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.recebida_em|date:"d/m/Y H:i" }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.cadastrado_em|date:"d/m/Y H:i" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.usuario.username }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.valor }}</td>
           </tr>
@@ -96,7 +96,7 @@
           <tr>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.descricao }}</td>
-            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.recebida_em|date:"d/m/Y H:i" }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.cadastrado_em|date:"d/m/Y H:i" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.usuario.username }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.valor }}</td>
           </tr>
@@ -128,7 +128,7 @@
         {% for oferta in ofertas %}
           <tr>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
-            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ oferta.recebida_em|date:"d/m/Y H:i" }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ oferta.cadastrado_em|date:"d/m/Y H:i" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ oferta.usuario.username }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ oferta.valor }}</td>
           </tr>

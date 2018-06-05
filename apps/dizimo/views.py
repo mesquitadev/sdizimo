@@ -179,10 +179,10 @@ class ListaOfertas(LoggedInPermissionsMixin, SearchListView):
             if usuario:
                 object_list = object_list.filter(usuario=usuario)
             if data_inicio:
-                object_list = object_list.filter(recebida_em__gte=data_inicio)
+                object_list = object_list.filter(cadastrado_em__gte=data_inicio)
             if data_fim:
                 data_fim = datetime.combine(data_fim, datetime.max.time())
-                object_list = object_list.filter(recebida_em__lte=data_fim)
+                object_list = object_list.filter(cadastrado_em__lte=data_fim)
         else:
             print(self.form.errors)
         return object_list
@@ -286,10 +286,10 @@ class ListaDizimos(LoggedInPermissionsMixin, SearchListView):
             if usuario:
                 object_list = object_list.filter(usuario=usuario)
             if data_inicio:
-                object_list = object_list.filter(recebida_em__gte=data_inicio)
+                object_list = object_list.filter(cadastrado_em__gte=data_inicio)
             if data_fim:
                 data_fim = datetime.combine(data_fim, datetime.max.time())
-                object_list = object_list.filter(recebida_em__lte=data_fim)
+                object_list = object_list.filter(cadastrado_em__lte=data_fim)
         else:
             print(self.form.errors)
         return object_list
@@ -510,10 +510,10 @@ class ListaDoacoes(LoggedInPermissionsMixin, SearchListView):
             if usuario:
                 object_list = object_list.filter(usuario=usuario)
             if data_inicio:
-                object_list = object_list.filter(recebida_em__gte=data_inicio)
+                object_list = object_list.filter(cadastrado_em__gte=data_inicio)
             if data_fim:
                 data_fim = datetime.combine(data_fim, datetime.max.time())
-                object_list = object_list.filter(recebida_em__lte=data_fim)
+                object_list = object_list.filter(cadastrado_em__lte=data_fim)
         else:
             print(self.form.errors)
         return object_list
@@ -676,15 +676,15 @@ def get_batismos(data_inicio, data_fim):
 
 
 def get_dizimos(data_inicio, data_fim):
-    return Dizimo.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('referencia', 'dizimista__nome')
+    return Dizimo.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('referencia', 'dizimista__nome')
 
 
 def get_doacoes(data_inicio, data_fim):
-    return Doacao.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
+    return Doacao.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
 
 
 def get_ofertas(data_inicio, data_fim):
-    return Oferta.objects.filter(recebida_em__gte=data_inicio, recebida_em__lte=data_fim).order_by('recebida_em')
+    return Oferta.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
 
 
 @login_required

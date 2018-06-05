@@ -78,8 +78,8 @@ class Telefone(models.Model):
         return '{0} ({1})'.format(self.numero, self.get_tipo_display())
 
 
-class Entrada(models.Model):
-    recebida_em = models.DateTimeField(auto_now_add=True, verbose_name='recebida em')
+class Recebimento(models.Model):
+    cadastrado_em = models.DateTimeField(auto_now_add=True, verbose_name='cadastrado em')
     usuario = models.ForeignKey(User, verbose_name='usuário')
     valor = models.DecimalField(max_digits=10, decimal_places=2)
 
@@ -87,24 +87,24 @@ class Entrada(models.Model):
         abstract = True
 
 
-class Oferta(Entrada):
+class Oferta(Recebimento):
     class Meta:
-        ordering = ('-recebida_em', )
+        ordering = ('-cadastrado_em', )
         permissions = (
             ("view_oferta", "Can view oferta"),
             ("list_oferta", "Can list oferta"),
         )
 
     def __str__(self):
-        return 'R$ {0} - registrada em {1}'.format(self.valor, self.recebida_em)
+        return 'R$ {0} - registrada em {1}'.format(self.valor, self.cadastrado_em)
 
 
-class Dizimo(Entrada):
+class Dizimo(Recebimento):
     dizimista = models.ForeignKey(Dizimista, related_name='dizimos')
     referencia = models.DateField(verbose_name='referência', help_text='Mês/Ano')
 
     class Meta:
-        ordering = ('-referencia', '-recebida_em')
+        ordering = ('-referencia', '-cadastrado_em')
         unique_together = ('dizimista', 'referencia')
         permissions = (
             ("view_dizimo", "Can view dizimo"),
@@ -115,7 +115,7 @@ class Dizimo(Entrada):
         return '{0}: R$ {1} - {2}'.format(self.dizimista, self.valor, self.referencia.strftime('%m/%Y'))
 
 
-class Batismo(Entrada):
+class Batismo(Recebimento):
     nome_batizando = models.CharField(max_length=250, verbose_name='nome do batizando')
     nome_solicitante = models.CharField(max_length=250, verbose_name='nome do solicitante')
     data_batismo = models.DateField(verbose_name='data do batismo')
@@ -131,18 +131,18 @@ class Batismo(Entrada):
         return '{0} batizado em {1}'.format(self.nome_batizando, self.data_batismo.strftime('%d/%m/%Y'))
 
 
-class Doacao(Entrada):
+class Doacao(Recebimento):
     descricao = models.CharField(max_length=250, verbose_name='descrição')
 
     class Meta:
-        ordering = ('-recebida_em', )
+        ordering = ('-cadastrado_em', )
         permissions = (
             ("view_doacao", "Can view doacao"),
             ("list_doacao", "Can list doacao"),
         )
 
     def __str__(self):
-        return 'R$ {0} - registrada em {1}'.format(self.valor, self.recebida_em)
+        return 'R$ {0} - registrada em {1}'.format(self.valor, self.cadastrado_em)
 
 
 class Igreja(models.Model):
@@ -160,8 +160,33 @@ class Igreja(models.Model):
         )
 
 
-# class TipoSaida(models.Model):
-#     descricao = models.CharField(max_length=250, verbose_name='descrição')
-#
-#     def __str__(self):
-#         return self.descricao
+class TipoPagamento(models.Model):
+    descricao = models.CharField(max_length=250, verbose_name='descrição')
+
+    class Meta:
+        ordering = ('descricao', )
+        permissions = (
+            ("view_tipopagamento", "Can view tipopagamento"),
+            ("list_tipopagamento", "Can list tipopagamento"),
+        )
+
+    def __str__(self):
+        return self.descricao
+
+
+class Pagamento(models.Model):
+    tipo = models.ForeignKey(TipoPagamento, related_name='pagamentos')
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+    descricao = models.CharField(max_length=250, verbose_name='descrição')
+    cadastrado_em = models.DateTimeField(auto_now_add=True, verbose_name='cadastrado em')
+    usuario = models.ForeignKey(User, verbose_name='usuário')
+
+    class Meta:
+        ordering = ('-cadastrado_em', )
+        permissions = (
+            ("view_pagamento", "Can view pagamento"),
+            ("list_pagamento", "Can list pagamento"),
+        )
+
+    def __str__(self):
+        return 'R$ {0} - {1}'.format(self.valor, self.tipo)
