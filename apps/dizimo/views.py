@@ -28,7 +28,7 @@ from .utils import MESES
 class ListaDizimistas(LoggedInPermissionsMixin, SearchListView):
     model = Dizimista
     context_object_name = 'dizimistas'
-    template_name = 'dizimistas.html'
+    template_name = 'dizimistas/lista.html'
     paginate_by = 20
     form_class = ConsultaDizimistaForm
     filter_class = DizimistaFilter
@@ -42,7 +42,7 @@ class ListaDizimistas(LoggedInPermissionsMixin, SearchListView):
 class NovoDizimista(LoggedInPermissionsMixin, CreateView):
     model = Dizimista
     form_class = DizimistaForm
-    template_name = 'novo_dizimista.html'
+    template_name = 'dizimistas/novo.html'
     permission_required = 'dizimo.add_dizimista'
 
     def get_success_url(self):
@@ -72,7 +72,7 @@ class NovoDizimista(LoggedInPermissionsMixin, CreateView):
 class EditaDizimista(LoggedInPermissionsMixin, UpdateView):
     model = Dizimista
     form_class = DizimistaForm
-    template_name = 'edita_dizimista.html'
+    template_name = 'dizimistas/edita.html'
     context_object_name = 'dizimista'
     permission_required = 'dizimo.change_dizimista'
 
@@ -104,7 +104,7 @@ class EditaDizimista(LoggedInPermissionsMixin, UpdateView):
 class ExibeDizimista(LoggedInPermissionsMixin, DetailView):
     model = Dizimista
     context_object_name = 'dizimista'
-    template_name = 'exibe_dizimista.html'
+    template_name = 'dizimistas/exibe.html'
     permission_required = 'dizimo.view_dizimista'
 
     def get_context_data(self, **kwargs):
@@ -130,9 +130,13 @@ class ExibeDizimistaPDF(LoggedInPermissionsMixin, PDFTemplateResponseMixin, Deta
 class ExcluiDizimista(LoggedInPermissionsMixin, DeleteView):
     model = Dizimista
     success_url = reverse_lazy('dizimo:dizimistas')
-    template_name = 'exclui_dizimista.html'
+    template_name = 'dizimistas/exclui.html'
     context_object_name = 'dizimista'
     permission_required = 'dizimo.delete_dizimista'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'dizimistas'
+        return super().get_context_data(**kwargs)
 
 
 @login_required
@@ -159,7 +163,7 @@ def aniversariantes(request):
 class ListaOfertas(LoggedInPermissionsMixin, SearchListView):
     model = Oferta
     context_object_name = 'ofertas'
-    template_name = 'ofertas.html'
+    template_name = 'ofertas/lista.html'
     paginate_by = 20
     form_class = ConsultaOfertaForm
     filter_class = RecebimentoFilter
@@ -193,7 +197,7 @@ class ListaOfertas(LoggedInPermissionsMixin, SearchListView):
 class NovaOferta(LoggedInPermissionsMixin, CreateView):
     model = Oferta
     form_class = OfertaForm
-    template_name = 'nova_oferta.html'
+    template_name = 'ofertas/nova.html'
     permission_required = 'dizimo.add_oferta'
 
     def get_success_url(self):
@@ -218,7 +222,7 @@ class NovaOferta(LoggedInPermissionsMixin, CreateView):
 class EditaOferta(LoggedInPermissionsMixin, UpdateView):
     model = Oferta
     form_class = OfertaForm
-    template_name = 'edita_oferta.html'
+    template_name = 'ofertas/edita.html'
     context_object_name = 'oferta'
     permission_required = 'dizimo.change_oferta'
 
@@ -235,7 +239,7 @@ class EditaOferta(LoggedInPermissionsMixin, UpdateView):
 class ExibeOferta(LoggedInPermissionsMixin, DetailView):
     model = Oferta
     context_object_name = 'oferta'
-    template_name = 'exibe_oferta.html'
+    template_name = 'ofertas/exibe.html'
     permission_required = 'dizimo.view_oferta'
 
     def get_context_data(self, **kwargs):
@@ -247,9 +251,14 @@ class ExibeOferta(LoggedInPermissionsMixin, DetailView):
 class ExcluiOferta(LoggedInPermissionsMixin, DeleteView):
     model = Oferta
     success_url = reverse_lazy('dizimo:ofertas')
-    template_name = 'exclui_oferta.html'
+    template_name = 'ofertas/exclui.html'
     context_object_name = 'oferta'
     permission_required = 'dizimo.delete_oferta'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'ofertas'
+        return super().get_context_data(**kwargs)
 
 
 ###########################################################
@@ -259,7 +268,7 @@ class ExcluiOferta(LoggedInPermissionsMixin, DeleteView):
 class ListaDizimos(LoggedInPermissionsMixin, SearchListView):
     model = Dizimo
     context_object_name = 'dizimos'
-    template_name = 'dizimos.html'
+    template_name = 'dizimos/lista.html'
     paginate_by = 20
     form_class = ConsultaDizimoForm
     filter_class = RecebimentoFilter
@@ -300,7 +309,7 @@ class ListaDizimos(LoggedInPermissionsMixin, SearchListView):
 class NovoDizimo(LoggedInPermissionsMixin, CreateView):
     model = Dizimo
     form_class = DizimoForm
-    template_name = 'novo_dizimo.html'
+    template_name = 'dizimos/novo.html'
     permission_required = 'dizimo.add_dizimo'
 
     def get_success_url(self):
@@ -325,7 +334,7 @@ class NovoDizimo(LoggedInPermissionsMixin, CreateView):
 class EditaDizimo(LoggedInPermissionsMixin, UpdateView):
     model = Dizimo
     form_class = DizimoForm
-    template_name = 'edita_dizimo.html'
+    template_name = 'dizimos/edita.html'
     context_object_name = 'dizimo'
     permission_required = 'dizimo.change_dizimo'
 
@@ -342,7 +351,7 @@ class EditaDizimo(LoggedInPermissionsMixin, UpdateView):
 class ExibeDizimo(LoggedInPermissionsMixin, DetailView):
     model = Dizimo
     context_object_name = 'dizimo'
-    template_name = 'exibe_dizimo.html'
+    template_name = 'dizimos/exibe.html'
     permission_required = 'dizimo.view_dizimo'
 
     def get_context_data(self, **kwargs):
@@ -354,15 +363,20 @@ class ExibeDizimo(LoggedInPermissionsMixin, DetailView):
 class ExcluiDizimo(LoggedInPermissionsMixin, DeleteView):
     model = Dizimo
     success_url = reverse_lazy('dizimo:dizimos')
-    template_name = 'exclui_dizimo.html'
+    template_name = 'dizimos/exclui.html'
     context_object_name = 'dizimo'
     permission_required = 'dizimo.delete_dizimo'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'dizimos'
+        return super().get_context_data(**kwargs)
 
 
 class ReciboDizimo(LoggedInPermissionsMixin, PDFTemplateResponseMixin, DetailView):
     model = Dizimo
     context_object_name = 'dizimo'
-    template_name = 'recibos/recibo_dizimo.html'
+    template_name = 'dizimos/recibo.html'
     download_filename = 'recibo.pdf'
     permission_required = 'dizimo.view_dizimo'
 
@@ -382,7 +396,7 @@ class ReciboDizimo(LoggedInPermissionsMixin, PDFTemplateResponseMixin, DetailVie
 class ListaBatismos(LoggedInPermissionsMixin, SearchListView):
     model = Dizimo
     context_object_name = 'batismos'
-    template_name = 'batismos.html'
+    template_name = 'batismos/lista.html'
     paginate_by = 20
     form_class = ConsultaBatismoForm
     filter_class = RecebimentoFilter
@@ -421,7 +435,7 @@ class ListaBatismos(LoggedInPermissionsMixin, SearchListView):
 class NovoBatismo(LoggedInPermissionsMixin, CreateView):
     model = Batismo
     form_class = BatismoForm
-    template_name = 'novo_batismo.html'
+    template_name = 'batismos/novo.html'
     permission_required = 'dizimo.add_batismo'
 
     def get_success_url(self):
@@ -446,7 +460,7 @@ class NovoBatismo(LoggedInPermissionsMixin, CreateView):
 class EditaBatismo(LoggedInPermissionsMixin, UpdateView):
     model = Batismo
     form_class = BatismoForm
-    template_name = 'edita_batismo.html'
+    template_name = 'batismos/edita.html'
     context_object_name = 'batismo'
     permission_required = 'dizimo.change_batismo'
 
@@ -463,7 +477,7 @@ class EditaBatismo(LoggedInPermissionsMixin, UpdateView):
 class ExibeBatismo(LoggedInPermissionsMixin, DetailView):
     model = Batismo
     context_object_name = 'batismo'
-    template_name = 'exibe_batismo.html'
+    template_name = 'batismos/exibe.html'
     permission_required = 'dizimo.view_batismo'
 
     def get_context_data(self, **kwargs):
@@ -475,9 +489,14 @@ class ExibeBatismo(LoggedInPermissionsMixin, DetailView):
 class ExcluiBatismo(LoggedInPermissionsMixin, DeleteView):
     model = Batismo
     success_url = reverse_lazy('dizimo:batismos')
-    template_name = 'exclui_batismo.html'
+    template_name = 'batismos/exclui.html'
     context_object_name = 'batismo'
     permission_required = 'dizimo.delete_batismo'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'batismos'
+        return super().get_context_data(**kwargs)
 
 
 ###########################################################
@@ -487,7 +506,7 @@ class ExcluiBatismo(LoggedInPermissionsMixin, DeleteView):
 class ListaDoacoes(LoggedInPermissionsMixin, SearchListView):
     model = Doacao
     context_object_name = 'doacoes'
-    template_name = 'doacoes.html'
+    template_name = 'doacoes/lista.html'
     paginate_by = 20
     form_class = ConsultaDoacaoForm
     filter_class = RecebimentoFilter
@@ -524,7 +543,7 @@ class ListaDoacoes(LoggedInPermissionsMixin, SearchListView):
 class NovaDoacao(LoggedInPermissionsMixin, CreateView):
     model = Doacao
     form_class = DoacaoForm
-    template_name = 'nova_doacao.html'
+    template_name = 'doacoes/nova.html'
     permission_required = 'dizimo.add_doacao'
 
     def get_success_url(self):
@@ -549,7 +568,7 @@ class NovaDoacao(LoggedInPermissionsMixin, CreateView):
 class EditaDoacao(LoggedInPermissionsMixin, UpdateView):
     model = Doacao
     form_class = DoacaoForm
-    template_name = 'edita_doacao.html'
+    template_name = 'doacoes/edita.html'
     context_object_name = 'doacao'
     permission_required = 'dizimo.change_doacao'
 
@@ -566,7 +585,7 @@ class EditaDoacao(LoggedInPermissionsMixin, UpdateView):
 class ExibeDoacao(LoggedInPermissionsMixin, DetailView):
     model = Doacao
     context_object_name = 'doacao'
-    template_name = 'exibe_doacao.html'
+    template_name = 'doacoes/exibe.html'
     permission_required = 'dizimo.view_doacao'
 
     def get_context_data(self, **kwargs):
@@ -578,9 +597,14 @@ class ExibeDoacao(LoggedInPermissionsMixin, DetailView):
 class ExcluiDoacao(LoggedInPermissionsMixin, DeleteView):
     model = Doacao
     success_url = reverse_lazy('dizimo:doacoes')
-    template_name = 'exclui_doacao.html'
+    template_name = 'doacoes/exclui.html'
     context_object_name = 'doacao'
     permission_required = 'dizimo.delete_doacao'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'doacoes'
+        return super().get_context_data(**kwargs)
 
 
 ###########################################################
@@ -590,7 +614,7 @@ class ExcluiDoacao(LoggedInPermissionsMixin, DeleteView):
 class ListaParoquias(LoggedInPermissionsMixin, SearchListView):
     model = Paroquia
     context_object_name = 'paroquias'
-    template_name = 'paroquias.html'
+    template_name = 'paroquias/lista.html'
     paginate_by = 20
     form_class = ConsultaParoquiaForm
     filter_class = ParoquiaFilter
@@ -605,7 +629,7 @@ class ListaParoquias(LoggedInPermissionsMixin, SearchListView):
 class NovaParoquia(LoggedInPermissionsMixin, CreateView):
     model = Paroquia
     form_class = ParoquiaForm
-    template_name = 'nova_paroquia.html'
+    template_name = 'paroquias/nova.html'
     permission_required = 'dizimo.add_paroquia'
 
     def get_success_url(self):
@@ -621,7 +645,7 @@ class NovaParoquia(LoggedInPermissionsMixin, CreateView):
 class EditaParoquia(LoggedInPermissionsMixin, UpdateView):
     model = Paroquia
     form_class = ParoquiaForm
-    template_name = 'edita_paroquia.html'
+    template_name = 'paroquias/edita.html'
     context_object_name = 'paroquia'
     permission_required = 'dizimo.change_paroquia'
 
@@ -638,9 +662,15 @@ class EditaParoquia(LoggedInPermissionsMixin, UpdateView):
 class ExcluiParoquia(LoggedInPermissionsMixin, DeleteView):
     model = Paroquia
     success_url = reverse_lazy('dizimo:paroquias')
-    template_name = 'exclui_paroquia.html'
+    template_name = 'paroquias/exclui.html'
     context_object_name = 'paroquia'
     permission_required = 'dizimo.delete_paroquia'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'configuracoes'
+        context['menu_dropdown'] = 'paroquias'
+        return context
 
 
 ###########################################################
@@ -696,7 +726,7 @@ class NovoTipoPagamento(LoggedInPermissionsMixin, CreateView):
     permission_required = 'dizimo.add_tipopagamento'
 
     def get_success_url(self):
-        return reverse_lazy('dizimo:exibe_tipo_pagamento', kwargs={'pk': self.object.pk})
+        return reverse_lazy('dizimo:tipos_pagamentos')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -714,7 +744,7 @@ class EditaTipoPagamento(LoggedInPermissionsMixin, UpdateView):
     permission_required = 'dizimo.change_tipopagamento'
 
     def get_success_url(self):
-        return reverse_lazy('dizimo:exibe_tipo_pagamento', kwargs={'pk': self.object.pk})
+        return reverse_lazy('dizimo:tipos_pagamentos')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -722,19 +752,6 @@ class EditaTipoPagamento(LoggedInPermissionsMixin, UpdateView):
         context['menu'] = 'configuracoes'
         context['menu_dropdown'] = 'tipos_pagamentos'
         return context
-
-
-class ExibeTipoPagamento(LoggedInPermissionsMixin, DetailView):
-    model = TipoPagamento
-    context_object_name = 'tipo_pagamento'
-    template_name = 'tipos_pagamentos/exibe.html'
-    permission_required = 'dizimo.view_tipopagamento'
-
-    def get_context_data(self, **kwargs):
-        kwargs['title'] = 'Exibindo {0}'.format(self.object)
-        kwargs['menu'] = 'configuracoes'
-        kwargs['menu_dropdown'] = 'tipos_pagamentos'
-        return super().get_context_data(**kwargs)
 
 
 class ExcluiTipoPagamento(LoggedInPermissionsMixin, DeleteView):

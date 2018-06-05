@@ -53,7 +53,6 @@ urlpatterns = [
     url(r'^tipos_pagamentos/$', views.ListaTiposPagamentos.as_view(), name='tipos_pagamentos'),
     url(r'^tipos_pagamentos/novo/$', views.NovoTipoPagamento.as_view(), name='novo_tipo_pagamento'),
     url(r'^tipos_pagamentos/(?P<pk>\d+)/edita/$', views.EditaTipoPagamento.as_view(), name='edita_tipo_pagamento'),
-    url(r'^tipos_pagamentos/(?P<pk>\d+)/exibe/$', views.ExibeTipoPagamento.as_view(), name='exibe_tipo_pagamento'),
     url(r'^tipos_pagamentos/(?P<pk>\d+)/exclui/$', views.ExcluiTipoPagamento.as_view(), name='exclui_tipo_pagamento'),
 
     # relatorios

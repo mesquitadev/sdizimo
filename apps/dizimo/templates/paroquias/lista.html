@@ -45,7 +45,9 @@
           {% for paroquia in paroquias %}
             <tr>
               <td scope="row" width="60">
-                <a href="{% url 'dizimo:edita_paroquia' paroquia.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                {% if perms.dizimo.change_paroquia %}
+                    <a href="{% url 'dizimo:edita_paroquia' paroquia.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                {% endif %}
                 {% if perms.dizimo.delete_paroquia %}
                     <a href="{% url 'dizimo:exclui_paroquia' paroquia.pk %}" title="Excluir"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                 {% endif %}

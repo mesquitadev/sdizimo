@@ -15,13 +15,6 @@
 {% endblock %}
 
 {% block content %}
-  <div class="mb-4 d-flex flex-row-reverse">
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="{% url 'dizimo:edita_tipo_pagamento' tipo_pagamento.pk %}" class="btn btn-primary">Editar</a></li>
-      <li class="list-inline-item"><a href="{% url 'dizimo:exclui_tipo_pagamento' tipo_pagamento.pk %}" class="btn btn-danger">Excluir</a></li>
-    </ul>
-  </div>
-
   <div class="card">
     <div class="card-header d-flex align-items-center">
       <h3 class="h4">{{ title }}</h3>
@@ -31,9 +24,8 @@
         {% csrf_token %}
         <p>Tem certeza que deseja excluir este tipo de pagamento?</p>
         <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</button>
-        <a href="{% url 'dizimo:exibe_tipo_pagamento' tipo_pagamento.pk %}" class="btn btn-outline-secondary" role="button"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+        <a href="{% url 'dizimo:tipos_pagamentos' %}" class="btn btn-outline-secondary" role="button"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
       </form>
     </div>
   </div>
-  <a href="{% url 'dizimo:tipos_pagamentos' %}" class="btn btn-secondary" role="button">Voltar</a>
 {% endblock %}

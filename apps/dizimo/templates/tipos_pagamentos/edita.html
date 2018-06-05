@@ -24,7 +24,7 @@
         {% csrf_token %}
         {% include 'includes/form.html' %}
         <button type="submit" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Salvar</button>
-        <a href="{% url 'dizimo:exibe_tipo_pagamento' tipo_pagamento.pk %}" class="btn btn-outline-secondary" role="button"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+        <a href="{% url 'dizimo:tipos_pagamentos' %}" class="btn btn-outline-secondary" role="button"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
       </form>
     </div>
   </div>

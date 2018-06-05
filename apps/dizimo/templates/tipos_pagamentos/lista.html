@@ -45,9 +45,11 @@
           {% for tipo_pagamento in tipos_pagamentos %}
             <tr>
               <td scope="row" width="60">
-                <a href="{% url 'dizimo:exibe_tipo_pagamento' tipo_pagamento.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
                 {% if perms.dizimo.change_tipo_pagamento %}
-                    <a href="{% url 'dizimo:edita_tipo_pagamento' tipo_pagamento.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                  <a href="{% url 'dizimo:edita_tipo_pagamento' tipo_pagamento.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                {% endif %}
+                {% if perms.dizimo.delete_tipo_pagamento %}
+                  <a href="{% url 'dizimo:exclui_tipo_pagamento' tipo_pagamento.pk %}" title="Excluir"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                 {% endif %}
               </td>
               <td>{{ tipo_pagamento.descricao }}</td>

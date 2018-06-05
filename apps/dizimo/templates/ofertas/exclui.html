@@ -15,13 +15,6 @@
 {% endblock %}
 
 {% block content %}
-  <div class="mb-4 d-flex flex-row-reverse">
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="{% url 'dizimo:edita_oferta' oferta.pk %}" class="btn btn-primary">Editar</a></li>
-      <li class="list-inline-item"><a href="{% url 'dizimo:exclui_oferta' oferta.pk %}" class="btn btn-danger">Excluir</a></li>
-    </ul>
-  </div>
-
   <div class="card">
     <div class="card-header d-flex align-items-center">
       <h3 class="h4">R$ {{ oferta.valor }}</h3>
