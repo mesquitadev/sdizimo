@@ -22,3 +22,9 @@ class ParoquiaFilter(BaseFilter):
     search_fields = {
         'nome': {'operator': '__unaccent__icontains', 'fields': ['nome']},
     }
+
+
+class TipoPagamentoFilter(BaseFilter):
+    search_fields = {
+        'descricao': {'operator': '__unaccent__icontains', 'fields': ['descricao']},
+    }

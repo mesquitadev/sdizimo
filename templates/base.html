@@ -114,6 +114,7 @@
                         <li {% if menu_dropdown == 'dados_igreja' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:dados_igreja' %}">Igreja</a></li>
                       {% endif %}
                       <li {% if menu_dropdown == 'paroquias' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:paroquias' %}">Paróquias</a></li>
+                      <li {% if menu_dropdown == 'tipos_pagamentos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:tipos_pagamentos' %}">Tipos de Pagamentos</a></li>
                     </ul>
                   </li>
               {% if user.perfil.eh_administrador %}

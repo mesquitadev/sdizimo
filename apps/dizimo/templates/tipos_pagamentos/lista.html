@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block pageheader %}{{ title }}{% endblock %}
+
+{% block breadcrumb %}
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+      <li class="breadcrumb-item active">{{ title }}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4 d-flex flex-row-reverse">
+    <a href="{% url 'dizimo:novo_tipo_pagamento' %}" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i> Novo tipo de pagamento</a>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Filtros para pesquisa</h3>
+    </div>
+    <div class="card-body">
+      <form method="GET">
+        {% include 'includes/filter_form.html' %}
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Listagem de Tipos de Pagamentos</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead class="thead-inverse">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Descrição</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for tipo_pagamento in tipos_pagamentos %}
+            <tr>
+              <td scope="row" width="60">
+                <a href="{% url 'dizimo:exibe_tipo_pagamento' tipo_pagamento.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
+                {% if perms.dizimo.change_tipo_pagamento %}
+                    <a href="{% url 'dizimo:edita_tipo_pagamento' tipo_pagamento.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                {% endif %}
+              </td>
+              <td>{{ tipo_pagamento.descricao }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% include 'includes/pagination.html' %}
+{% endblock %}

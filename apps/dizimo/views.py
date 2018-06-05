@@ -11,11 +11,13 @@ from easy_pdf.views import PDFTemplateView, PDFTemplateResponseMixin
 from search_views.search import SearchListView
 
 from apps.comum.mixins import LoggedInPermissionsMixin
-from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao, Paroquia, Igreja
-from .filters import DizimistaFilter, RecebimentoFilter, ParoquiaFilter
+from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao, Paroquia, Igreja, \
+    TipoPagamento, Pagamento
+from .filters import DizimistaFilter, RecebimentoFilter, ParoquiaFilter, TipoPagamentoFilter
 from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
     DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm, DoacaoForm, ConsultaDoacaoForm, \
-    RecebimentosPorPeriodoForm, ParoquiaForm, ConsultaParoquiaForm, IgrejaForm
+    RecebimentosPorPeriodoForm, ParoquiaForm, ConsultaParoquiaForm, IgrejaForm, \
+    TipoPagamentoForm
 from .utils import MESES
 
 
@@ -665,6 +667,88 @@ def dados_igreja(request):
     }
 
     return render(request, 'dados_igreja.html', context)
+
+
+###########################################################
+#  TIPOS DE PAGAMENTOS                                    #
+###########################################################
+
+class ListaTiposPagamentos(LoggedInPermissionsMixin, SearchListView):
+    model = TipoPagamento
+    context_object_name = 'tipos_pagamentos'
+    template_name = 'tipos_pagamentos/lista.html'
+    paginate_by = 20
+    form_class = TipoPagamentoForm
+    filter_class = TipoPagamentoFilter
+    permission_required = 'dizimo.list_tipopagamento'
+
+    def get_context_data(self, **kwargs):
+        kwargs['title'] = 'Tipos de Pagamentos'
+        kwargs['menu'] = 'configuracoes'
+        kwargs['menu_dropdown'] = 'tipos_pagamentos'
+        return super().get_context_data(**kwargs)
+
+
+class NovoTipoPagamento(LoggedInPermissionsMixin, CreateView):
+    model = TipoPagamento
+    form_class = TipoPagamentoForm
+    template_name = 'tipos_pagamentos/novo.html'
+    permission_required = 'dizimo.add_tipopagamento'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_tipo_pagamento', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Novo tipo de pagamento'
+        context['menu'] = 'configuracoes'
+        context['menu_dropdown'] = 'tipos_pagamentos'
+        return context
+
+
+class EditaTipoPagamento(LoggedInPermissionsMixin, UpdateView):
+    model = TipoPagamento
+    form_class = TipoPagamentoForm
+    template_name = 'tipos_pagamentos/edita.html'
+    context_object_name = 'tipo_pagamento'
+    permission_required = 'dizimo.change_tipopagamento'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_tipo_pagamento', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editando {0}'.format(self.object)
+        context['menu'] = 'configuracoes'
+        context['menu_dropdown'] = 'tipos_pagamentos'
+        return context
+
+
+class ExibeTipoPagamento(LoggedInPermissionsMixin, DetailView):
+    model = TipoPagamento
+    context_object_name = 'tipo_pagamento'
+    template_name = 'tipos_pagamentos/exibe.html'
+    permission_required = 'dizimo.view_tipopagamento'
+
+    def get_context_data(self, **kwargs):
+        kwargs['title'] = 'Exibindo {0}'.format(self.object)
+        kwargs['menu'] = 'configuracoes'
+        kwargs['menu_dropdown'] = 'tipos_pagamentos'
+        return super().get_context_data(**kwargs)
+
+
+class ExcluiTipoPagamento(LoggedInPermissionsMixin, DeleteView):
+    model = TipoPagamento
+    success_url = reverse_lazy('dizimo:tipos_pagamentos')
+    template_name = 'tipos_pagamentos/exclui.html'
+    context_object_name = 'tipo_pagamento'
+    permission_required = 'dizimo.delete_tipopagamento'
+
+    def get_context_data(self, **kwargs):
+        kwargs['title'] = 'Excluindo {0}'.format(self.object)
+        kwargs['menu'] = 'configuracoes'
+        kwargs['menu_dropdown'] = 'tipos_pagamentos'
+        return super().get_context_data(**kwargs)
 
 
 ###########################################################

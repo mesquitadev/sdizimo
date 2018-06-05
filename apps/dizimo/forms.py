@@ -6,7 +6,7 @@ from django.forms.models import inlineformset_factory
 from apps.comum.form_fields import MesAnoField
 
 from .models import Dizimista, Telefone, Oferta, Dizimo, Batismo, Doacao,\
-    Paroquia, Igreja
+    Paroquia, Igreja, TipoPagamento
 
 
 ###########################################################
@@ -157,3 +157,13 @@ class IgrejaForm(forms.ModelForm):
 class RecebimentosPorPeriodoForm(forms.Form):
     data_inicio = forms.DateField(label='De', widget=DatePicker(options={"autoclose": True}))
     data_fim = forms.DateField(label='Até', widget=DatePicker(options={"autoclose": True}))
+
+
+###########################################################
+#  TIPOS DE PAGAMENTOS                                    #
+###########################################################
+
+class TipoPagamentoForm(forms.ModelForm):
+    class Meta:
+        model = TipoPagamento
+        fields = '__all__'
