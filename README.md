@@ -39,11 +39,11 @@ python manage.py runserver
 * Fazer backup do banco
 ```
 #!bash
-pg_dump -C -h 127.0.0.1 -p 5432 -U sdizimo sdizimo > db_backup_YYYYMMDD
+pg_dump -Fc -h 127.0.0.1 -p 5432 -U sdizimo sdizimo > db_backup_YYYYMMDD
 ```
 
 * Restaurar backup do banco
 ```
 #!bash
-psql -h 127.0.0.1 -U sdizimo sdizimo < db_backup_YYYYMMDD
+pg_restore -c -h 127.0.0.1 -p 5432 -U sdizimo -d sdizimo db_backup_YYYYMMDD
 ```
