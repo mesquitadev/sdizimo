@@ -15,7 +15,8 @@
 ```
 #!bash
 sudo apt install python3-dev python-pip virtualenvwrapper
-sudo apt install libpq-dev libjpeg-dev libtiff5-dev libpng12-dev
+sudo apt install libpq-dev libjpeg-dev libtiff5-dev libpng-dev
+sudo apt install postgresql postgresql-contrib pgadmin3
 ```
 
 * Tendo todas as dependências instaladas, configurar o virtualenv
