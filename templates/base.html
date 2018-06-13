@@ -87,6 +87,15 @@
             <!-- Sidebar Navidation Menus-->
             <ul class="list-unstyled">
               <li {% if menu == 'inicio' %}class="active"{% endif %}><a href="{% url 'inicio' %}"><i class="fa fa-home fa-fw" aria-hidden="true"></i>Início</a></li>
+              <li><a href="#menu_configuracoes" aria-expanded="{% if menu == 'configuracoes' %}true{% else %}false{% endif %}" data-toggle="collapse"> <i class="fa fa-cogs fa-fw"></i>Configurações</a>
+                <ul id="menu_configuracoes" class="collapse list-unstyled {% if menu == 'configuracoes' %}show{% endif %}">
+                  {% if user.perfil.eh_administrador %}
+                    <li {% if menu_dropdown == 'dados_igreja' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:dados_igreja' %}">Igreja</a></li>
+                  {% endif %}
+                  <li {% if menu_dropdown == 'paroquias' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:paroquias' %}">Paróquias</a></li>
+                  <li {% if menu_dropdown == 'tipos_pagamentos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:tipos_pagamentos' %}">Tipos de Pagamentos</a></li>
+                </ul>
+              </li>
               <li {% if menu == 'dizimistas' %}class="active"{% endif %}><a href="{% url 'dizimo:dizimistas' %}"><i class="fa fa-address-card-o fa-fw" aria-hidden="true"></i>Dizimistas</a></li>
               <li {% if menu == 'usuarios' %}class="active"{% endif %}><a href="{% url 'usuarios' %}"><i class="fa fa-credit-card fa-fw" aria-hidden="true"></i>Pagamentos</a></li>
               <li><a href="#menu_recebimentos" aria-expanded="{% if menu == 'recebimentos' %}true{% else %}false{% endif %}" data-toggle="collapse"> <i class="fa fa-money fa-fw"></i>Recebimentos</a>
@@ -108,15 +117,6 @@
                   <li {% if menu_dropdown == 'relatorio_geral_recebimentos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:relatorio_geral_recebimentos' %}">Relatório geral de recebimentos</a></li>
                 </ul>
               </li>
-                  <li><a href="#menu_configuracoes" aria-expanded="{% if menu == 'configuracoes' %}true{% else %}false{% endif %}" data-toggle="collapse"> <i class="fa fa-cog fa-fw"></i>Configurações</a>
-                    <ul id="menu_configuracoes" class="collapse list-unstyled {% if menu == 'configuracoes' %}show{% endif %}">
-                      {% if user.perfil.eh_administrador %}
-                        <li {% if menu_dropdown == 'dados_igreja' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:dados_igreja' %}">Igreja</a></li>
-                      {% endif %}
-                      <li {% if menu_dropdown == 'paroquias' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:paroquias' %}">Paróquias</a></li>
-                      <li {% if menu_dropdown == 'tipos_pagamentos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:tipos_pagamentos' %}">Tipos de Pagamentos</a></li>
-                    </ul>
-                  </li>
               {% if user.perfil.eh_administrador %}
                   <li {% if menu == 'usuarios' %}class="active"{% endif %}><a href="{% url 'usuarios' %}"><i class="fa fa-users fa-fw" aria-hidden="true"></i>Usuários</a></li>
               {% endif %}
