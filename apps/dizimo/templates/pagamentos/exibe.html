@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'dizimo:pagamentos' %}">Pagamentos</a></li>
+    <li class="breadcrumb-item active">{{ pagamento }}</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4 d-flex flex-row-reverse">
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="{% url 'dizimo:novo_pagamento' %}" class="btn btn-success"><i class="fa fa-plus-circle" aria-hidden="true"></i> Novo pagamento</a></li>
+      {% if perms.dizimo.change_pagamento %}
+        <li class="list-inline-item"><a href="{% url 'dizimo:edita_pagamento' pagamento.pk %}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a></li>
+      {% endif %}
+      {% if perms.dizimo.delete_pagamento %}
+        <li class="list-inline-item"><a href="{% url 'dizimo:exclui_pagamento' pagamento.pk %}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</a></li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">{{ pagamento }}</h3>
+    </div>
+    <div class="card-body">
+      <table class="table table-striped">
+        <tr>
+          <td width="130" class="text-right"><strong>Tipo</strong></td>
+          <td>{{pagamento.tipo}}</td>
+          <td class="text-right"><strong>Valor</strong></td>
+          <td>R$ {{pagamento.valor}}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>Descrição</strong></td>
+          <td colspan="3">{{pagamento.descricao}}</td>  
+        </tr>
+        <tr>
+          <td class="text-right"><strong>Usuário responsável</strong></td>
+          <td class="align-middle">{{pagamento.usuario.get_full_name}} ({{pagamento.usuario.username}})</td>
+          <td class="text-right align-middle"><strong>Registrado em</strong></td>
+          <td class="align-middle">{{pagamento.cadastrado_em}}</td>  
+        </tr>
+      </table>
+    </div>
+  </div>
+  <a href="{% url 'dizimo:pagamentos' %}" class="btn btn-secondary" role="button"><i class="fa fa-chevron-left" aria-hidden="true"></i> Voltar</a>
+{% endblock %}

@@ -6,7 +6,7 @@ from django.forms.models import inlineformset_factory
 from apps.comum.form_fields import MesAnoField
 
 from .models import Dizimista, Telefone, Oferta, Dizimo, Batismo, Doacao,\
-    Paroquia, Igreja, TipoPagamento
+    Paroquia, Igreja, TipoPagamento, Pagamento
 
 
 ###########################################################
@@ -160,10 +160,27 @@ class RecebimentosPorPeriodoForm(forms.Form):
 
 
 ###########################################################
-#  TIPOS DE PAGAMENTOS                                    #
+#  PAGAMENTOS                                             #
 ###########################################################
 
 class TipoPagamentoForm(forms.ModelForm):
     class Meta:
         model = TipoPagamento
         fields = '__all__'
+
+
+class PagamentoForm(forms.ModelForm):
+    valor = forms.DecimalField(label='Valor (R$)', max_digits=10, decimal_places=2, localize=True)
+
+    class Meta:
+        model = Pagamento
+        fields = ('tipo', 'valor', 'descricao')
+        localized_fields = ('valor', )
+
+
+class ConsultaPagamentoForm(forms.Form):
+    tipo = forms.ModelChoiceField(label='Tipo', required=False, queryset=TipoPagamento.objects.all())
+    descricao = forms.CharField(label='Descrição', required=False)
+    data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
+    data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
+    usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))

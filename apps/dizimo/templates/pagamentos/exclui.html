@@ -4,7 +4,7 @@
 <nav aria-label="breadcrumb" role="navigation">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'dizimo:tipos_pagamentos' %}">Tipos de Pagamentos</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'dizimo:pagamentos' %}">Pagamentos</a></li>
     <li class="breadcrumb-item active">{{ title }}</li>
   </ol>
 </nav>
@@ -18,9 +18,9 @@
     <div class="card-body">
       <form method="post" class="mb-4" novalidate>
         {% csrf_token %}
-        <p>Tem certeza que deseja excluir este tipo de pagamento?</p>
+        <p>Tem certeza que deseja excluir este pagamento?</p>
         <button type="submit" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</button>
-        <a href="{% url 'dizimo:tipos_pagamentos' %}" class="btn btn-outline-secondary" role="button"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
+        <a href="{% url 'dizimo:pagamentos' %}" class="btn btn-outline-secondary" role="button"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
       </form>
     </div>
   </div>

@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ title }}{% endblock %}
+
+{% block pageheader %}{{ title }}{% endblock %}
+
 {% block breadcrumb %}
   <nav aria-label="breadcrumb" role="navigation">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
-      <li class="breadcrumb-item"><a href="{% url 'dizimo:tipos_pagamentos' %}">Tipos de Pagamentos</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'dizimo:pagamentos' %}">Pagamentos</a></li>
       <li class="breadcrumb-item active">{{ title }}</li>
     </ol>
   </nav>
@@ -20,8 +24,13 @@
         {% csrf_token %}
         {% include 'includes/form.html' %}
         <button type="submit" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Salvar</button>
-        <a href="{% url 'dizimo:tipos_pagamentos' %}" class="btn btn-outline-secondary" role="button"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</a>
       </form>
     </div>
   </div>
+
+  <script>
+    $(document).ready(function(){
+      $('#id_valor').mask("#.##0,00", {reverse: true});
+    });
+  </script>
 {% endblock %}

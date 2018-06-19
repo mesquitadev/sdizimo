@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>SDízimo - {% block title %}{% endblock %}</title>
+    <title>SDízimo - {% block title %}{{ title }}{% endblock %}</title>
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
     <!-- Font Icons CSS-->
@@ -97,7 +97,7 @@
                 </ul>
               </li>
               <li {% if menu == 'dizimistas' %}class="active"{% endif %}><a href="{% url 'dizimo:dizimistas' %}"><i class="fa fa-address-card-o fa-fw" aria-hidden="true"></i>Dizimistas</a></li>
-              <li {% if menu == 'usuarios' %}class="active"{% endif %}><a href="{% url 'usuarios' %}"><i class="fa fa-credit-card fa-fw" aria-hidden="true"></i>Pagamentos</a></li>
+              <li {% if menu == 'usuarios' %}class="active"{% endif %}><a href="{% url 'dizimo:pagamentos' %}"><i class="fa fa-credit-card fa-fw" aria-hidden="true"></i>Pagamentos</a></li>
               <li><a href="#menu_recebimentos" aria-expanded="{% if menu == 'recebimentos' %}true{% else %}false{% endif %}" data-toggle="collapse"> <i class="fa fa-money fa-fw"></i>Recebimentos</a>
                 <ul id="menu_recebimentos" class="collapse list-unstyled {% if menu == 'recebimentos' %}show{% endif %}">
                   <li {% if menu_dropdown == 'batismos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:batismos' %}">Batismos</a></li>
@@ -126,7 +126,7 @@
             <!-- Page Header-->
             <header class="page-header">
               <div class="container-fluid">
-                <h2 class="no-margin-bottom">{% block pageheader %}{% endblock %}</h2>
+                <h2 class="no-margin-bottom">{% block pageheader %}{{ title }}{% endblock %}</h2>
               </div>
             </header>
             <!-- Breadcrumb-->

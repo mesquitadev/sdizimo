@@ -17,7 +17,7 @@ from .filters import DizimistaFilter, RecebimentoFilter, ParoquiaFilter, TipoPag
 from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
     DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm, DoacaoForm, ConsultaDoacaoForm, \
     RecebimentosPorPeriodoForm, ParoquiaForm, ConsultaParoquiaForm, IgrejaForm, \
-    TipoPagamentoForm
+    TipoPagamentoForm, PagamentoForm, ConsultaPagamentoForm
 from .utils import MESES
 
 
@@ -765,6 +765,117 @@ class ExcluiTipoPagamento(LoggedInPermissionsMixin, DeleteView):
         kwargs['title'] = 'Excluindo {0}'.format(self.object)
         kwargs['menu'] = 'configuracoes'
         kwargs['menu_dropdown'] = 'tipos_pagamentos'
+        return super().get_context_data(**kwargs)
+
+
+###########################################################
+#  PAGAMENTOS                                             #
+###########################################################
+
+class ListaPagamentos(LoggedInPermissionsMixin, SearchListView):
+    model = Pagamento
+    context_object_name = 'pagamentos'
+    template_name = 'pagamentos/lista.html'
+    paginate_by = 20
+    form_class = ConsultaPagamentoForm
+    filter_class = TipoPagamentoFilter
+    permission_required = 'dizimo.list_pagamento'
+
+    def get_context_data(self, **kwargs):
+        kwargs['title'] = 'Pagamentos'
+        kwargs['menu'] = 'pagamentos'
+        return super().get_context_data(**kwargs)
+    
+    def get_object_list(self, request, search_errors=None):
+        object_list = Pagamento.objects.all()
+        self.form = ConsultaPagamentoForm(request.GET)
+        if self.form and self.form.is_valid():
+            tipo = self.form.cleaned_data['tipo']
+            descricao = self.form.cleaned_data['descricao']
+            usuario = self.form.cleaned_data['usuario']
+            data_inicio = self.form.cleaned_data['data_inicio']
+            data_fim = self.form.cleaned_data['data_fim']
+
+            if descricao:
+                object_list = object_list.filter(descricao__unaccent__icontains=descricao)
+            if tipo:
+                object_list = object_list.filter(tipo=tipo)
+            if usuario:
+                object_list = object_list.filter(usuario=usuario)
+            if data_inicio:
+                object_list = object_list.filter(cadastrado_em__gte=data_inicio)
+            if data_fim:
+                data_fim = datetime.combine(data_fim, datetime.max.time())
+                object_list = object_list.filter(cadastrado_em__lte=data_fim)
+        else:
+            print(self.form.errors)
+        return object_list
+
+
+class NovoPagamento(LoggedInPermissionsMixin, CreateView):
+    model = Pagamento
+    form_class = PagamentoForm
+    template_name = 'pagamentos/novo.html'
+    permission_required = 'dizimo.add_pagamento'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_pagamento', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Novo pagamento'
+        context['menu'] = 'pagamentos'
+        return context
+    
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.usuario = self.request.user
+            self.object.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+
+class ExibePagamento(LoggedInPermissionsMixin, DetailView):
+    model = Pagamento
+    context_object_name = 'pagamento'
+    template_name = 'pagamentos/exibe.html'
+    permission_required = 'dizimo.view_pagamento'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'pagamentos'
+        kwargs['title'] = self.object
+        return super().get_context_data(**kwargs)
+
+
+class EditaPagamento(LoggedInPermissionsMixin, UpdateView):
+    model = Pagamento
+    form_class = TipoPagamentoForm
+    template_name = 'pagamentos/edita.html'
+    context_object_name = 'pagamento'
+    permission_required = 'dizimo.change_pagamento'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_pagamento', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editando {0}'.format(self.object)
+        context['menu'] = 'pagamentos'
+        return context
+
+
+class ExcluiPagamento(LoggedInPermissionsMixin, DeleteView):
+    model = Pagamento
+    success_url = reverse_lazy('dizimo:pagamentos')
+    template_name = 'pagamentos/exclui.html'
+    context_object_name = 'pagamento'
+    permission_required = 'dizimo.delete_pagamento'
+
+    def get_context_data(self, **kwargs):
+        kwargs['title'] = 'Excluindo {0}'.format(self.object)
+        kwargs['menu'] = 'pagamentos'
         return super().get_context_data(**kwargs)
 
 

@@ -189,4 +189,4 @@ class Pagamento(models.Model):
         )
 
     def __str__(self):
-        return 'R$ {0} - {1}'.format(self.valor, self.tipo)
+        return '{1} - R$ {0}'.format(self.valor, self.tipo)

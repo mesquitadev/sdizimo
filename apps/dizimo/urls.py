@@ -55,6 +55,13 @@ urlpatterns = [
     url(r'^tipos_pagamentos/(?P<pk>\d+)/edita/$', views.EditaTipoPagamento.as_view(), name='edita_tipo_pagamento'),
     url(r'^tipos_pagamentos/(?P<pk>\d+)/exclui/$', views.ExcluiTipoPagamento.as_view(), name='exclui_tipo_pagamento'),
 
+    # pagamentos
+    url(r'^pagamentos/$', views.ListaPagamentos.as_view(), name='pagamentos'),
+    url(r'^pagamentos/novo/$', views.NovoPagamento.as_view(), name='novo_pagamento'),
+    url(r'^pagamentos/(?P<pk>\d+)/exibe/$', views.ExibePagamento.as_view(), name='exibe_pagamento'),
+    url(r'^pagamentos/(?P<pk>\d+)/edita/$', views.EditaPagamento.as_view(), name='edita_pagamento'),
+    url(r'^pagamentos/(?P<pk>\d+)/exclui/$', views.ExcluiPagamento.as_view(), name='exclui_pagamento'),
+
     # relatorios
     url(r'^dizimistas/relatorios/aniversariantes/$', views.aniversariantes, name='aniversariantes'),
     url(r'^dizimistas/relatorios/aniversariantes/pdf$', views.RelatorioAniversariantesPDF.as_view(), name='relatorio_aniversariantes_pdf'),
