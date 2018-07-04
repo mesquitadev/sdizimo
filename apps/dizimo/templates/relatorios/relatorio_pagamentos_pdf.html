@@ -1,0 +1,41 @@
+{% extends 'base_pdf_landscape.html' %}
+
+{% block content %}
+  {% if pagamentos %}
+    <table class="table table-hover">
+      <caption>Listagem de pagamentos</caption>
+      <thead class="thead-inverse">
+        <tr class="titulo_tabela">
+          <th width="40">#</th>
+          <th>Tipo</th>
+          <th>Descrição</th>
+          <th width="170">Registrado em</th>
+          <th width="200">Usuário responsável</th>
+          <th width="120">Valor (R$)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pagamento in pagamentos %}
+          <tr>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.tipo }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.descricao }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.cadastrado_em|date:"d/m/Y H:i" }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.usuario.username }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.valor }}</td>
+          </tr>
+        {% endfor %}
+        <tr class="footer_tabela">
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>TOTAL</td>
+          <td>{{ total_pagamentos.total }}</td>
+        </tr>
+      </tbody>
+
+    </table>
+    <div class="space20">&nbsp;</div>
+  {% endif %}
+{% endblock %}

@@ -899,6 +899,10 @@ def get_ofertas(data_inicio, data_fim):
     return Oferta.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
 
 
+def get_pagamentos(data_inicio, data_fim):
+    return Pagamento.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+
+
 @login_required
 @permission_required('dizimo.list_batismo', raise_exception=True)
 def relatorio_batismos(request):
@@ -1054,6 +1058,62 @@ def relatorio_geral_recebimentos(request):
         'doacoes': doacoes
     }
     return render(request, 'relatorios/relatorio_recebimentos.html', context)
+
+
+@login_required
+@permission_required('dizimo.list_pagamento', raise_exception=True)
+def relatorio_pagamentos(request):
+    pagamentos = []
+    
+    form = RecebimentosPorPeriodoForm(request.POST or None)
+
+    if request.method == 'POST':
+        form = RecebimentosPorPeriodoForm(request.POST)
+        if form.is_valid():
+            data_inicio = form.cleaned_data['data_inicio']
+            data_fim = form.cleaned_data['data_fim']
+
+            # consulta pagamentos
+            pagamentos = get_pagamentos(data_inicio, data_fim)
+    else:
+        form = RecebimentosPorPeriodoForm()
+
+    context = {
+        'menu': 'relatorios',
+        'menu_dropdown': 'relatorio_pagamentos',
+        'form': form,
+        'titulo': 'Relatório de Pagamentos',
+        'url_relatorio': 'dizimo:relatorio_pagamentos_pdf',
+        'pagamentos': pagamentos,
+    }
+    return render(request, 'relatorios/relatorio_pagamentos.html', context)
+
+
+class RelatorioPagamentosPDF(LoggedInPermissionsMixin, PDFTemplateView):
+    template_name = 'relatorios/relatorio_pagamentos_pdf.html'
+    download_filename = 'relatorio_pagamentos.pdf'
+    permission_required = 'dizimo.list_pagamento'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        dt_inicio = self.request.GET.get('data_ini')
+        dt_fim = self.request.GET.get('data_fim')
+
+        # converte datas
+        if dt_inicio:
+            data_inicio = datetime.strptime(dt_inicio, '%d/%m/%Y')
+        if dt_fim:
+            data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
+
+        # consulta pagamentos
+        pagamentos = get_pagamentos(data_inicio, data_fim)
+        total_pagamentos = pagamentos.aggregate(total=Sum('valor'))
+
+        context['titulo_relatorio'] = 'Relatório de pagamentos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
+        context['user'] = self.request.user
+        context['pagamentos'] = pagamentos
+        context['total_pagamentos'] = total_pagamentos
+        return context
 
 
 class RelatorioBatismosPDF(LoggedInPermissionsMixin, PDFTemplateView):

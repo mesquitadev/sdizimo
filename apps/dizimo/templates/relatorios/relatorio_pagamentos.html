@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block pageheader %}{{ titulo }}{% endblock %}
+
+{% block breadcrumb %}
+  <nav aria-label="breadcrumb" role="navigation">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'inicio' %}">Início</a></li>
+      <li class="breadcrumb-item active">{{ titulo }}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header d-flex align-items-center">
+      <h3 class="h4">Filtros para pesquisa</h3>
+    </div>
+    <div class="card-body">
+      <form method="POST" novalidate>
+        {% csrf_token %}
+        {% include 'includes/filter_form.html' %}
+      </form>
+    </div>
+  </div>
+
+  {% if pagamentos %}
+    <div class="mb-4 d-flex flex-row-reverse">
+      <a href="{% url url_relatorio %}?data_ini={{form.data_inicio.value}}&data_fim={{form.data_fim.value}}" target="_blank" class="btn btn-primary"><i class="fa fa-print" aria-hidden="true"></i> Imprimir</a>
+    </div>
+    <div class="card">
+      <div class="card-header d-flex align-items-center">
+        <h3 class="h4">Listagem de Pagamentos</h3>
+      </div>
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead class="thead-inverse">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Descrição</th>
+              <th scope="col">Registrado em</th>
+              <th scope="col">Usuário responsável</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for pagamento in pagamentos %}
+              <tr>
+                <td scope="row" width="60">
+                  <a href="{% url 'dizimo:exibe_pagamento' pagamento.pk %}" title="Exibir"><i class="fa fa-search" aria-hidden="true"></i></a>
+                  {% if perms.dizimo.change_pagamento %}
+                    <a href="{% url 'dizimo:edita_pagamento' pagamento.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                  {% endif %}
+                </td>
+                <td>{{ pagamento.tipo }}</td>
+                <td>{{ pagamento.valor }}</td>
+                <td>{{ pagamento.descricao }}</td>
+                <td>{{ pagamento.cadastrado_em }}</td>
+                <td>{{ pagamento.usuario.username }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% endif %}
+
+  <script>
+    $(document).ready(function(){
+      $('#id_data_inicio').mask("00/00/0000", {placeholder: "__/__/____"});
+      $('#id_data_fim').mask("00/00/0000", {placeholder: "__/__/____"});
+    });
+  </script>
+{% endblock %}
