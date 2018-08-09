@@ -373,7 +373,7 @@ class ExcluiDizimo(LoggedInPermissionsMixin, DeleteView):
         return super().get_context_data(**kwargs)
 
 
-class ReciboDizimo(LoggedInPermissionsMixin, PDFTemplateResponseMixin, DetailView):
+class ReciboDizimo(LoggedInPermissionsMixin, DetailView):
     model = Dizimo
     context_object_name = 'dizimo'
     template_name = 'dizimos/recibo.html'
