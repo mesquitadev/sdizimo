@@ -77,14 +77,35 @@
   });
   */
 
+  var map={"â":"a","Â":"A","à":"a","À":"A","á":"a","Á":"A","ã":"a","Ã":"A","ê":"e","Ê":"E","è":"e","È":"E","é":"e","É":"E","î":"i","Î":"I","ì":"i","Ì":"I","í":"i","Í":"I","õ":"o","Õ":"O","ô":"o","Ô":"O","ò":"o","Ò":"O","ó":"o","Ó":"O","ü":"u","Ü":"U","û":"u","Û":"U","ú":"u","Ú":"U","ù":"u","Ù":"U","ç":"c","Ç":"C"};
+
+  function removerAcentos(s){ return s.replace(/[\W\[\] ]/g,function(a){return map[a]||a}) };
+
   qz.websocket.connect().then(function() { 
     return qz.printers.find("daruma")               // Pass the printer name into the next Promise
   }).then(function(printer) {
     var config = qz.configs.create(printer);       // Create a default config for the found printer
-    var data = [
-      'Raw Data\n',
-      'More Raw Data\n',
-      'Even More Raw Data\n'
+    var cabecalho = removerAcentos(
+      '------------------------------------------------\n' +
+      '{{igreja.nome|escapejs}}\n' +
+      '{{igreja.endereco|escapejs}}.\n' +
+      'Tel.: {{igreja.telefone|escapejs}}\n' +
+      '------------------------------------------------\n' +
+      '\n' +
+      '                    RECIBO\n' +
+      '\n'
+    ); 
+    var texto = removerAcentos({% block recibo_raw %}{% endblock %});
+    var rodape = removerAcentos(
+      '\n' +
+      '------------------------------------------------\n' +
+      "Emitido em {% now 'SHORT_DATETIME_FORMAT' %}\n" +
+      '\n\n\n\n\n\n\n\n'
+    );
+    var data = [ 
+      cabecalho,
+      texto,
+      rodape
     ];
     return qz.print(config, data);
   }).catch(function(e) { console.error(e); });
