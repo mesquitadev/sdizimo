@@ -2,7 +2,6 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Sum
 from django.shortcuts import redirect, render
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
@@ -829,7 +828,7 @@ class ListaPagamentos(LoggedInPermissionsMixin, SearchListView):
         kwargs['title'] = 'Pagamentos'
         kwargs['menu'] = 'pagamentos'
         return super().get_context_data(**kwargs)
-    
+
     def get_object_list(self, request, search_errors=None):
         object_list = Pagamento.objects.all()
         self.form = ConsultaPagamentoForm(request.GET)
@@ -870,7 +869,7 @@ class NovoPagamento(LoggedInPermissionsMixin, CreateView):
         context['title'] = 'Novo pagamento'
         context['menu'] = 'pagamentos'
         return context
-    
+
     def form_valid(self, form):
         if form.is_valid():
             self.object = form.save(commit=False)
@@ -1108,7 +1107,7 @@ def relatorio_geral_recebimentos(request):
 @permission_required('dizimo.list_pagamento', raise_exception=True)
 def relatorio_pagamentos(request):
     pagamentos = []
-    
+
     form = RecebimentosPorPeriodoForm(request.POST or None)
 
     if request.method == 'POST':
