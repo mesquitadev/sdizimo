@@ -24,6 +24,7 @@
       {% if perms.dizimo.delete_oferta %}
         <li class="list-inline-item"><a href="{% url 'dizimo:exclui_oferta' oferta.pk %}" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Excluir</a></li>
       {% endif %}
+      <li class="list-inline-item"><a href="{% url 'dizimo:recibo_oferta' oferta.pk %}" target="_blank" class="btn btn-dark"><i class="fa fa-print" aria-hidden="true"></i> Recibo</a></li>
     </ul>
   </div>
 

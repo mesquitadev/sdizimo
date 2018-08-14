@@ -261,6 +261,21 @@ class ExcluiOferta(LoggedInPermissionsMixin, DeleteView):
         return super().get_context_data(**kwargs)
 
 
+class ReciboOferta(LoggedInPermissionsMixin, DetailView):
+    model = Oferta
+    context_object_name = 'oferta'
+    template_name = 'ofertas/recibo.html'
+    permission_required = 'dizimo.view_oferta'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'ofertas'
+        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['titulo_relatorio'] = 'Recibo'
+        kwargs['user'] = self.request.user
+        return super().get_context_data(**kwargs)
+
+
 ###########################################################
 #  DIZIMOS                                                #
 ###########################################################
