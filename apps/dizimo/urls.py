@@ -64,6 +64,7 @@ urlpatterns = [
     url(r'^pagamentos/(?P<pk>\d+)/exibe/$', views.ExibePagamento.as_view(), name='exibe_pagamento'),
     url(r'^pagamentos/(?P<pk>\d+)/edita/$', views.EditaPagamento.as_view(), name='edita_pagamento'),
     url(r'^pagamentos/(?P<pk>\d+)/exclui/$', views.ExcluiPagamento.as_view(), name='exclui_pagamento'),
+    url(r'^pagamentos/(?P<pk>\d+)/recibo/$', views.ReciboPagamento.as_view(), name='recibo_pagamento'),
 
     # relatorios
     url(r'^dizimistas/relatorios/aniversariantes/$', views.aniversariantes, name='aniversariantes'),

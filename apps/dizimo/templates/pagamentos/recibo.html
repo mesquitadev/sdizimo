@@ -1,0 +1,21 @@
+{% extends 'base_recibo_qz.html' %}
+
+{% block content %}
+  <p>
+    Registramos o recibo de pagamento com os dados abaixo:
+  </p>
+  Descrição: {{pagamento.descricao}}<br>
+  Tipo: {{pagamento.tipo}}<br>
+  Valor: R$ {{pagamento.valor}}<br>
+  Registrado por: {{pagamento.usuario.get_full_name}}<br>
+  Data: {{pagamento.cadastrado_em|date:"d/m/Y H:i"}}
+{% endblock %}
+
+{% block recibo_raw %}
+  'Registramos o recibo de pagamento com os dados abaixo:\n' +
+  'Descrição: {{pagamento.descricao|escapejs}}\n' +
+  'Tipo: {{pagamento.tipo|escapejs}}\n' +
+  'Valor: R$ {{pagamento.valor}}\n' +
+  'Registrado por: {{pagamento.usuario.get_full_name|escapejs}}\n' +
+  'Data: {{pagamento.cadastrado_em|date:"d/m/Y H:i"}}\n'
+{% endblock %}

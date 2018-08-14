@@ -922,6 +922,20 @@ class ExcluiPagamento(LoggedInPermissionsMixin, DeleteView):
         return super().get_context_data(**kwargs)
 
 
+class ReciboPagamento(LoggedInPermissionsMixin, DetailView):
+    model = Pagamento
+    context_object_name = 'pagamento'
+    template_name = 'pagamentos/recibo.html'
+    permission_required = 'dizimo.view_pagamento'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'pagamentos'
+        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['titulo_relatorio'] = 'Recibo'
+        kwargs['user'] = self.request.user
+        return super().get_context_data(**kwargs)
+
+
 ###########################################################
 #  RELATORIOS                                             #
 ###########################################################
