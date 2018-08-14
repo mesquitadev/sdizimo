@@ -1,0 +1,18 @@
+{% extends 'base_recibo_qz.html' %}
+
+{% block content %}
+  <p>
+    Recebemos a importância de <strong>R$ {{doacao.valor}}</strong> referente 
+    a <strong>{{doacao.descricao}}</strong>.
+  </p>
+  Registrado por: {{doacao.usuario.get_full_name}}<br>
+  Data: {{doacao.cadastrado_em|date:"d/m/Y H:i"}}
+{% endblock %}
+
+{% block recibo_raw %}
+  'Recebemos a importância de ' +
+  'R$ {{doacao.valor}} referente a {{doacao.descricao|escapejs}}.\n' +
+  '\n' +
+  'Registrado por: {{doacao.usuario.get_full_name|escapejs}}\n' +
+  'Data: {{doacao.cadastrado_em|date:"d/m/Y H:i"}}\n'
+{% endblock %}

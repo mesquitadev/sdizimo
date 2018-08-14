@@ -621,6 +621,21 @@ class ExcluiDoacao(LoggedInPermissionsMixin, DeleteView):
         return super().get_context_data(**kwargs)
 
 
+class ReciboDoacao(LoggedInPermissionsMixin, DetailView):
+    model = Doacao
+    context_object_name = 'doacao'
+    template_name = 'doacoes/recibo.html'
+    permission_required = 'dizimo.view_doacao'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'doacoes'
+        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['titulo_relatorio'] = 'Recibo'
+        kwargs['user'] = self.request.user
+        return super().get_context_data(**kwargs)
+
+
 ###########################################################
 #  PAROQUIAS                                              #
 ###########################################################
