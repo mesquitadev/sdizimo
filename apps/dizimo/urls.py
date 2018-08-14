@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^batismos/(?P<pk>\d+)/edita/$', views.EditaBatismo.as_view(), name='edita_batismo'),
     url(r'^batismos/(?P<pk>\d+)/exibe/$', views.ExibeBatismo.as_view(), name='exibe_batismo'),
     url(r'^batismos/(?P<pk>\d+)/exclui/$', views.ExcluiBatismo.as_view(), name='exclui_batismo'),
+    url(r'^batismos/(?P<pk>\d+)/recibo/$', views.ReciboBatismo.as_view(), name='recibo_batismo'),
 
     # doacoes
     url(r'^doacoes/$', views.ListaDoacoes.as_view(), name='doacoes'),

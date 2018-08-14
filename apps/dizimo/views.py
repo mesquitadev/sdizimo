@@ -377,7 +377,6 @@ class ReciboDizimo(LoggedInPermissionsMixin, DetailView):
     model = Dizimo
     context_object_name = 'dizimo'
     template_name = 'dizimos/recibo.html'
-    download_filename = 'recibo.pdf'
     permission_required = 'dizimo.view_dizimo'
 
     def get_context_data(self, **kwargs):
@@ -496,6 +495,21 @@ class ExcluiBatismo(LoggedInPermissionsMixin, DeleteView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'batismos'
+        return super().get_context_data(**kwargs)
+
+
+class ReciboBatismo(LoggedInPermissionsMixin, DetailView):
+    model = Batismo
+    context_object_name = 'batismo'
+    template_name = 'batismos/recibo.html'
+    permission_required = 'dizimo.view_batismo'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'recebimentos'
+        kwargs['menu_dropdown'] = 'batismos'
+        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['titulo_relatorio'] = 'Recibo'
+        kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
 
 

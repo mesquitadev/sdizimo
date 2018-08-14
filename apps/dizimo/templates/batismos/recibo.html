@@ -1,0 +1,21 @@
+{% extends 'base_recibo_qz.html' %}
+
+{% block content %}
+  <p>
+    Recebemos de <strong>{{batismo.nome_solicitante}}</strong> a importância de
+    <strong>R$ {{batismo.valor}}</strong> referente ao pagamento do batismo de
+    <strong>{{batismo.nome_batizando}}</strong> realizado em 
+    <strong>{{batismo.data_batismo}}</strong>.
+  </p>
+  Registrado por: {{batismo.usuario.get_full_name}}<br>
+  Data: {{batismo.cadastrado_em|date:"d/m/Y H:i"}}
+{% endblock %}
+
+{% block recibo_raw %}
+  'Recebemos de {{batismo.nome_solicitante|escapejs}} a importância de ' +
+  'R$ {{batismo.valor}} referente ao pagamento do batismo de ' +
+  '{{batismo.nome_batizando|escapejs}} realizado em {{batismo.data_batismo}}.\n' +
+  '\n' +
+  'Registrado por: {{batismo.usuario.get_full_name|escapejs}}\n' +
+  'Data: {{batismo.cadastrado_em|date:"d/m/Y H:i"}}\n'
+{% endblock %}
