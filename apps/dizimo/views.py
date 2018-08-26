@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Sum
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy
 from easy_pdf.views import PDFTemplateView, PDFTemplateResponseMixin
@@ -343,6 +343,30 @@ class NovoDizimo(LoggedInPermissionsMixin, CreateView):
             return redirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
+
+
+class ClonaDizimo(LoggedInPermissionsMixin, CreateView):
+    model = Dizimo
+    form_class = DizimoForm
+    template_name = 'dizimos/novo.html'
+    permission_required = 'dizimo.add_dizimo'
+
+    def get_success_url(self):
+        return reverse_lazy('dizimo:exibe_dizimo', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = 'recebimentos'
+        context['menu_dropdown'] = 'dizimos'
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super(ClonaDizimo, self).get_form_kwargs()
+        if self.kwargs['ref']:
+            novo_dizimo = get_object_or_404(Dizimo, pk=self.kwargs['ref'])
+            novo_dizimo.pk = None
+            kwargs['instance'] = novo_dizimo
+        return kwargs
 
 
 class EditaDizimo(LoggedInPermissionsMixin, UpdateView):

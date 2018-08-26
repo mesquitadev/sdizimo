@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^dizimos/(?P<pk>\d+)/exibe/$', views.ExibeDizimo.as_view(), name='exibe_dizimo'),
     url(r'^dizimos/(?P<pk>\d+)/exclui/$', views.ExcluiDizimo.as_view(), name='exclui_dizimo'),
     url(r'^dizimos/(?P<pk>\d+)/recibo/$', views.ReciboDizimo.as_view(), name='recibo_dizimo'),
+    url(r'^dizimos/(?P<ref>\d+)/clona/$', views.ClonaDizimo.as_view(), name='clona_dizimo'),
 
     # batismos
     url(r'^batismos/$', views.ListaBatismos.as_view(), name='batismos'),
