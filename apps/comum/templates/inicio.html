@@ -82,18 +82,18 @@
         <div class="statistics col-lg-3 col-12">
           <a href="{% url 'dizimo:dizimistas' %}">
             <div class="statistic d-flex align-items-center bg-white has-shadow mb-3">
-              <div class="icon bg-red"><i class="fa fa-address-card"></i></div>
+              <div class="icon bg-orange"><i class="fa fa-address-card"></i></div>
               <div class="text"><strong>{{qtd_dizimistas}}</strong><br><small>Dizimistas</small></div>
             </div>
           </a>
-          <a href="{% url 'usuarios' %}">
+          <a href="{% url 'dizimo:pagamentos' %}">
             <div class="statistic d-flex align-items-center bg-white has-shadow mb-3">
-              <div class="icon bg-green"><i class="fa fa-users"></i></div>
-              <div class="text"><strong>{{qtd_usuarios}}</strong><br><small>Usuários</small></div>
+              <div class="icon bg-red"><i class="fa fa-credit-card fa-fw"></i></div>
+              <div class="text"><strong>{{qtd_pagamentos}}</strong><br><small>Pagamentos</small></div>
             </div>
           </a>
           <div class="statistic d-flex align-items-center bg-white has-shadow mb-3">
-            <div class="icon bg-orange"><i class="fa fa-money"></i></div>
+            <div class="icon bg-green"><i class="fa fa-money"></i></div>
             <div class="text"><strong>{{qtd_recebimentos}}</strong><br><small>Recebimentos</small></div>
           </div>
         </div>
@@ -113,7 +113,7 @@
           <a href="{% url 'dizimo:aniversariantes' %}">
             <div class="statistic d-flex align-items-center bg-white has-shadow">
               <div class="icon bg-green"><i class="fa fa-calendar-o"></i></div>
-              <div class="text"><strong>{{qtd_aniversariantes}}</strong><br><small>Aniversariantes do mês</small></div>
+              <div class="text"><strong>{{qtd_aniversariantes}}</strong><br><small>Aniversariantes</small></div>
             </div>
           </a>
         </div>
