@@ -100,7 +100,7 @@
         <!-- Line Chart  -->
         <div class="chart col-lg-6 col-12">
           <div class="line-chart bg-white d-flex align-items-center justify-content-center has-shadow">
-            <canvas id="lineCahrt"></canvas>
+            <canvas id="grafico-recebimentos-pagamentos"></canvas>
           </div>
         </div>
         <div class="chart col-lg-3 col-12">
@@ -124,4 +124,93 @@
 
 {% block javascript %}
   <script src="{% static 'js/charts-home.js' %}"></script>
+  <script>
+    $(document).ready(function () {
+
+      'use strict';
+  
+      // ------------------------------------------------------- //
+      // Line Chart
+      // ------------------------------------------------------ //
+      var legendState = true;
+      if ($(window).outerWidth() < 576) {
+          legendState = false;
+      }
+  
+      var LINECHART = $('#grafico-recebimentos-pagamentos');
+      var myLineChart = new Chart(LINECHART, {
+          type: 'line',
+          options: {
+              scales: {
+                  xAxes: [{
+                      display: true,
+                      gridLines: {
+                          display: false
+                      }
+                  }],
+                  yAxes: [{
+                      display: true,
+                      gridLines: {
+                          display: false
+                      }
+                  }]
+              },
+              legend: {
+                  display: legendState
+              },
+          },
+          data: {
+              labels: ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"],
+              datasets: [
+                  {
+                      label: "Pagamentos",
+                      fill: true,
+                      lineTension: 0,
+                      backgroundColor: "transparent",
+                      borderColor: '#f15765',
+                      pointBorderColor: '#da4c59',
+                      pointHoverBackgroundColor: '#da4c59',
+                      borderCapStyle: 'butt',
+                      borderDash: [],
+                      borderDashOffset: 0.0,
+                      borderJoinStyle: 'miter',
+                      borderWidth: 1,
+                      pointBackgroundColor: "#fff",
+                      pointBorderWidth: 1,
+                      pointHoverRadius: 5,
+                      pointHoverBorderColor: "#fff",
+                      pointHoverBorderWidth: 2,
+                      pointRadius: 1,
+                      pointHitRadius: 0,
+                      data: {{ estatisticas_pagamentos }},
+                      spanGaps: false
+                  },
+                  {
+                      label: "Recebimentos",
+                      fill: true,
+                      lineTension: 0,
+                      backgroundColor: "transparent",
+                      borderColor: "#54e69d",
+                      pointHoverBackgroundColor: "#44c384",
+                      borderCapStyle: 'butt',
+                      borderDash: [],
+                      borderDashOffset: 0.0,
+                      borderJoinStyle: 'miter',
+                      borderWidth: 1,
+                      pointBorderColor: "#44c384",
+                      pointBackgroundColor: "#fff",
+                      pointBorderWidth: 1,
+                      pointHoverRadius: 5,
+                      pointHoverBorderColor: "#fff",
+                      pointHoverBorderWidth: 2,
+                      pointRadius: 1,
+                      pointHitRadius: 10,
+                      data: {{ estatisticas_recebimentos }},
+                      spanGaps: false
+                  }
+              ]
+          }
+      });
+    });
+  </script>
 {% endblock javascript %}

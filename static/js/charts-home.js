@@ -212,10 +212,10 @@ $(document).ready(function () {
             }
         },
         data: {
-            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "November", "December"],
+            labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
             datasets: [
                 {
-                    label: "Data Set 1",
+                    label: "Quantidade",
                     backgroundColor: [
                         'rgb(121, 106, 238)',
                         'rgb(121, 106, 238)',
