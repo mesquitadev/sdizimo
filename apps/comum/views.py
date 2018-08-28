@@ -1,8 +1,8 @@
-import qsstats
 from datetime import datetime, date
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.shortcuts import render
+import qsstats
 
 from apps.dizimo.models import Dizimista, Dizimo, Oferta, Batismo, Doacao, Pagamento
 
@@ -21,18 +21,21 @@ def inicio(request):
 
     qtd_aniversariantes = Dizimista.objects.filter(data_nascimento__month=mes_atual).count()
 
-    # graficos
+    # grafico pagamentos x recebimentos
     ano_atual = datetime.today().year
-    inicio, fim = date(ano_atual, 1, 1), date(ano_atual, 12, 31)
+    ini, fim = date(ano_atual, 1, 1), date(ano_atual, 12, 31)
     # pagamentos
-    estatisticas_pagamentos = [float(r[1]) for r in gera_estatisticas(Pagamento.objects.filter(cadastrado_em__year=ano_atual), inicio, fim)]
+    estatisticas_pagamentos = [float(r[1]) for r in gera_estatisticas(Pagamento.objects.filter(cadastrado_em__year=ano_atual), ini, fim)]
     # recebimentos
-    dizimos = [float(r[1]) for r in gera_estatisticas(Dizimo.objects.filter(cadastrado_em__year=ano_atual), inicio, fim)]
-    ofertas = [float(r[1]) for r in gera_estatisticas(Oferta.objects.filter(cadastrado_em__year=ano_atual), inicio, fim)]
-    batismos = [float(r[1]) for r in gera_estatisticas(Batismo.objects.filter(cadastrado_em__year=ano_atual), inicio, fim)]
-    doacoes = [float(r[1]) for r in gera_estatisticas(Doacao.objects.filter(cadastrado_em__year=ano_atual), inicio, fim)]
+    dizimos = [float(r[1]) for r in gera_estatisticas(Dizimo.objects.filter(cadastrado_em__year=ano_atual), ini, fim)]
+    ofertas = [float(r[1]) for r in gera_estatisticas(Oferta.objects.filter(cadastrado_em__year=ano_atual), ini, fim)]
+    batismos = [float(r[1]) for r in gera_estatisticas(Batismo.objects.filter(cadastrado_em__year=ano_atual), ini, fim)]
+    doacoes = [float(r[1]) for r in gera_estatisticas(Doacao.objects.filter(cadastrado_em__year=ano_atual), ini, fim)]
     recebimentos = [dizimos, ofertas, batismos, doacoes]
     estatisticas_recebimentos = [sum(x) for x in zip(*recebimentos)]
+
+    # grafico dizimistas em dia
+    estatisticas_dizimistas = gera_estatisticas_dizimistas_em_dia(qtd_dizimistas, ano_atual)
 
     context = {
         'menu': 'inicio',
@@ -45,11 +48,26 @@ def inicio(request):
         'qtd_recebimentos': qtd_recebimentos,
         'qtd_aniversariantes': qtd_aniversariantes,
         'estatisticas_pagamentos': estatisticas_pagamentos,
-        'estatisticas_recebimentos': estatisticas_recebimentos
+        'estatisticas_recebimentos': estatisticas_recebimentos,
+        'estatisticas_dizimistas': estatisticas_dizimistas,
+        'dizimistas_em_dia_mes_atual': estatisticas_dizimistas[mes_atual-1]
     }
     return render(request, 'inicio.html', context)
+
+
+def porcentagem(parte, total):
+    return 100 * float(parte)/float(total)
 
 
 def gera_estatisticas(queryset, inicio_intervalo, fim_intervalo):
     estatisticas = qsstats.QuerySetStats(queryset, 'cadastrado_em', aggregate=Sum('valor'))
     return estatisticas.time_series(inicio_intervalo, fim_intervalo, interval='months')
+
+
+def gera_estatisticas_dizimistas_em_dia(qtd_dizimistas, ano):
+    ini, fim = date(ano, 1, 1), date(ano, 12, 31)
+    queryset = Dizimo.objects.filter(referencia__year=ano)
+    estatisticas = qsstats.QuerySetStats(queryset, 'referencia')
+    qtd_dizimos_por_mes = estatisticas.time_series(ini, fim, interval='months')
+    # return qtd_dizimos_por_mes
+    return [int(porcentagem(x[1], qtd_dizimistas)) for x in qtd_dizimos_por_mes]

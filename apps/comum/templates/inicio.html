@@ -106,8 +106,8 @@
         <div class="chart col-lg-3 col-12">
           <!-- Bar Chart   -->
           <div class="bar-chart has-shadow bg-white">
-            <div class="title"><strong class="text-violet">95%</strong><br><small>Dizimistas em dia</small></div>
-            <canvas id="barChartHome"></canvas>
+            <div class="title"><strong class="text-violet">{{dizimistas_em_dia_mes_atual}}%</strong><br><small>Dizimistas em dia</small></div>
+            <canvas id="grafico-dizimistas-em-dia"></canvas>
           </div>
           <!-- Numbers-->
           <a href="{% url 'dizimo:aniversariantes' %}">
@@ -211,6 +211,68 @@
               ]
           }
       });
+
+      // ------------------------------------------------------- //
+    // Bar Chart
+    // ------------------------------------------------------ //
+    var BARCHARTHOME = $('#grafico-dizimistas-em-dia');
+    var barChartHome = new Chart(BARCHARTHOME, {
+        type: 'bar',
+        options:
+        {
+            scales:
+            {
+                xAxes: [{
+                    display: false
+                }],
+                yAxes: [{
+                    display: false
+                }],
+            },
+            legend: {
+                display: false
+            }
+        },
+        data: {
+            labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+            datasets: [
+                {
+                    label: "Porcentagem (%)",
+                    backgroundColor: [
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)'
+                    ],
+                    borderColor: [
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)',
+                        'rgb(121, 106, 238)'
+                    ],
+                    borderWidth: 1,
+                    data: {{ estatisticas_dizimistas }}
+                }
+            ]
+        }
+      });
+
     });
   </script>
 {% endblock javascript %}
