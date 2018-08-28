@@ -87,3 +87,22 @@ nav.side-navbar ul li.active-dropdown a {
 .lista-aniversariantes {
   margin-bottom: 15px;
 }
+
+/* css para corrigir select2 - autocomplete */
+span.selection {
+  display: block;
+}
+
+span.select2 {
+  height: 40px;
+}
+
+span.select2-selection {
+  border-radius: 0;
+}
+
+.select2-container--bootstrap4 .select2-selection {
+  border: 1px solid #ced4da;
+  border-radius: 0;
+  width: 100%;
+}

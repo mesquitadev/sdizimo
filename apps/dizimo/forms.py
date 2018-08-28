@@ -63,7 +63,7 @@ class DizimoForm(forms.ModelForm):
     valor = forms.DecimalField(label='Valor (R$)', max_digits=10, decimal_places=2, localize=True, required=True)
     referencia = MesAnoField(label='Referência (Mês/Ano)', required=True)
     dizimista = forms.ModelChoiceField(
-        queryset=Dizimista.objects.all(), 
+        queryset=Dizimista.objects.all(),
         label='Dizimista', widget=ModelSelect2Widget(
             model=Dizimista,
             search_fields=['nome__unaccent__icontains'],

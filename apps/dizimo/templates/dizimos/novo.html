@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Cadastro de novo dízimo{% endblock %}
 
 {% block pageheader %}Cadastro de dízimo{% endblock %}
@@ -32,8 +34,9 @@
     $(document).ready(function(){
       $('#id_referencia').mask("00/0000", {placeholder: "__/____"});
       $('#id_valor').mask("#.##0,00", {reverse: true});
-      $('#id_dizimista').select2({
+      $('.django-select2').djangoSelect2({
         theme: 'bootstrap4',
+        allowClear: true
       });
     });
   </script>

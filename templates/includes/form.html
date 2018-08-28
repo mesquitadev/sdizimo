@@ -1,4 +1,7 @@
-{% load form_tags widget_tweaks %}
+{% load static form_tags widget_tweaks %}
+
+{{ form.media.css }}
+<link rel="stylesheet" href="{% static 'css/select2-bootstrap4.min.css' %}">
 
 {% if form.non_field_errors %}
   <div class="alert alert-danger" role="alert">
@@ -28,3 +31,5 @@
     {% endif %}
   </div>
 {% endfor %}
+
+{{ form.media.js }}
