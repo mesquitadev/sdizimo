@@ -102,7 +102,7 @@ class BatismoForm(forms.ModelForm):
 
     class Meta:
         model = Batismo
-        fields = ('nome_batizando', 'nome_solicitante', 'data_batismo', 'valor')
+        fields = ('nome_batizando', 'nome_solicitante', 'data_batismo', 'hora_batismo', 'valor')
         localized_fields = ('valor', )
 
 

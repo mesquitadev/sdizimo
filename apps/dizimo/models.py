@@ -119,6 +119,7 @@ class Batismo(Recebimento):
     nome_batizando = models.CharField(max_length=250, verbose_name='nome do batizando')
     nome_solicitante = models.CharField(max_length=250, verbose_name='nome do solicitante')
     data_batismo = models.DateField(verbose_name='data do batismo')
+    hora_batismo = models.TimeField(verbose_name='hora do batismo')
 
     class Meta:
         ordering = ('-data_batismo', )
