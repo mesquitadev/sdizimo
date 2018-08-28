@@ -49,6 +49,7 @@ THIRD_PARTY_APPS = (
     'compressor',
     'easy_pdf',
     'django_cleanup',
+    'django_select2',
 )
 
 PROJECT_APPS = (

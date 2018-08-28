@@ -32,6 +32,9 @@
     $(document).ready(function(){
       $('#id_referencia').mask("00/0000", {placeholder: "__/____"});
       $('#id_valor').mask("#.##0,00", {reverse: true});
+      $('#id_dizimista').select2({
+        theme: 'bootstrap4',
+      });
     });
   </script>
 {% endblock %}

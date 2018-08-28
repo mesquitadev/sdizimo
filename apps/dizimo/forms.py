@@ -2,6 +2,7 @@ from bootstrap_datepicker.widgets import DatePicker
 from django import forms
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
+from django_select2.forms import ModelSelect2Widget
 
 from apps.comum.form_fields import MesAnoField
 
@@ -61,6 +62,13 @@ class OfertaForm(forms.ModelForm):
 class DizimoForm(forms.ModelForm):
     valor = forms.DecimalField(label='Valor (R$)', max_digits=10, decimal_places=2, localize=True, required=True)
     referencia = MesAnoField(label='Referência (Mês/Ano)', required=True)
+    dizimista = forms.ModelChoiceField(
+        queryset=Dizimista.objects.all(), 
+        label='Dizimista', widget=ModelSelect2Widget(
+            model=Dizimista,
+            search_fields=['nome__unaccent__icontains'],
+        )
+    )
 
     class Meta:
         model = Dizimo
