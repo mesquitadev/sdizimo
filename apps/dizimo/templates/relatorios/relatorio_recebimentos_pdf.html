@@ -21,7 +21,7 @@
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.nome_batizando }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.nome_solicitante }}</td>
-            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.data_batismo|date:"d/m/Y" }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.data_batismo|date:"d/m/Y" }} {{ batismo.hora_batismo|date:"H:i"}}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.cadastrado_em|date:"d/m/Y H:i" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.usuario.username }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ batismo.valor }}</td>
