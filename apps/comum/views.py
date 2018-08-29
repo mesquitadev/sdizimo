@@ -4,6 +4,7 @@ from django.db.models import Sum
 from django.shortcuts import render
 import qsstats
 
+from apps.comum.html.calendarios import Calendario
 from apps.dizimo.models import Dizimista, Dizimo, Oferta, Batismo, Doacao, Pagamento
 
 
@@ -37,6 +38,14 @@ def inicio(request):
     # grafico dizimistas em dia
     estatisticas_dizimistas = gera_estatisticas_dizimistas_em_dia(qtd_dizimistas, ano_atual)
 
+    # calendario batismos
+    cal = Calendario()
+    batismos_mes_atual = Batismo.objects.filter(data_batismo__month=mes_atual).all()
+    for batismo in batismos_mes_atual:
+        cal.adicionar_evento_calendario(batismo.data_batismo, batismo.data_batismo, '{0} - {1}'.format(batismo.hora_batismo, batismo.nome_batizando), 'info')
+    print(mes_atual)
+    calendario_mes_atual = cal.formato_mes(ano_atual, mes_atual)
+
     context = {
         'menu': 'inicio',
         'qtd_dizimistas': qtd_dizimistas,
@@ -50,7 +59,8 @@ def inicio(request):
         'estatisticas_pagamentos': estatisticas_pagamentos,
         'estatisticas_recebimentos': estatisticas_recebimentos,
         'estatisticas_dizimistas': estatisticas_dizimistas,
-        'dizimistas_em_dia_mes_atual': estatisticas_dizimistas[mes_atual-1]
+        'dizimistas_em_dia_mes_atual': estatisticas_dizimistas[mes_atual-1],
+        'calendario_mes_atual': calendario_mes_atual
     }
     return render(request, 'inicio.html', context)
 
