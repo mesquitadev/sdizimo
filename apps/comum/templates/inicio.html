@@ -86,16 +86,16 @@
               <div class="text"><strong>{{qtd_dizimistas}}</strong><br><small>Dizimistas</small></div>
             </div>
           </a>
+          <div class="statistic d-flex align-items-center bg-white has-shadow mb-3">
+            <div class="icon bg-green"><i class="fa fa-money"></i></div>
+            <div class="text"><strong>{{qtd_recebimentos}}</strong><br><small>Recebimentos</small></div>
+          </div>
           <a href="{% url 'dizimo:pagamentos' %}">
             <div class="statistic d-flex align-items-center bg-white has-shadow mb-3">
               <div class="icon bg-red"><i class="fa fa-credit-card fa-fw"></i></div>
               <div class="text"><strong>{{qtd_pagamentos}}</strong><br><small>Pagamentos</small></div>
             </div>
           </a>
-          <div class="statistic d-flex align-items-center bg-white has-shadow mb-3">
-            <div class="icon bg-green"><i class="fa fa-money"></i></div>
-            <div class="text"><strong>{{qtd_recebimentos}}</strong><br><small>Recebimentos</small></div>
-          </div>
         </div>
         <!-- Line Chart  -->
         <div class="chart col-lg-6 col-12">
@@ -187,29 +187,6 @@
               labels: ["JAN", "FEV", "MAR", "ABR", "MAI", "JUN", "JUL", "AGO", "SET", "OUT", "NOV", "DEZ"],
               datasets: [
                   {
-                      label: "Pagamentos",
-                      fill: true,
-                      lineTension: 0,
-                      backgroundColor: "transparent",
-                      borderColor: '#f15765',
-                      pointBorderColor: '#da4c59',
-                      pointHoverBackgroundColor: '#da4c59',
-                      borderCapStyle: 'butt',
-                      borderDash: [],
-                      borderDashOffset: 0.0,
-                      borderJoinStyle: 'miter',
-                      borderWidth: 1,
-                      pointBackgroundColor: "#fff",
-                      pointBorderWidth: 1,
-                      pointHoverRadius: 5,
-                      pointHoverBorderColor: "#fff",
-                      pointHoverBorderWidth: 2,
-                      pointRadius: 1,
-                      pointHitRadius: 0,
-                      data: {{ estatisticas_pagamentos }},
-                      spanGaps: false
-                  },
-                  {
                       label: "Recebimentos",
                       fill: true,
                       lineTension: 0,
@@ -230,6 +207,29 @@
                       pointRadius: 1,
                       pointHitRadius: 10,
                       data: {{ estatisticas_recebimentos }},
+                      spanGaps: false
+                  },
+                  {
+                      label: "Pagamentos",
+                      fill: true,
+                      lineTension: 0,
+                      backgroundColor: "transparent",
+                      borderColor: '#f15765',
+                      pointBorderColor: '#da4c59',
+                      pointHoverBackgroundColor: '#da4c59',
+                      borderCapStyle: 'butt',
+                      borderDash: [],
+                      borderDashOffset: 0.0,
+                      borderJoinStyle: 'miter',
+                      borderWidth: 1,
+                      pointBackgroundColor: "#fff",
+                      pointBorderWidth: 1,
+                      pointHoverRadius: 5,
+                      pointHoverBorderColor: "#fff",
+                      pointHoverBorderWidth: 2,
+                      pointRadius: 1,
+                      pointHitRadius: 0,
+                      data: {{ estatisticas_pagamentos }},
                       spanGaps: false
                   }
               ]
