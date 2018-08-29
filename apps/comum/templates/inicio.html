@@ -121,30 +121,29 @@
     </div>
   </section>
 
-  <section class="client no-padding-top">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="work-amount card">
-              <div class="card-body">
-                <h3>Calendário de batismos em Agosto/2018</h3>
-                {{calendario_mes_atual|safe}}
-              </div>
+  <section class="calendar no-padding-top">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header d-flex align-items-center">
+              <h3 class="h4">Calendário de batismos</h3>
             </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="work-amount card">
-              <div class="card-body">
-                <h3>Calendário de batismos em Setembro/2018</h3>
-                <div class="chart text-center">
-                  <div class="text"><strong>90</strong><br><span>Hours</span></div>
-                </div>
+            <div class="card-body">
+              <div class="row">
+                  <div class="col-lg-6">
+                    {{calendario_mes_atual|safe}}
+                  </div>
+                  <div class="col-lg-6">
+                    {{calendario_proximo_mes|safe}}
+                  </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 {% endblock content %}
 
 {% block javascript %}

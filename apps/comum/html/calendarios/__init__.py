@@ -176,7 +176,7 @@ class Calendario(HTMLCalendar):
 
     def montar_calendario_mes(self, mes, ano):
         html_code = [u'<div class = "calendario">']
-        html_code.append(u'<table class="calendario-dias">')
+        html_code.append(u'<table class="table calendario-dias">')
         if self.mostrar_mes_ano_cabecalho_mes:
             html_code.append(u'<caption>{}/{}</caption>'.format(self.meses_extenso[int(mes) - 1], ano))
         else:
@@ -459,7 +459,7 @@ class CalendarioPlus(Calendario):
 
     def montar_calendario_mes(self, mes, ano):
         html_code = [u'<div class="calendario calendario-mensal">']
-        html_code.append(u'<table>')
+        html_code.append(u'<table class="table">')
         if not self.envolve_mes_em_um_box:
             if self.mostrar_mes_e_ano:
                 html_code.append(u'<caption>{}/{}</caption>'.format(self.meses_extenso[int(mes) - 1], ano))

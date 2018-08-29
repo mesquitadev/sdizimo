@@ -119,6 +119,7 @@ span.select2 {
 }
 .calendario {
   padding: 20px 15px;
+  word-wrap: normal;
 }
 .calendario caption {
   background: transparent;
@@ -126,6 +127,8 @@ span.select2 {
   color: #555;
   font-weight: 400;
   padding: 0 0 5px;
+  text-align: center;
+  caption-side: top;
 }
 .calendario li {
   list-style: none;

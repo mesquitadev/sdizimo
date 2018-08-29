@@ -38,13 +38,22 @@ def inicio(request):
     # grafico dizimistas em dia
     estatisticas_dizimistas = gera_estatisticas_dizimistas_em_dia(qtd_dizimistas, ano_atual)
 
-    # calendario batismos
+    # calendario batismos mes atual
     cal = Calendario()
+    cal.mostrar_mes_ano_cabecalho_mes = True
     batismos_mes_atual = Batismo.objects.filter(data_batismo__month=mes_atual).all()
     for batismo in batismos_mes_atual:
-        cal.adicionar_evento_calendario(batismo.data_batismo, batismo.data_batismo, '{0} - {1}'.format(batismo.hora_batismo, batismo.nome_batizando), 'info')
-    print(mes_atual)
+        cal.adicionar_evento_calendario(batismo.data_batismo, batismo.data_batismo, '{0} - {1}'.format(batismo.hora_batismo.strftime('%H:%M'), batismo.nome_batizando), 'success')
     calendario_mes_atual = cal.formato_mes(ano_atual, mes_atual)
+
+    # calendario batismos proximo mes
+    proximo_mes = mes_atual + 1
+    cal2 = Calendario()
+    cal2.mostrar_mes_ano_cabecalho_mes = True
+    batismos_proximo_mes = Batismo.objects.filter(data_batismo__month=proximo_mes).all()
+    for batismo in batismos_proximo_mes:
+        cal2.adicionar_evento_calendario(batismo.data_batismo, batismo.data_batismo, '{0} - {1}'.format(batismo.hora_batismo.strftime('%H:%M'), batismo.nome_batizando), 'info')
+    calendario_proximo_mes = cal2.formato_mes(ano_atual, proximo_mes)
 
     context = {
         'menu': 'inicio',
@@ -60,7 +69,8 @@ def inicio(request):
         'estatisticas_recebimentos': estatisticas_recebimentos,
         'estatisticas_dizimistas': estatisticas_dizimistas,
         'dizimistas_em_dia_mes_atual': estatisticas_dizimistas[mes_atual-1],
-        'calendario_mes_atual': calendario_mes_atual
+        'calendario_mes_atual': calendario_mes_atual,
+        'calendario_proximo_mes': calendario_proximo_mes
     }
     return render(request, 'inicio.html', context)
 
@@ -79,5 +89,4 @@ def gera_estatisticas_dizimistas_em_dia(qtd_dizimistas, ano):
     queryset = Dizimo.objects.filter(referencia__year=ano)
     estatisticas = qsstats.QuerySetStats(queryset, 'referencia')
     qtd_dizimos_por_mes = estatisticas.time_series(ini, fim, interval='months')
-    # return qtd_dizimos_por_mes
     return [int(porcentagem(x[1], qtd_dizimistas)) for x in qtd_dizimos_por_mes]
