@@ -122,7 +122,7 @@ class Batismo(Recebimento):
     hora_batismo = models.TimeField(verbose_name='hora do batismo')
 
     class Meta:
-        ordering = ('-data_batismo', )
+        ordering = ('-data_batismo', '-hora_batismo')
         permissions = (
             ("view_batismo", "Can view batismo"),
             ("list_batismo", "Can list batismo"),

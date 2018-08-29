@@ -41,18 +41,18 @@ def inicio(request):
     # calendario batismos mes atual
     cal = Calendario()
     cal.mostrar_mes_ano_cabecalho_mes = True
-    batismos_mes_atual = Batismo.objects.filter(data_batismo__month=mes_atual).all()
+    batismos_mes_atual = Batismo.objects.filter(data_batismo__month=mes_atual).order_by('data_batismo', 'hora_batismo')
     for batismo in batismos_mes_atual:
-        cal.adicionar_evento_calendario(batismo.data_batismo, batismo.data_batismo, '{0} - {1}'.format(batismo.hora_batismo.strftime('%H:%M'), batismo.nome_batizando), 'success')
+        cal.adicionar_evento_calendario(batismo.data_batismo, batismo.data_batismo, '{0} - {1}'.format(batismo.nome_batizando, batismo.hora_batismo.strftime('%H:%M')), 'success')
     calendario_mes_atual = cal.formato_mes(ano_atual, mes_atual)
 
     # calendario batismos proximo mes
     proximo_mes = mes_atual + 1
     cal2 = Calendario()
     cal2.mostrar_mes_ano_cabecalho_mes = True
-    batismos_proximo_mes = Batismo.objects.filter(data_batismo__month=proximo_mes).all()
+    batismos_proximo_mes = Batismo.objects.filter(data_batismo__month=proximo_mes).order_by('data_batismo', 'hora_batismo')
     for batismo in batismos_proximo_mes:
-        cal2.adicionar_evento_calendario(batismo.data_batismo, batismo.data_batismo, '{0} - {1}'.format(batismo.hora_batismo.strftime('%H:%M'), batismo.nome_batizando), 'info')
+        cal2.adicionar_evento_calendario(batismo.data_batismo, batismo.data_batismo, '{0} - {1}'.format(batismo.nome_batizando, batismo.hora_batismo.strftime('%H:%M')), 'info')
     calendario_proximo_mes = cal2.formato_mes(ano_atual, proximo_mes)
 
     context = {
