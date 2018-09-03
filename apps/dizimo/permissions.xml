@@ -116,7 +116,6 @@
                 <name>paroquia</name>
                 <permissions>
                     <permission>add_paroquia</permission>
-                    <permission>change_paroquia</permission>
                     <permission>view_paroquia</permission>
                     <permission>list_paroquia</permission>
                 </permissions>

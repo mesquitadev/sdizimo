@@ -104,7 +104,7 @@ class Command(BaseCommandPlus):
 
         self.limpar_permissoes_dos_grupos(group_permission)
         sync_groups_and_permissions(group_permission.obter_dicionario())
-        # self.processar_grupo_gerenciador(group_permission)
+        self.processar_grupo_gerenciador(group_permission)
         if options['verbosity']:
             if Group.objects.exclude(id__in=self.grupos_no_permisions_xml).exists():
                 self.stdout.write(termcolors.make_style(fg='yellow')('[warning] grupos não existentes nos permissions.xml: {0}'.format(list(Group.objects.exclude(id__in=self.grupos_no_permisions_xml).values_list('id', 'name')))))

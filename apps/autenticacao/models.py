@@ -38,18 +38,18 @@ class Perfil(models.Model):
             admin_dizimos = Group.objects.get(name='Administrador Dízimos')
             self.usuario.groups.add(admin_usuarios)
             self.usuario.groups.add(admin_dizimos)
-            add_user_group_permissions(admin_usuarios, self.usuario)
-            add_user_group_permissions(admin_dizimos, self.usuario)
+            # add_user_group_permissions(admin_usuarios, self.usuario)
+            # add_user_group_permissions(admin_dizimos, self.usuario)
         elif self.papel == self.SUPERVISOR:
             # adiciona supervisor
             supervisor = Group.objects.get(name='Supervisor Dízimos')
             self.usuario.groups.add(supervisor)
-            add_user_group_permissions(supervisor, self.usuario)
+            # add_user_group_permissions(supervisor, self.usuario)
         elif self.papel == self.OPERADOR:
             # adiciona operador
             operador = Group.objects.get(name='Operador Dízimos')
             self.usuario.groups.add(operador)
-            add_user_group_permissions(operador, self.usuario)
+            # add_user_group_permissions(operador, self.usuario)
         super(Perfil, self).save(*args, **kwargs)
 
     def eh_administrador(self):
