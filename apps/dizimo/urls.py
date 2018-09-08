@@ -73,6 +73,7 @@ urlpatterns = [
     url(r'^dizimistas/relatorios/dizimistas/$', views.relatorio_dizimistas, name='relatorio_dizimistas'),
     url(r'^dizimistas/relatorios/dizimistas/pdf$', views.RelatorioDizimistasPDF.as_view(), name='relatorio_dizimistas_pdf'),
     url(r'^dizimistas/relatorios/ficha_dizimista/pdf$', views.FichaCadastralDizimistaPDF.as_view(), name='ficha_cadastral_dizimista_pdf'),
+    url(r'^dizimistas/relatorios/ficha_batismo/pdf$', views.FichaCadastralBatismoPDF.as_view(), name='ficha_cadastral_batismo_pdf'),
     url(r'^dizimistas/relatorios/(?P<pk>\d+)/individual/pdf$', views.RelatorioIndividualDizimistaPDF.as_view(), name='relatorio_individual_dizimista_pdf'),
 
     url(r'^relatorios/pagamentos/$', views.relatorio_pagamentos, name='relatorio_pagamentos'),

@@ -1438,6 +1438,19 @@ class FichaCadastralDizimistaPDF(LoggedInPermissionsMixin, PDFTemplateView):
         return super().get_context_data(**kwargs)
 
 
+class FichaCadastralBatismoPDF(LoggedInPermissionsMixin, PDFTemplateView):
+    template_name = 'relatorios/ficha_cadastral_batismo_pdf.html'
+    download_filename = 'ficha_cadastral_batismo.pdf'
+    permission_required = 'dizimo.view_batismo'
+
+    def get_context_data(self, **kwargs):
+        kwargs['menu'] = 'relatorios'
+        kwargs['titulo_relatorio'] = 'Ficha cadastral de Batismo'
+        kwargs['user'] = self.request.user
+
+        return super().get_context_data(**kwargs)
+
+
 class RelatorioIndividualDizimistaPDF(LoggedInPermissionsMixin, PDFTemplateResponseMixin, DetailView):
     model = Dizimista
     context_object_name = 'dizimista'

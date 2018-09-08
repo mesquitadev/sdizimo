@@ -1,0 +1,37 @@
+{% extends 'base_pdf.html' %}
+
+{% load static %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-body">
+      <div id="foto" class="foto_dizimista mb-4">
+        <img src="{% static 'img/no-user-foto.png' %}" width="150" height="200" alt="Foto 3x4" class="img-thumbnail">
+      </div>
+      <div class="col-9">
+        <table class="table tabela_dados">
+          <tr>
+            <td width="150"><strong>Nome do batizando</strong></td>
+            <td class="linha_dados">&nbsp;</td>
+          </tr>
+          <tr>
+            <td><strong>Nome do solicitante</strong></td>
+            <td class="linha_dados">&nbsp;</td>
+          </tr>
+          <tr>
+            <td><strong>Data do batismo</strong></td>
+            <td class="linha_dados">&nbsp;</td>
+          </tr>
+          <tr>
+            <td><strong>Hora do batismo</strong></td>
+            <td class="linha_dados">&nbsp;</td>
+          </tr>
+          <tr>
+            <td><strong>Valor</strong></td>
+            <td class="linha_dados">&nbsp;</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
