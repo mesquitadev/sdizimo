@@ -31,14 +31,14 @@ class Dizimista(models.Model):
     ]
 
     nome = models.CharField(max_length=250, blank=False, null=False)
-    endereco = models.CharField(max_length=250, blank=False, null=False, verbose_name='endereço')
-    bairro = models.CharField(max_length=100, blank=False, null=False)
-    cidade = models.CharField(max_length=100, blank=False, null=False)
-    estado = BRStateField(blank=False, null=False)
+    endereco = models.CharField(max_length=250, blank=True, null=True, verbose_name='endereço')
+    bairro = models.CharField(max_length=100, blank=True, null=True)
+    cidade = models.CharField(max_length=100, blank=True, null=True)
+    estado = BRStateField(blank=True, null=True)
     paroquia = models.ForeignKey(Paroquia, blank=False, null=False, verbose_name='paróquia')
-    comunidade = models.CharField(max_length=100, blank=False, null=False)
+    comunidade = models.CharField(max_length=100, blank=True, null=True)
     sexo = models.CharField(max_length=1, choices=SEXO, blank=False, null=False)
-    estado_civil = models.CharField(max_length=1, choices=ESTADO_CIVIL, blank=False, null=False)
+    estado_civil = models.CharField(max_length=1, choices=ESTADO_CIVIL, blank=True, null=True)
     data_nascimento = models.DateField(null=False, blank=False, verbose_name='data de nascimento')
     foto = ImageField(upload_to='dizimistas/fotos', null=True, blank=True)
 
