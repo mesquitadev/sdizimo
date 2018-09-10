@@ -2,7 +2,10 @@
 import os
 from .settings import *
 
-MEDIA_ROOT = '/home/infobits/apps_wsgi/sdizimo_media'
+MEDIA_URL = '/sdizimo_media/'
+MEDIA_ROOT = '/home/infobits/www/sdizimo_media'
+
+STATIC_URL = '/sdizimo_static/'
 STATIC_ROOT = '/home/infobits/www/sdizimo_static'
 
 # Define production-specific settings
