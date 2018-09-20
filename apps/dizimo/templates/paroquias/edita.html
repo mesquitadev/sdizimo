@@ -28,4 +28,10 @@
       </form>
     </div>
   </div>
+
+  <script>
+    $(document).ready(function(){
+      $('#id_telefone').mask(phoneMaskBehavior, phoneMaskOptions);
+    });
+  </script>
 {% endblock %}

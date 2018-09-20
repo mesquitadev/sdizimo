@@ -688,7 +688,7 @@ class ListaParoquias(LoggedInPermissionsMixin, SearchListView):
     permission_required = 'dizimo.list_paroquia'
 
     def get_context_data(self, **kwargs):
-        kwargs['menu'] = 'configuracoes'
+        kwargs['menu'] = 'cadastros'
         kwargs['menu_dropdown'] = 'paroquias'
         return super().get_context_data(**kwargs)
 
@@ -704,7 +704,7 @@ class NovaParoquia(LoggedInPermissionsMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = 'configuracoes'
+        context['menu'] = 'cadastros'
         context['menu_dropdown'] = 'paroquias'
         return context
 
@@ -721,7 +721,7 @@ class EditaParoquia(LoggedInPermissionsMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = 'configuracoes'
+        context['menu'] = 'cadastros'
         context['menu_dropdown'] = 'paroquias'
         return context
 
@@ -735,7 +735,7 @@ class ExcluiParoquia(LoggedInPermissionsMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = 'configuracoes'
+        context['menu'] = 'cadastros'
         context['menu_dropdown'] = 'paroquias'
         return context
 
@@ -758,7 +758,7 @@ def dados_igreja(request):
 
     context = {
         'form': form,
-        'menu': 'configuracoes',
+        'menu': 'cadastros',
         'menu_dropdown': 'dados_igreja',
         'igreja': igreja,
     }
@@ -781,7 +781,7 @@ class ListaTiposPagamentos(LoggedInPermissionsMixin, SearchListView):
 
     def get_context_data(self, **kwargs):
         kwargs['title'] = 'Tipos de Pagamentos'
-        kwargs['menu'] = 'configuracoes'
+        kwargs['menu'] = 'cadastros'
         kwargs['menu_dropdown'] = 'tipos_pagamentos'
         return super().get_context_data(**kwargs)
 
@@ -798,7 +798,7 @@ class NovoTipoPagamento(LoggedInPermissionsMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Novo tipo de pagamento'
-        context['menu'] = 'configuracoes'
+        context['menu'] = 'cadastros'
         context['menu_dropdown'] = 'tipos_pagamentos'
         return context
 
@@ -816,7 +816,7 @@ class EditaTipoPagamento(LoggedInPermissionsMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Editando {0}'.format(self.object)
-        context['menu'] = 'configuracoes'
+        context['menu'] = 'cadastros'
         context['menu_dropdown'] = 'tipos_pagamentos'
         return context
 
@@ -830,7 +830,7 @@ class ExcluiTipoPagamento(LoggedInPermissionsMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         kwargs['title'] = 'Excluindo {0}'.format(self.object)
-        kwargs['menu'] = 'configuracoes'
+        kwargs['menu'] = 'cadastros'
         kwargs['menu_dropdown'] = 'tipos_pagamentos'
         return super().get_context_data(**kwargs)
 
