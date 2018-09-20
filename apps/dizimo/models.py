@@ -7,7 +7,7 @@ from sorl.thumbnail import ImageField
 class Paroquia(models.Model):
     nome = models.CharField(max_length=250, blank=False, null=False, unique=True)
     endereco = models.CharField(max_length=250, blank=False, null=False, verbose_name='endereço')
-    telefone = models.CharField(max_length=15, blank=False, null=False)
+    telefone = models.CharField(max_length=15, blank=True, null=True)
 
     class Meta:
         ordering = ('nome', )

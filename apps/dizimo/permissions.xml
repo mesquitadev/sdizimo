@@ -13,11 +13,6 @@
                     <permission>list_igreja</permission>
                 </permissions>
             </model>
-        </models>
-    </group>
-    <group>
-        <name>Administrador Dízimos; Supervisor Dízimos</name>
-        <models>
             <model>
                 <app>dizimo</app>
                 <name>paroquia</name>
@@ -29,6 +24,11 @@
                     <permission>list_paroquia</permission>
                 </permissions>
             </model>
+        </models>
+    </group>
+    <group>
+        <name>Administrador Dízimos; Supervisor Dízimos</name>
+        <models>
             <model>
                 <app>dizimo</app>
                 <name>dizimista</name>
@@ -111,15 +111,6 @@
     <group>
         <name>Operador Dízimos</name>
         <models>
-            <model>
-                <app>dizimo</app>
-                <name>paroquia</name>
-                <permissions>
-                    <permission>add_paroquia</permission>
-                    <permission>view_paroquia</permission>
-                    <permission>list_paroquia</permission>
-                </permissions>
-            </model>
             <model>
                 <app>dizimo</app>
                 <name>dizimista</name>

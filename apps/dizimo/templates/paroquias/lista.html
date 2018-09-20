@@ -56,7 +56,7 @@
               </td>
               <td>{{ paroquia.nome }}</td>
               <td>{{ paroquia.endereco }}</td>
-              <td>{{ paroquia.telefone }}</td>
+              <td>{{ paroquia.telefone|default:"-" }}</td>
             </tr>
           {% endfor %}
         </tbody>

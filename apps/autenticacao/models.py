@@ -3,6 +3,8 @@ from django.contrib.auth.models import User, Group
 from django_cleanup.signals import cleanup_pre_delete
 from sorl.thumbnail import ImageField
 
+from apps.dizimo.models import Paroquia
+
 
 class Perfil(models.Model):
     ADMINISTRADOR = 1
@@ -18,6 +20,7 @@ class Perfil(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     papel = models.PositiveSmallIntegerField(choices=PAPEL_CHOICES, default=ADMINISTRADOR)
     foto = ImageField(upload_to='usuarios/fotos', null=True, blank=True)
+    paroquia = models.ForeignKey(Paroquia, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         permissions = (
