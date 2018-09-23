@@ -8,6 +8,8 @@ class Paroquia(models.Model):
     nome = models.CharField(max_length=250, blank=False, null=False, unique=True)
     endereco = models.CharField(max_length=250, blank=False, null=False, verbose_name='endereço')
     telefone = models.CharField(max_length=15, blank=True, null=True)
+    cidade = models.CharField(max_length=100, blank=True, null=True)
+    estado = BRStateField(blank=True, null=True)
 
     class Meta:
         ordering = ('nome', )
