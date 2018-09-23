@@ -86,9 +86,15 @@ class Recebimento(models.Model):
     cadastrado_em = models.DateTimeField(auto_now_add=True, verbose_name='cadastrado em')
     usuario = models.ForeignKey(User, verbose_name='usuário')
     valor = models.DecimalField(max_digits=10, decimal_places=2)
+    paroquia = models.ForeignKey(Paroquia, blank=False, null=False, verbose_name='paróquia')
 
     class Meta:
         abstract = True
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.paroquia = self.usuario.perfil.paroquia
+        super(Recebimento, self).save(*args, **kwargs)
 
 
 class Oferta(Recebimento):
@@ -185,6 +191,7 @@ class Pagamento(models.Model):
     descricao = models.CharField(max_length=250, verbose_name='descrição')
     cadastrado_em = models.DateTimeField(auto_now_add=True, verbose_name='cadastrado em')
     usuario = models.ForeignKey(User, verbose_name='usuário')
+    paroquia = models.ForeignKey(Paroquia, blank=False, null=False, verbose_name='paróquia')
 
     class Meta:
         ordering = ('-cadastrado_em', )
@@ -195,3 +202,8 @@ class Pagamento(models.Model):
 
     def __str__(self):
         return '{1} - R$ {0}'.format(self.valor, self.tipo)
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.paroquia = self.usuario.perfil.paroquia
+        super(Pagamento, self).save(*args, **kwargs)
