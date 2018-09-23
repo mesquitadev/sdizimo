@@ -1,6 +1,5 @@
 from datetime import datetime
 from django.conf import settings
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Sum
 from django.shortcuts import redirect, render, get_object_or_404
@@ -10,12 +9,12 @@ from easy_pdf.views import PDFTemplateView, PDFTemplateResponseMixin
 from search_views.search import SearchListView
 
 from apps.comum.mixins import LoggedInPermissionsMixin
-from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao, Paroquia, Igreja, \
+from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao, Paroquia, \
     TipoPagamento, Pagamento
 from .filters import DizimistaFilter, RecebimentoFilter, ParoquiaFilter, TipoPagamentoFilter
 from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
     DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm, DoacaoForm, ConsultaDoacaoForm, \
-    RecebimentosPorPeriodoForm, ParoquiaForm, ConsultaParoquiaForm, IgrejaForm, \
+    RecebimentosPorPeriodoForm, ParoquiaForm, ConsultaParoquiaForm, \
     TipoPagamentoForm, PagamentoForm, ConsultaPagamentoForm
 from .utils import MESES
 
@@ -738,32 +737,6 @@ class ExcluiParoquia(LoggedInPermissionsMixin, DeleteView):
         context['menu'] = 'cadastros'
         context['menu_dropdown'] = 'paroquias'
         return context
-
-
-###########################################################
-#  IGREJA                                                 #
-###########################################################
-
-@login_required
-@permission_required('dizimo.change_igreja', raise_exception=True)
-def dados_igreja(request):
-    igreja = Igreja.objects.first()
-    if request.method == 'POST':
-        form = IgrejaForm(request.POST, instance=igreja)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Dados atualizados com sucesso!')
-    else:
-        form = IgrejaForm(instance=igreja)
-
-    context = {
-        'form': form,
-        'menu': 'cadastros',
-        'menu_dropdown': 'dados_igreja',
-        'igreja': igreja,
-    }
-
-    return render(request, 'dados_igreja.html', context)
 
 
 ###########################################################

@@ -90,7 +90,6 @@
               <li><a href="#menu_cadastros" aria-expanded="{% if menu == 'cadastros' %}true{% else %}false{% endif %}" data-toggle="collapse"> <i class="fa fa-database fa-fw"></i>Cadastros</a>
                 <ul id="menu_cadastros" class="collapse list-unstyled {% if menu == 'cadastros' %}show{% endif %}">
                   {% if user.perfil.eh_administrador %}
-                    <li {% if menu_dropdown == 'dados_igreja' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:dados_igreja' %}">Igreja</a></li>
                     <li {% if menu_dropdown == 'paroquias' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:paroquias' %}">Paróquias</a></li>
                   {% endif %}
                   <li {% if menu_dropdown == 'tipos_pagamentos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:tipos_pagamentos' %}">Tipos de Pagamentos</a></li>

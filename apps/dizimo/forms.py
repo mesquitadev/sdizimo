@@ -7,7 +7,7 @@ from django_select2.forms import ModelSelect2Widget
 from apps.comum.form_fields import MesAnoField
 
 from .models import Dizimista, Telefone, Oferta, Dizimo, Batismo, Doacao,\
-    Paroquia, Igreja, TipoPagamento, Pagamento
+    Paroquia, TipoPagamento, Pagamento
 
 
 ###########################################################
@@ -146,16 +146,6 @@ class ParoquiaForm(forms.ModelForm):
 
 class ConsultaParoquiaForm(forms.Form):
     nome = forms.CharField(label='Nome', required=False)
-
-
-###########################################################
-#  IGREJA                                             #
-###########################################################
-
-class IgrejaForm(forms.ModelForm):
-    class Meta:
-        model = Igreja
-        fields = '__all__'
 
 
 ###########################################################

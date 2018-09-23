@@ -156,21 +156,6 @@ class Doacao(Recebimento):
         return 'R$ {0} - registrada em {1}'.format(self.valor, self.cadastrado_em)
 
 
-class Igreja(models.Model):
-    nome = models.CharField(max_length=250, blank=False, null=False)
-    endereco = models.CharField(max_length=250, blank=False, null=False, verbose_name='endereço')
-    telefone = models.CharField(max_length=15, blank=False, null=False)
-
-    def __str__(self):
-        return self.nome
-
-    class Meta:
-        permissions = (
-            ("view_igreja", "Can view igreja"),
-            ("list_igreja", "Can list igreja"),
-        )
-
-
 class TipoPagamento(models.Model):
     descricao = models.CharField(max_length=250, verbose_name='descrição')
 

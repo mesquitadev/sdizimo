@@ -50,9 +50,6 @@ urlpatterns = [
     url(r'^paroquias/(?P<pk>\d+)/edita/$', views.EditaParoquia.as_view(), name='edita_paroquia'),
     url(r'^paroquias/(?P<pk>\d+)/exclui/$', views.ExcluiParoquia.as_view(), name='exclui_paroquia'),
 
-    # igreja
-    url(r'^igreja/$', views.dados_igreja, name='dados_igreja'),
-
     # tipos de pagamentos
     url(r'^tipos_pagamentos/$', views.ListaTiposPagamentos.as_view(), name='tipos_pagamentos'),
     url(r'^tipos_pagamentos/novo/$', views.NovoTipoPagamento.as_view(), name='novo_tipo_pagamento'),
