@@ -269,7 +269,7 @@ class ReciboOferta(LoggedInPermissionsMixin, DetailView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'ofertas'
-        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['paroquia'] = self.get_object().paroquia
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
@@ -420,7 +420,7 @@ class ReciboDizimo(LoggedInPermissionsMixin, DetailView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'dizimos'
-        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['paroquia'] = self.get_object().paroquia
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
@@ -545,7 +545,7 @@ class ReciboBatismo(LoggedInPermissionsMixin, DetailView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'batismos'
-        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['paroquia'] = self.get_object().paroquia
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
@@ -668,7 +668,7 @@ class ReciboDoacao(LoggedInPermissionsMixin, DetailView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'doacoes'
-        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['paroquia'] = self.get_object().paroquia
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
@@ -954,7 +954,7 @@ class ReciboPagamento(LoggedInPermissionsMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'pagamentos'
-        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['paroquia'] = self.get_object().paroquia
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
