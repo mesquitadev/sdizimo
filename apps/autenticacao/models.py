@@ -20,7 +20,7 @@ class Perfil(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     papel = models.PositiveSmallIntegerField(choices=PAPEL_CHOICES, default=ADMINISTRADOR)
     foto = ImageField(upload_to='usuarios/fotos', null=True, blank=True)
-    paroquia = models.ForeignKey(Paroquia, on_delete=models.SET_NULL, null=True)
+    paroquia = models.ForeignKey(Paroquia, on_delete=models.CASCADE)
 
     class Meta:
         permissions = (

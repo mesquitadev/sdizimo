@@ -32,7 +32,6 @@ TelefoneFormSet = inlineformset_factory(Dizimista, Telefone, fields=('numero', '
 class ConsultaDizimistaForm(forms.Form):
     pk = forms.IntegerField(label='Nº Cad.', required=False)
     nome = forms.CharField(label='Nome', required=False)
-    paroquia = forms.ModelChoiceField(label='Paróquia', required=False, queryset=Paroquia.objects.all().order_by('nome'))
     comunidade = forms.CharField(label='Comunidade', required=False)
 
 
