@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import PermissionDenied
 from django.db.models import Sum
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
@@ -131,6 +132,13 @@ class EditaDizimista(LoggedInPermissionsMixin, UpdateView):
         else:
             return self.form_class
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ExibeDizimista(LoggedInPermissionsMixin, DetailView):
     model = Dizimista
@@ -141,6 +149,13 @@ class ExibeDizimista(LoggedInPermissionsMixin, DetailView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ExibeDizimistaPDF(LoggedInPermissionsMixin, PDFTemplateResponseMixin, DetailView):
@@ -157,6 +172,13 @@ class ExibeDizimistaPDF(LoggedInPermissionsMixin, PDFTemplateResponseMixin, Deta
 
         return super().get_context_data(**kwargs)
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ExcluiDizimista(LoggedInPermissionsMixin, DeleteView):
     model = Dizimista
@@ -168,6 +190,13 @@ class ExcluiDizimista(LoggedInPermissionsMixin, DeleteView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 @login_required
