@@ -17,6 +17,12 @@ from .models import Dizimista, Telefone, Oferta, Dizimo, Batismo, Doacao,\
 class DizimistaForm(forms.ModelForm):
     class Meta:
         model = Dizimista
+        exclude = ('paroquia',)
+
+
+class DizimistaAdminForm(DizimistaForm):
+    class Meta:
+        model = Dizimista
         fields = '__all__'
 
 

@@ -15,7 +15,8 @@ from .filters import DizimistaFilter, RecebimentoFilter, ParoquiaFilter, TipoPag
 from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
     DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm, DoacaoForm, ConsultaDoacaoForm, \
     RecebimentosPorPeriodoForm, ParoquiaForm, ConsultaParoquiaForm, \
-    TipoPagamentoForm, PagamentoForm, ConsultaPagamentoForm, ConsultaDizimistaAdminForm
+    TipoPagamentoForm, PagamentoForm, ConsultaPagamentoForm, ConsultaDizimistaAdminForm, \
+    DizimistaAdminForm
 from .utils import MESES
 
 
@@ -41,6 +42,7 @@ class ListaDizimistas(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'
+        kwargs['eh_admin'] = self.request.user.perfil.eh_administrador()
         return super().get_context_data(**kwargs)
 
     def get_form_class(self):
@@ -72,12 +74,21 @@ class NovoDizimista(LoggedInPermissionsMixin, CreateView):
         context = self.get_context_data()
         formset = context['formset']
         if form.is_valid() and formset.is_valid():
-            self.object = form.save()
+            self.object = form.save(commit=False)
+            if not self.request.user.perfil.eh_administrador():
+                self.object.paroquia = self.request.user.perfil.paroquia
+            self.object.save()
             formset.instance = self.object
             formset.save()
             return redirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
+
+    def get_form_class(self):
+        if self.request.user.perfil.eh_administrador():
+            return DizimistaAdminForm
+        else:
+            return self.form_class
 
 
 class EditaDizimista(LoggedInPermissionsMixin, UpdateView):
@@ -104,12 +115,21 @@ class EditaDizimista(LoggedInPermissionsMixin, UpdateView):
         context = self.get_context_data()
         formset = context['formset']
         if form.is_valid() and formset.is_valid():
-            self.object = form.save()
+            self.object = form.save(commit=False)
+            if not self.request.user.perfil.eh_administrador():
+                self.object.paroquia = self.request.user.perfil.paroquia
+            self.object.save()
             formset.instance = self.object
             formset.save()
             return redirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
+
+    def get_form_class(self):
+        if self.request.user.perfil.eh_administrador():
+            return DizimistaAdminForm
+        else:
+            return self.form_class
 
 
 class ExibeDizimista(LoggedInPermissionsMixin, DetailView):
@@ -155,7 +175,7 @@ class ExcluiDizimista(LoggedInPermissionsMixin, DeleteView):
 def aniversariantes(request):
     mes_escolhido = int(request.GET.get('mes', datetime.today().month))
 
-    lista_aniversariantes = Dizimista.objects.filter(data_nascimento__month=mes_escolhido).order_by('data_nascimento', 'nome')
+    lista_aniversariantes = Dizimista.objects.filter(paroquia=request.user.perfil.paroquia, data_nascimento__month=mes_escolhido).order_by('data_nascimento', 'nome')
 
     context = {
         'menu': 'relatorios',
