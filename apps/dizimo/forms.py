@@ -35,6 +35,10 @@ class ConsultaDizimistaForm(forms.Form):
     comunidade = forms.CharField(label='Comunidade', required=False)
 
 
+class ConsultaDizimistaAdminForm(ConsultaDizimistaForm):
+    paroquia = forms.ModelChoiceField(label='Paróquia', required=False, queryset=Paroquia.objects.all())
+
+
 ###########################################################
 #  OFERTAS                                                #
 ###########################################################

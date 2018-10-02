@@ -15,15 +15,22 @@ from .filters import DizimistaFilter, RecebimentoFilter, ParoquiaFilter, TipoPag
 from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
     DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm, DoacaoForm, ConsultaDoacaoForm, \
     RecebimentosPorPeriodoForm, ParoquiaForm, ConsultaParoquiaForm, \
-    TipoPagamentoForm, PagamentoForm, ConsultaPagamentoForm
+    TipoPagamentoForm, PagamentoForm, ConsultaPagamentoForm, ConsultaDizimistaAdminForm
 from .utils import MESES
+
+
+class ListFilterParoquiaByUserView(SearchListView):
+    def get_object_list(self, request, search_errors=None):
+        object_list = super().get_object_list(request, search_errors=None)
+        if request.user.perfil.eh_administrador():
+            return object_list
+        return object_list.filter(paroquia=request.user.perfil.paroquia)
 
 
 ###########################################################
 #  DIZIMISTAS                                             #
 ###########################################################
-
-class ListaDizimistas(LoggedInPermissionsMixin, SearchListView):
+class ListaDizimistas(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
     model = Dizimista
     context_object_name = 'dizimistas'
     template_name = 'dizimistas/lista.html'
@@ -35,6 +42,12 @@ class ListaDizimistas(LoggedInPermissionsMixin, SearchListView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'
         return super().get_context_data(**kwargs)
+
+    def get_form_class(self):
+        if self.request.user.perfil.eh_administrador():
+            return ConsultaDizimistaAdminForm
+        else:
+            return self.form_class
 
 
 class NovoDizimista(LoggedInPermissionsMixin, CreateView):
@@ -158,7 +171,7 @@ def aniversariantes(request):
 #  OFERTAS                                                #
 ###########################################################
 
-class ListaOfertas(LoggedInPermissionsMixin, SearchListView):
+class ListaOfertas(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
     model = Oferta
     context_object_name = 'ofertas'
     template_name = 'ofertas/lista.html'
@@ -278,7 +291,7 @@ class ReciboOferta(LoggedInPermissionsMixin, DetailView):
 #  DIZIMOS                                                #
 ###########################################################
 
-class ListaDizimos(LoggedInPermissionsMixin, SearchListView):
+class ListaDizimos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
     model = Dizimo
     context_object_name = 'dizimos'
     template_name = 'dizimos/lista.html'
@@ -429,7 +442,7 @@ class ReciboDizimo(LoggedInPermissionsMixin, DetailView):
 #  BATISMOS                                               #
 ###########################################################
 
-class ListaBatismos(LoggedInPermissionsMixin, SearchListView):
+class ListaBatismos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
     model = Dizimo
     context_object_name = 'batismos'
     template_name = 'batismos/lista.html'
@@ -554,7 +567,7 @@ class ReciboBatismo(LoggedInPermissionsMixin, DetailView):
 #  DOACOES                                                #
 ###########################################################
 
-class ListaDoacoes(LoggedInPermissionsMixin, SearchListView):
+class ListaDoacoes(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
     model = Doacao
     context_object_name = 'doacoes'
     template_name = 'doacoes/lista.html'
@@ -812,7 +825,7 @@ class ExcluiTipoPagamento(LoggedInPermissionsMixin, DeleteView):
 #  PAGAMENTOS                                             #
 ###########################################################
 
-class ListaPagamentos(LoggedInPermissionsMixin, SearchListView):
+class ListaPagamentos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
     model = Pagamento
     context_object_name = 'pagamentos'
     template_name = 'pagamentos/lista.html'
@@ -937,24 +950,34 @@ class ReciboPagamento(LoggedInPermissionsMixin, DetailView):
 #  RELATORIOS                                             #
 ###########################################################
 
-def get_batismos(data_inicio, data_fim):
-    return Batismo.objects.filter(data_batismo__gte=data_inicio, data_batismo__lte=data_fim).order_by('data_batismo', 'nome_batizando')
+def get_batismos(usuario, data_inicio, data_fim):
+    if usuario.perfil.eh_administrador():
+        return Batismo.objects.filter(data_batismo__gte=data_inicio, data_batismo__lte=data_fim).order_by('data_batismo', 'nome_batizando')
+    return Batismo.objects.filter(paroquia=usuario.paroquia, data_batismo__gte=data_inicio, data_batismo__lte=data_fim).order_by('data_batismo', 'nome_batizando')
 
 
-def get_dizimos(data_inicio, data_fim):
-    return Dizimo.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('referencia', 'dizimista__nome')
+def get_dizimos(usuario, data_inicio, data_fim):
+    if usuario.perfil.eh_administrador():
+        return Dizimo.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('referencia', 'dizimista__nome')
+    return Dizimo.objects.filter(paroquia=usuario.paroquia, cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('referencia', 'dizimista__nome')
 
 
-def get_doacoes(data_inicio, data_fim):
-    return Doacao.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+def get_doacoes(usuario, data_inicio, data_fim):
+    if usuario.perfil.eh_administrador():
+        return Doacao.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+    return Doacao.objects.filter(paroquia=usuario.paroquia, cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
 
 
-def get_ofertas(data_inicio, data_fim):
-    return Oferta.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+def get_ofertas(usuario, data_inicio, data_fim):
+    if usuario.perfil.eh_administrador():
+        return Oferta.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+    return Oferta.objects.filter(paroquia=usuario.paroquia, cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
 
 
-def get_pagamentos(data_inicio, data_fim):
-    return Pagamento.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+def get_pagamentos(usuario, data_inicio, data_fim):
+    if usuario.perfil.eh_administrador():
+        return Pagamento.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+    return Pagamento.objects.filter(paroquia=usuario.paroquia, cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
 
 
 @login_required
@@ -971,7 +994,7 @@ def relatorio_batismos(request):
             data_fim = form.cleaned_data['data_fim']
 
             # consulta batismos
-            batismos = get_batismos(data_inicio, data_fim)
+            batismos = get_batismos(request.user, data_inicio, data_fim)
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1000,7 +1023,7 @@ def relatorio_dizimos(request):
             data_fim = form.cleaned_data['data_fim']
 
             # consulta dizimos
-            dizimos = get_dizimos(data_inicio, data_fim)
+            dizimos = get_dizimos(request.user, data_inicio, data_fim)
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1029,7 +1052,7 @@ def relatorio_doacoes(request):
             data_fim = form.cleaned_data['data_fim']
 
             # consulta doacoes
-            doacoes = get_doacoes(data_inicio, data_fim)
+            doacoes = get_doacoes(request.user, data_inicio, data_fim)
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1058,7 +1081,7 @@ def relatorio_ofertas(request):
             data_fim = form.cleaned_data['data_fim']
 
             # consulta ofertas
-            ofertas = get_ofertas(data_inicio, data_fim)
+            ofertas = get_ofertas(request.user, data_inicio, data_fim)
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1090,13 +1113,13 @@ def relatorio_geral_recebimentos(request):
             data_fim = form.cleaned_data['data_fim']
 
             # consulta dizimos
-            dizimos = get_dizimos(data_inicio, data_fim)
+            dizimos = get_dizimos(request.user, data_inicio, data_fim)
             # consulta ofertas
-            ofertas = get_ofertas(data_inicio, data_fim)
+            ofertas = get_ofertas(request.user, data_inicio, data_fim)
             # consulta batismos
-            batismos = get_batismos(data_inicio, data_fim)
+            batismos = get_batismos(request.user, data_inicio, data_fim)
             # consulta doacoes
-            doacoes = get_doacoes(data_inicio, data_fim)
+            doacoes = get_doacoes(request.user, data_inicio, data_fim)
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1128,7 +1151,7 @@ def relatorio_pagamentos(request):
             data_fim = form.cleaned_data['data_fim']
 
             # consulta pagamentos
-            pagamentos = get_pagamentos(data_inicio, data_fim)
+            pagamentos = get_pagamentos(request.user, data_inicio, data_fim)
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1160,7 +1183,7 @@ class RelatorioPagamentosPDF(LoggedInPermissionsMixin, PDFTemplateView):
             data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
         # consulta pagamentos
-        pagamentos = get_pagamentos(data_inicio, data_fim)
+        pagamentos = get_pagamentos(self.request.user, data_inicio, data_fim)
         total_pagamentos = pagamentos.aggregate(total=Sum('valor'))
 
         context['titulo_relatorio'] = 'Relatório de pagamentos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
@@ -1187,7 +1210,7 @@ class RelatorioBatismosPDF(LoggedInPermissionsMixin, PDFTemplateView):
             data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
         # consulta batismos
-        batismos = get_batismos(data_inicio, data_fim)
+        batismos = get_batismos(self.request.user, data_inicio, data_fim)
         total_batismos = batismos.aggregate(total=Sum('valor'))
 
         # somatorio
@@ -1220,7 +1243,7 @@ class RelatorioDizimosPDF(LoggedInPermissionsMixin, PDFTemplateView):
             data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
         # consulta dizimos
-        dizimos = get_dizimos(data_inicio, data_fim)
+        dizimos = get_dizimos(self.request.user, data_inicio, data_fim)
         total_dizimos = dizimos.aggregate(total=Sum('valor'))
 
         # somatorio
@@ -1253,7 +1276,7 @@ class RelatorioDoacoesPDF(LoggedInPermissionsMixin, PDFTemplateView):
             data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
         # consulta doacoes
-        doacoes = get_doacoes(data_inicio, data_fim)
+        doacoes = get_doacoes(self.request.user, data_inicio, data_fim)
         total_doacoes = doacoes.aggregate(total=Sum('valor'))
         # somatorio
         total_geral = 0
@@ -1285,7 +1308,7 @@ class RelatorioOfertasPDF(LoggedInPermissionsMixin, PDFTemplateView):
             data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
         # consulta ofertas
-        ofertas = get_ofertas(data_inicio, data_fim)
+        ofertas = get_ofertas(self.request.user, data_inicio, data_fim)
         total_ofertas = ofertas.aggregate(total=Sum('valor'))
         # somatorio
         total_geral = 0
@@ -1317,16 +1340,16 @@ class RelatorioGeralRecebimentosPDF(LoggedInPermissionsMixin, PDFTemplateView):
             data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
         # consulta dizimos
-        dizimos = get_dizimos(data_inicio, data_fim)
+        dizimos = get_dizimos(self.request.user, data_inicio, data_fim)
         total_dizimos = dizimos.aggregate(total=Sum('valor'))
         # consulta ofertas
-        ofertas = get_ofertas(data_inicio, data_fim)
+        ofertas = get_ofertas(self.request.user, data_inicio, data_fim)
         total_ofertas = ofertas.aggregate(total=Sum('valor'))
         # consulta batismos
-        batismos = get_batismos(data_inicio, data_fim)
+        batismos = get_batismos(self.request.user, data_inicio, data_fim)
         total_batismos = batismos.aggregate(total=Sum('valor'))
         # consulta doacoes
-        doacoes = get_doacoes(data_inicio, data_fim)
+        doacoes = get_doacoes(self.request.user, data_inicio, data_fim)
         total_doacoes = doacoes.aggregate(total=Sum('valor'))
         # somatorio
         total_geral = 0
@@ -1363,7 +1386,9 @@ class RelatorioAniversariantesPDF(LoggedInPermissionsMixin, PDFTemplateView):
         context = super().get_context_data(**kwargs)
         mes_escolhido = int(self.request.GET.get('mes', datetime.today().month))
         mes = MESES[mes_escolhido-1]
-        lista_aniversariantes = Dizimista.objects.filter(data_nascimento__month=mes_escolhido).order_by('data_nascimento', 'nome')
+        lista_aniversariantes = Dizimista.objects.filter(
+            data_nascimento__month=mes_escolhido,
+            paroquia=self.request.user.perfil.paroquia).order_by('data_nascimento', 'nome')
 
         context['titulo_relatorio'] = 'Relatório de Aniversariantes de {0}'.format(mes['nome'])
         context['aniversariantes'] = lista_aniversariantes
@@ -1374,7 +1399,7 @@ class RelatorioAniversariantesPDF(LoggedInPermissionsMixin, PDFTemplateView):
 @login_required
 @permission_required('dizimo.list_dizimista', raise_exception=True)
 def relatorio_dizimistas(request):
-    dizimistas = Dizimista.objects.all()
+    dizimistas = Dizimista.objects.filter(paroquia=request.user.perfil.paroquia)
     context = {
         'menu': 'relatorios',
         'menu_dropdown': 'relatorio_dizimistas',
@@ -1393,7 +1418,7 @@ class RelatorioDizimistasPDF(LoggedInPermissionsMixin, PDFTemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['titulo_relatorio'] = 'Relatório de Dizimistas'
-        context['dizimistas'] = Dizimista.objects.all()
+        context['dizimistas'] = Dizimista.objects.filter(paroquia=self.request.user.perfil.paroquia)
         context['user'] = self.request.user
         return context
 
@@ -1435,7 +1460,7 @@ class RelatorioIndividualDizimistaPDF(LoggedInPermissionsMixin, PDFTemplateRespo
         context = super().get_context_data(**kwargs)
 
         # consulta dizimos
-        dizimos = self.object.dizimos.all().order_by('referencia')
+        dizimos = self.object.dizimos.filter(paroquia=self.request.user.perfil.paroquia).order_by('referencia')
         total_dizimos = dizimos.aggregate(total=Sum('valor'))
 
         # somatorio
