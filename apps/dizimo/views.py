@@ -295,6 +295,13 @@ class EditaOferta(LoggedInPermissionsMixin, UpdateView):
         context['menu_dropdown'] = 'ofertas'
         return context
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ExibeOferta(LoggedInPermissionsMixin, DetailView):
     model = Oferta
@@ -306,6 +313,13 @@ class ExibeOferta(LoggedInPermissionsMixin, DetailView):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'ofertas'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ExcluiOferta(LoggedInPermissionsMixin, DeleteView):
@@ -319,6 +333,13 @@ class ExcluiOferta(LoggedInPermissionsMixin, DeleteView):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'ofertas'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ReciboOferta(LoggedInPermissionsMixin, DetailView):
@@ -334,6 +355,13 @@ class ReciboOferta(LoggedInPermissionsMixin, DetailView):
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 ###########################################################
@@ -446,6 +474,13 @@ class EditaDizimo(LoggedInPermissionsMixin, UpdateView):
         context['menu_dropdown'] = 'dizimos'
         return context
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ExibeDizimo(LoggedInPermissionsMixin, DetailView):
     model = Dizimo
@@ -457,6 +492,13 @@ class ExibeDizimo(LoggedInPermissionsMixin, DetailView):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'dizimos'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ExcluiDizimo(LoggedInPermissionsMixin, DeleteView):
@@ -470,6 +512,13 @@ class ExcluiDizimo(LoggedInPermissionsMixin, DeleteView):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'dizimos'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ReciboDizimo(LoggedInPermissionsMixin, DetailView):
@@ -485,6 +534,13 @@ class ReciboDizimo(LoggedInPermissionsMixin, DetailView):
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 ###########################################################
@@ -571,6 +627,13 @@ class EditaBatismo(LoggedInPermissionsMixin, UpdateView):
         context['menu_dropdown'] = 'batismos'
         return context
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ExibeBatismo(LoggedInPermissionsMixin, DetailView):
     model = Batismo
@@ -582,6 +645,13 @@ class ExibeBatismo(LoggedInPermissionsMixin, DetailView):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'batismos'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ExcluiBatismo(LoggedInPermissionsMixin, DeleteView):
@@ -595,6 +665,13 @@ class ExcluiBatismo(LoggedInPermissionsMixin, DeleteView):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'batismos'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ReciboBatismo(LoggedInPermissionsMixin, DetailView):
@@ -610,6 +687,13 @@ class ReciboBatismo(LoggedInPermissionsMixin, DetailView):
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 ###########################################################
@@ -694,6 +778,13 @@ class EditaDoacao(LoggedInPermissionsMixin, UpdateView):
         context['menu_dropdown'] = 'doacoes'
         return context
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ExibeDoacao(LoggedInPermissionsMixin, DetailView):
     model = Doacao
@@ -705,6 +796,13 @@ class ExibeDoacao(LoggedInPermissionsMixin, DetailView):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'doacoes'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ExcluiDoacao(LoggedInPermissionsMixin, DeleteView):
@@ -718,6 +816,13 @@ class ExcluiDoacao(LoggedInPermissionsMixin, DeleteView):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'doacoes'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ReciboDoacao(LoggedInPermissionsMixin, DetailView):
@@ -733,6 +838,13 @@ class ReciboDoacao(LoggedInPermissionsMixin, DetailView):
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 ###########################################################
@@ -950,6 +1062,13 @@ class ExibePagamento(LoggedInPermissionsMixin, DetailView):
         kwargs['title'] = self.object
         return super().get_context_data(**kwargs)
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class EditaPagamento(LoggedInPermissionsMixin, UpdateView):
     model = Pagamento
@@ -967,6 +1086,13 @@ class EditaPagamento(LoggedInPermissionsMixin, UpdateView):
         context['menu'] = 'pagamentos'
         return context
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ExcluiPagamento(LoggedInPermissionsMixin, DeleteView):
     model = Pagamento
@@ -979,6 +1105,13 @@ class ExcluiPagamento(LoggedInPermissionsMixin, DeleteView):
         kwargs['title'] = 'Excluindo {0}'.format(self.object)
         kwargs['menu'] = 'pagamentos'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ReciboPagamento(LoggedInPermissionsMixin, DetailView):
@@ -993,6 +1126,13 @@ class ReciboPagamento(LoggedInPermissionsMixin, DetailView):
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 ###########################################################
