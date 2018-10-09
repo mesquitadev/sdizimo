@@ -23,7 +23,7 @@ from .utils import MESES
 
 class ListFilterParoquiaByUserView(SearchListView):
     def get_object_list(self, request, search_errors=None):
-        object_list = super().get_object_list(request, search_errors=None)
+        object_list = super().get_object_list(request, search_errors)
         if request.user.perfil.eh_administrador():
             return object_list
         return object_list.filter(paroquia=request.user.perfil.paroquia)
@@ -235,7 +235,7 @@ class ListaOfertas(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
         return super().get_context_data(**kwargs)
 
     def get_object_list(self, request, search_errors=None):
-        object_list = Oferta.objects.all()
+        object_list = super().get_object_list(request, search_errors)
         self.form = ConsultaOfertaForm(request.GET)
         if self.form and self.form.is_valid():
             usuario = self.form.cleaned_data['usuario']
@@ -383,7 +383,7 @@ class ListaDizimos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
         return super().get_context_data(**kwargs)
 
     def get_object_list(self, request, search_errors=None):
-        object_list = Dizimo.objects.all()
+        object_list = super().get_object_list(request, search_errors)
         self.form = ConsultaDizimoForm(request.GET)
         if self.form and self.form.is_valid():
             dizimista = self.form.cleaned_data['dizimista']
@@ -562,7 +562,7 @@ class ListaBatismos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
         return super().get_context_data(**kwargs)
 
     def get_object_list(self, request, search_errors=None):
-        object_list = Batismo.objects.all()
+        object_list = super().get_object_list(request, search_errors)
         self.form = ConsultaBatismoForm(request.GET)
         if self.form and self.form.is_valid():
             nome_batizando = self.form.cleaned_data['nome_batizando']
@@ -715,7 +715,7 @@ class ListaDoacoes(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
         return super().get_context_data(**kwargs)
 
     def get_object_list(self, request, search_errors=None):
-        object_list = Doacao.objects.all()
+        object_list = super().get_object_list(request, search_errors)
         self.form = ConsultaDoacaoForm(request.GET)
         if self.form and self.form.is_valid():
             descricao = self.form.cleaned_data['descricao']
@@ -1024,7 +1024,7 @@ class ListaPagamentos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
         return super().get_context_data(**kwargs)
 
     def get_object_list(self, request, search_errors=None):
-        object_list = Pagamento.objects.all()
+        object_list = super().get_object_list(request, search_errors)
         self.form = ConsultaPagamentoForm(request.GET)
         if self.form and self.form.is_valid():
             tipo = self.form.cleaned_data['tipo']
@@ -1047,6 +1047,16 @@ class ListaPagamentos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
         else:
             print(self.form.errors)
         return object_list
+
+    def get_form(self, form_class=None):
+        form = super(ListaPagamentos, self).get_form(form_class)
+        form.fields['tipo'].queryset = TipoPagamento.objects.filter(paroquia=self.request.user.perfil.paroquia)
+        return form
+
+    # def get_form_kwargs(self):
+    #     kwargs = super(ListaPagamentos, self).get_form_kwargs()
+    #     kwargs.update({'perfil': self.request.user.perfil})
+    #     return kwargs
 
 
 class NovoPagamento(LoggedInPermissionsMixin, CreateView):

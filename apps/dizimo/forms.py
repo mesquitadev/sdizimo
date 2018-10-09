@@ -191,3 +191,8 @@ class ConsultaPagamentoForm(forms.Form):
     data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
     usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
+
+    # def __init__(self, *args, **kwargs):
+    #     self.perfil = kwargs.pop('perfil')
+    #     super(ConsultaPagamentoForm, self).__init__(*args, **kwargs)
+    #     self.fields['tipo'].queryset = TipoPagamento.objects.filter(paroquia=self.perfil.paroquia)
