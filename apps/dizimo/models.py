@@ -158,6 +158,7 @@ class Doacao(Recebimento):
 
 class TipoPagamento(models.Model):
     descricao = models.CharField(max_length=250, verbose_name='descrição')
+    paroquia = models.ForeignKey(Paroquia, blank=False, null=False, verbose_name='paróquia')
 
     class Meta:
         ordering = ('descricao', )

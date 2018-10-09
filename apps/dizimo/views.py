@@ -917,7 +917,7 @@ class ExcluiParoquia(LoggedInPermissionsMixin, DeleteView):
 #  TIPOS DE PAGAMENTOS                                    #
 ###########################################################
 
-class ListaTiposPagamentos(LoggedInPermissionsMixin, SearchListView):
+class ListaTiposPagamentos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
     model = TipoPagamento
     context_object_name = 'tipos_pagamentos'
     template_name = 'tipos_pagamentos/lista.html'
@@ -949,6 +949,15 @@ class NovoTipoPagamento(LoggedInPermissionsMixin, CreateView):
         context['menu_dropdown'] = 'tipos_pagamentos'
         return context
 
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.paroquia = self.request.user.perfil.paroquia
+            self.object.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
 
 class EditaTipoPagamento(LoggedInPermissionsMixin, UpdateView):
     model = TipoPagamento
@@ -967,6 +976,13 @@ class EditaTipoPagamento(LoggedInPermissionsMixin, UpdateView):
         context['menu_dropdown'] = 'tipos_pagamentos'
         return context
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ExcluiTipoPagamento(LoggedInPermissionsMixin, DeleteView):
     model = TipoPagamento
@@ -980,6 +996,13 @@ class ExcluiTipoPagamento(LoggedInPermissionsMixin, DeleteView):
         kwargs['menu'] = 'cadastros'
         kwargs['menu_dropdown'] = 'tipos_pagamentos'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 ###########################################################
