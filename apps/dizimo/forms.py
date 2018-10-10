@@ -215,3 +215,4 @@ class ConsultaPagamentoForm(forms.Form):
         super(ConsultaPagamentoForm, self).__init__(*args, **kwargs)
         if perfil:
             self.fields['tipo'].queryset = TipoPagamento.objects.filter(paroquia=perfil.paroquia)
+            self.fields['usuario'].queryset = User.objects.filter(perfil__paroquia=perfil.paroquia)
