@@ -173,7 +173,7 @@ class RecebimentosPorPeriodoForm(forms.Form):
 class TipoPagamentoForm(forms.ModelForm):
     class Meta:
         model = TipoPagamento
-        fields = '__all__'
+        exclude = ('paroquia', )
 
 
 class PagamentoForm(forms.ModelForm):
@@ -184,6 +184,14 @@ class PagamentoForm(forms.ModelForm):
         fields = ('tipo', 'valor', 'descricao')
         localized_fields = ('valor', )
 
+    def __init__(self, *args, **kwargs):
+        perfil = None
+        if 'perfil' in kwargs:
+            perfil = kwargs.pop('perfil')
+        super(PagamentoForm, self).__init__(*args, **kwargs)
+        if perfil:
+            self.fields['tipo'].queryset = TipoPagamento.objects.filter(paroquia=perfil.paroquia)
+
 
 class ConsultaPagamentoForm(forms.Form):
     tipo = forms.ModelChoiceField(label='Tipo', required=False, queryset=TipoPagamento.objects.all())
@@ -192,7 +200,10 @@ class ConsultaPagamentoForm(forms.Form):
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
     usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
 
-    # def __init__(self, *args, **kwargs):
-    #     self.perfil = kwargs.pop('perfil')
-    #     super(ConsultaPagamentoForm, self).__init__(*args, **kwargs)
-    #     self.fields['tipo'].queryset = TipoPagamento.objects.filter(paroquia=self.perfil.paroquia)
+    def __init__(self, *args, **kwargs):
+        perfil = None
+        if 'perfil' in kwargs:
+            perfil = kwargs.pop('perfil')
+        super(ConsultaPagamentoForm, self).__init__(*args, **kwargs)
+        if perfil:
+            self.fields['tipo'].queryset = TipoPagamento.objects.filter(paroquia=perfil.paroquia)

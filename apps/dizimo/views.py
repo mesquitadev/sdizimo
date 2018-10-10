@@ -16,16 +16,15 @@ from .filters import DizimistaFilter, RecebimentoFilter, ParoquiaFilter, TipoPag
 from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
     DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm, DoacaoForm, ConsultaDoacaoForm, \
     RecebimentosPorPeriodoForm, ParoquiaForm, ConsultaParoquiaForm, \
-    TipoPagamentoForm, PagamentoForm, ConsultaPagamentoForm, ConsultaDizimistaAdminForm, \
-    DizimistaAdminForm
+    TipoPagamentoForm, PagamentoForm, ConsultaPagamentoForm
 from .utils import MESES
 
 
 class ListFilterParoquiaByUserView(SearchListView):
     def get_object_list(self, request, search_errors=None):
         object_list = super().get_object_list(request, search_errors)
-        if request.user.perfil.eh_administrador():
-            return object_list
+        # if request.user.perfil.eh_administrador():
+        #     return object_list
         return object_list.filter(paroquia=request.user.perfil.paroquia)
 
 
@@ -45,12 +44,6 @@ class ListaDizimistas(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
         kwargs['menu'] = 'dizimistas'
         kwargs['eh_admin'] = self.request.user.perfil.eh_administrador()
         return super().get_context_data(**kwargs)
-
-    def get_form_class(self):
-        if self.request.user.perfil.eh_administrador():
-            return ConsultaDizimistaAdminForm
-        else:
-            return self.form_class
 
 
 class NovoDizimista(LoggedInPermissionsMixin, CreateView):
@@ -76,8 +69,7 @@ class NovoDizimista(LoggedInPermissionsMixin, CreateView):
         formset = context['formset']
         if form.is_valid() and formset.is_valid():
             self.object = form.save(commit=False)
-            if not self.request.user.perfil.eh_administrador():
-                self.object.paroquia = self.request.user.perfil.paroquia
+            self.object.paroquia = self.request.user.perfil.paroquia
             self.object.save()
             formset.instance = self.object
             formset.save()
@@ -85,11 +77,11 @@ class NovoDizimista(LoggedInPermissionsMixin, CreateView):
         else:
             return self.render_to_response(self.get_context_data(form=form))
 
-    def get_form_class(self):
-        if self.request.user.perfil.eh_administrador():
-            return DizimistaAdminForm
-        else:
-            return self.form_class
+    # def get_form_class(self):
+    #     if self.request.user.perfil.eh_administrador():
+    #         return DizimistaAdminForm
+    #     else:
+    #         return self.form_class
 
 
 class EditaDizimista(LoggedInPermissionsMixin, UpdateView):
@@ -116,21 +108,18 @@ class EditaDizimista(LoggedInPermissionsMixin, UpdateView):
         context = self.get_context_data()
         formset = context['formset']
         if form.is_valid() and formset.is_valid():
-            self.object = form.save(commit=False)
-            if not self.request.user.perfil.eh_administrador():
-                self.object.paroquia = self.request.user.perfil.paroquia
-            self.object.save()
+            self.object = form.save()
             formset.instance = self.object
             formset.save()
             return redirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
 
-    def get_form_class(self):
-        if self.request.user.perfil.eh_administrador():
-            return DizimistaAdminForm
-        else:
-            return self.form_class
+    # def get_form_class(self):
+    #     if self.request.user.perfil.eh_administrador():
+    #         return DizimistaAdminForm
+    #     else:
+    #         return self.form_class
 
     def get_object(self, queryset=None):
         object = super().get_object(queryset)
@@ -1025,7 +1014,7 @@ class ListaPagamentos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
 
     def get_object_list(self, request, search_errors=None):
         object_list = super().get_object_list(request, search_errors)
-        self.form = ConsultaPagamentoForm(request.GET)
+        self.form = ConsultaPagamentoForm(request.GET, perfil=request.user.perfil)
         if self.form and self.form.is_valid():
             tipo = self.form.cleaned_data['tipo']
             descricao = self.form.cleaned_data['descricao']
@@ -1048,15 +1037,10 @@ class ListaPagamentos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
             print(self.form.errors)
         return object_list
 
-    def get_form(self, form_class=None):
-        form = super(ListaPagamentos, self).get_form(form_class)
-        form.fields['tipo'].queryset = TipoPagamento.objects.filter(paroquia=self.request.user.perfil.paroquia)
-        return form
-
-    # def get_form_kwargs(self):
-    #     kwargs = super(ListaPagamentos, self).get_form_kwargs()
-    #     kwargs.update({'perfil': self.request.user.perfil})
-    #     return kwargs
+    def get_form_kwargs(self):
+        kwargs = super(ListaPagamentos, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
 
 
 class NovoPagamento(LoggedInPermissionsMixin, CreateView):
@@ -1082,6 +1066,11 @@ class NovoPagamento(LoggedInPermissionsMixin, CreateView):
             return redirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
+
+    def get_form_kwargs(self):
+        kwargs = super(NovoPagamento, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
 
 
 class ExibePagamento(LoggedInPermissionsMixin, DetailView):
@@ -1125,6 +1114,11 @@ class EditaPagamento(LoggedInPermissionsMixin, UpdateView):
             if not self.request.user.perfil.paroquia == object.paroquia:
                 raise PermissionDenied
         return object
+
+    def get_form_kwargs(self):
+        kwargs = super(EditaPagamento, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
 
 
 class ExcluiPagamento(LoggedInPermissionsMixin, DeleteView):
