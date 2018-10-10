@@ -537,7 +537,7 @@ class ReciboDizimo(LoggedInPermissionsMixin, DetailView):
 ###########################################################
 
 class ListaBatismos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
-    model = Dizimo
+    model = Batismo
     context_object_name = 'batismos'
     template_name = 'batismos/lista.html'
     paginate_by = 20
