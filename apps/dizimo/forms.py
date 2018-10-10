@@ -84,6 +84,14 @@ class DizimoForm(forms.ModelForm):
         fields = ('dizimista', 'referencia', 'valor')
         localized_fields = ('valor', )
 
+    def __init__(self, *args, **kwargs):
+        perfil = None
+        if 'perfil' in kwargs:
+            perfil = kwargs.pop('perfil')
+        super(DizimoForm, self).__init__(*args, **kwargs)
+        if perfil:
+            self.fields['dizimista'].widget.queryset = Dizimista.objects.filter(paroquia=perfil.paroquia)
+
 
 class ConsultaDizimoForm(forms.Form):
     dizimista = forms.CharField(label='Dizimista', required=False)

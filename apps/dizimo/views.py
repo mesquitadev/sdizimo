@@ -422,6 +422,11 @@ class NovoDizimo(LoggedInPermissionsMixin, CreateView):
         else:
             return self.render_to_response(self.get_context_data(form=form))
 
+    def get_form_kwargs(self):
+        kwargs = super(NovoDizimo, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
+
 
 class ClonaDizimo(LoggedInPermissionsMixin, CreateView):
     model = Dizimo
@@ -440,6 +445,7 @@ class ClonaDizimo(LoggedInPermissionsMixin, CreateView):
 
     def get_form_kwargs(self):
         kwargs = super(ClonaDizimo, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
         if self.kwargs['ref']:
             novo_dizimo = get_object_or_404(Dizimo, pk=self.kwargs['ref'])
             novo_dizimo.pk = None
@@ -469,6 +475,11 @@ class EditaDizimo(LoggedInPermissionsMixin, UpdateView):
             if not self.request.user.perfil.paroquia == object.paroquia:
                 raise PermissionDenied
         return object
+
+    def get_form_kwargs(self):
+        kwargs = super(EditaDizimo, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
 
 
 class ExibeDizimo(LoggedInPermissionsMixin, DetailView):
