@@ -59,6 +59,13 @@ class Perfil(models.Model):
         return self.papel == self.ADMINISTRADOR
 
 
+def get_name(self):
+    return self.get_full_name()
+
+
+User.add_to_class("__str__", get_name)
+
+
 def add_user_group_permissions(group, user):
     user.user_permissions.clear()
     for p in group.permissions.all():
