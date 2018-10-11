@@ -226,7 +226,7 @@ class ListaOfertas(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
 
     def get_object_list(self, request, search_errors=None):
         object_list = super().get_object_list(request, search_errors)
-        self.form = ConsultaOfertaForm(request.GET)
+        self.form = ConsultaOfertaForm(request.GET, perfil=request.user.perfil)
         if self.form and self.form.is_valid():
             usuario = self.form.cleaned_data['usuario']
             data_inicio = self.form.cleaned_data['data_inicio']
@@ -242,6 +242,11 @@ class ListaOfertas(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
         else:
             print(self.form.errors)
         return object_list
+
+    def get_form_kwargs(self):
+        kwargs = super(ListaOfertas, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
 
 
 class NovaOferta(LoggedInPermissionsMixin, CreateView):
@@ -374,7 +379,7 @@ class ListaDizimos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
 
     def get_object_list(self, request, search_errors=None):
         object_list = super().get_object_list(request, search_errors)
-        self.form = ConsultaDizimoForm(request.GET)
+        self.form = ConsultaDizimoForm(request.GET, perfil=request.user.perfil)
         if self.form and self.form.is_valid():
             dizimista = self.form.cleaned_data['dizimista']
             referencia = self.form.cleaned_data['referencia']
@@ -397,6 +402,11 @@ class ListaDizimos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
         else:
             print(self.form.errors)
         return object_list
+
+    def get_form_kwargs(self):
+        kwargs = super(ListaDizimos, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
 
 
 class NovoDizimo(LoggedInPermissionsMixin, CreateView):
@@ -564,7 +574,7 @@ class ListaBatismos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
 
     def get_object_list(self, request, search_errors=None):
         object_list = super().get_object_list(request, search_errors)
-        self.form = ConsultaBatismoForm(request.GET)
+        self.form = ConsultaBatismoForm(request.GET, perfil=request.user.perfil)
         if self.form and self.form.is_valid():
             nome_batizando = self.form.cleaned_data['nome_batizando']
             nome_solicitante = self.form.cleaned_data['nome_solicitante']
@@ -585,6 +595,11 @@ class ListaBatismos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
         else:
             print(self.form.errors)
         return object_list
+
+    def get_form_kwargs(self):
+        kwargs = super(ListaBatismos, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
 
 
 class NovoBatismo(LoggedInPermissionsMixin, CreateView):
@@ -717,7 +732,7 @@ class ListaDoacoes(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
 
     def get_object_list(self, request, search_errors=None):
         object_list = super().get_object_list(request, search_errors)
-        self.form = ConsultaDoacaoForm(request.GET)
+        self.form = ConsultaDoacaoForm(request.GET, perfil=request.user.perfil)
         if self.form and self.form.is_valid():
             descricao = self.form.cleaned_data['descricao']
             usuario = self.form.cleaned_data['usuario']
@@ -736,6 +751,11 @@ class ListaDoacoes(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
         else:
             print(self.form.errors)
         return object_list
+
+    def get_form_kwargs(self):
+        kwargs = super(ListaDoacoes, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
 
 
 class NovaDoacao(LoggedInPermissionsMixin, CreateView):

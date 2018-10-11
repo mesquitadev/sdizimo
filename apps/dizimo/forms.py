@@ -54,6 +54,14 @@ class ConsultaOfertaForm(forms.Form):
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
     usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
 
+    def __init__(self, *args, **kwargs):
+        perfil = None
+        if 'perfil' in kwargs:
+            perfil = kwargs.pop('perfil')
+        super(ConsultaOfertaForm, self).__init__(*args, **kwargs)
+        if perfil:
+            self.fields['usuario'].queryset = User.objects.filter(perfil__paroquia=perfil.paroquia)
+
 
 class OfertaForm(forms.ModelForm):
     valor = forms.DecimalField(label='Valor (R$)', max_digits=10, decimal_places=2, localize=True)
@@ -101,12 +109,16 @@ class ConsultaDizimoForm(forms.Form):
     usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
 
     def __init__(self, *args, **kwargs):
+        perfil = None
+        if 'perfil' in kwargs:
+            perfil = kwargs.pop('perfil')
         super(ConsultaDizimoForm, self).__init__(*args, **kwargs)
         lista_referencia = [['', '---------']]
         for referencia in Dizimo.objects.values_list('referencia', flat=True).order_by('-referencia').distinct():
             lista_referencia.append([referencia.strftime('%m/%Y'), referencia.strftime('%m/%Y')])
-
         self.fields['referencia'].choices = lista_referencia
+        if perfil:
+            self.fields['usuario'].queryset = User.objects.filter(perfil__paroquia=perfil.paroquia)
 
 
 ###########################################################
@@ -130,6 +142,14 @@ class ConsultaBatismoForm(forms.Form):
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
     usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
 
+    def __init__(self, *args, **kwargs):
+        perfil = None
+        if 'perfil' in kwargs:
+            perfil = kwargs.pop('perfil')
+        super(ConsultaBatismoForm, self).__init__(*args, **kwargs)
+        if perfil:
+            self.fields['usuario'].queryset = User.objects.filter(perfil__paroquia=perfil.paroquia)
+
 
 ###########################################################
 #  DOACOES                                                #
@@ -149,6 +169,14 @@ class ConsultaDoacaoForm(forms.Form):
     data_inicio = forms.DateField(label='De', required=False, widget=DatePicker(options={"autoclose": True}))
     data_fim = forms.DateField(label='Até', required=False, widget=DatePicker(options={"autoclose": True}))
     usuario = forms.ModelChoiceField(label='Usuário responsável', required=False, queryset=User.objects.all().order_by('username'))
+
+    def __init__(self, *args, **kwargs):
+        perfil = None
+        if 'perfil' in kwargs:
+            perfil = kwargs.pop('perfil')
+        super(ConsultaDoacaoForm, self).__init__(*args, **kwargs)
+        if perfil:
+            self.fields['usuario'].queryset = User.objects.filter(perfil__paroquia=perfil.paroquia)
 
 
 ###########################################################
