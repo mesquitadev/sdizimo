@@ -1,1 +1,1 @@
-web: gunicorn sdizimo.wsgi
+web: gunicorn sdizimo.wsgi --log-file -

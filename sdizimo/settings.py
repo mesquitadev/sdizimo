@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import django_heroku
+import dj_database_url
 
 from django.contrib.messages import constants as message_constants
 
@@ -117,6 +118,7 @@ DATABASES = {
         'PASSWORD': 'sdizimo',
         'HOST': '127.0.0.1',
         'PORT': '5432',
+        'CONN_MAX_AGE': 600,
     }
 }
 
@@ -220,5 +222,10 @@ MESSAGE_TAGS = {
     message_constants.ERROR: 'danger',
 }
 
-# Activate Django-Heroku.
+
+# Heroku configs
+
 django_heroku.settings(locals())
+
+if not DEBUG:
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
