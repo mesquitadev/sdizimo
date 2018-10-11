@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Sum
@@ -1222,6 +1223,8 @@ def relatorio_batismos(request):
 
             # consulta batismos
             batismos = get_batismos(request.user, data_inicio, data_fim)
+            if not batismos.exists():
+                messages.warning(request, 'Nenhum resultado encontrado!')
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1251,6 +1254,8 @@ def relatorio_dizimos(request):
 
             # consulta dizimos
             dizimos = get_dizimos(request.user, data_inicio, data_fim)
+            if not dizimos.exists():
+                messages.warning(request, 'Nenhum resultado encontrado!')
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1280,6 +1285,8 @@ def relatorio_doacoes(request):
 
             # consulta doacoes
             doacoes = get_doacoes(request.user, data_inicio, data_fim)
+            if not doacoes.exists():
+                messages.warning(request, 'Nenhum resultado encontrado!')
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1309,6 +1316,8 @@ def relatorio_ofertas(request):
 
             # consulta ofertas
             ofertas = get_ofertas(request.user, data_inicio, data_fim)
+            if not ofertas.exists():
+                messages.warning(request, 'Nenhum resultado encontrado!')
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1347,6 +1356,8 @@ def relatorio_geral_recebimentos(request):
             batismos = get_batismos(request.user, data_inicio, data_fim)
             # consulta doacoes
             doacoes = get_doacoes(request.user, data_inicio, data_fim)
+            if not batismos.exists() and not dizimos.exists() and not ofertas.exists() and not doacoes.exists():
+                messages.warning(request, 'Nenhum resultado encontrado!')
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1379,6 +1390,8 @@ def relatorio_pagamentos(request):
 
             # consulta pagamentos
             pagamentos = get_pagamentos(request.user, data_inicio, data_fim)
+            if not pagamentos.exists():
+                messages.warning(request, 'Nenhum resultado encontrado!')
     else:
         form = RecebimentosPorPeriodoForm()
 
