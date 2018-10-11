@@ -37,6 +37,9 @@
             <th scope="col">Tipo</th>
             <th scope="col">Valor</th>
             <th scope="col">Descrição</th>
+            {% if eh_admin %}
+              <th scope="col">Paróquia</th>
+            {% endif %}
             <th scope="col">Registrado em</th>
             <th scope="col">Usuário responsável</th>
           </tr>
@@ -53,8 +56,11 @@
               <td>{{ pagamento.tipo }}</td>
               <td>{{ pagamento.valor }}</td>
               <td>{{ pagamento.descricao }}</td>
+              {% if eh_admin %}
+                <td>{{ pagamento.paroquia }}</td>
+              {% endif %}
               <td>{{ pagamento.cadastrado_em }}</td>
-              <td>{{ pagamento.usuario.username }}</td>
+              <td>{{ pagamento.usuario }}</td>
             </tr>
           {% endfor %}
         </tbody>

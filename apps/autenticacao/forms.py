@@ -3,12 +3,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 from .models import Perfil
+from apps.dizimo.models import Paroquia
 
 
 class ConsultaUsuarioForm(forms.Form):
-    usuario = forms.CharField(label='Nome de usuário', required=False)
-    nome = forms.CharField(label='Nome completos', required=False)
+    nome = forms.CharField(label='Nome', required=False)
     perfil = forms.ChoiceField(label='Perfil', choices=Perfil.PAPEL_CHOICES_EMPTY, required=False)
+    paroquia = forms.ModelChoiceField(label='Paróquia', queryset=Paroquia.objects.all(), required=False)
 
 
 class NovoUsuarioForm(UserCreationForm):
@@ -30,9 +31,11 @@ class EditaUsuarioForm(forms.ModelForm):
 
 
 class PerfilForm(forms.ModelForm):
+    paroquia = forms.ModelChoiceField(label='Paróquia', queryset=Paroquia.objects.all())
+
     class Meta:
         model = Perfil
-        fields = ('papel', 'foto')
+        fields = ('papel', 'paroquia', 'foto')
 
 
 class MeuUsuarioForm(forms.ModelForm):

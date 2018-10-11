@@ -16,8 +16,8 @@
 {% block content %}
   <div class="mb-4 d-flex flex-row-reverse">
       <ul class="list-inline">
-        <li class="list-inline-item"><a href="{% url 'dizimo:ficha_cadastral_dizimista_pdf' %}" target="_blank" class="btn btn-dark"><i class="fa fa-print" aria-hidden="true"></i> Ficha Cadastral de Dizimista</a></li>
         <li class="list-inline-item"><a href="{% url 'dizimo:novo_dizimista' %}" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i> Novo dizimista</a></li>
+        <li class="list-inline-item"><a href="{% url 'dizimo:ficha_cadastral_dizimista_pdf' %}" target="_blank" class="btn btn-dark"><i class="fa fa-print" aria-hidden="true"></i> Ficha Cadastral de Dizimista</a></li>
       </ul>
   </div>
 
@@ -45,9 +45,11 @@
             <th scope="col">Nome</th>
             <th scope="col">Endereço</th>
             <th scope="col">Bairro</th>
-            <th scope="col">Paróquia</th>
-            <th scope="col">Comunidade</th>
-            {% comment %} <th scope="col">Data de nascimento</th> {% endcomment %}
+            {% if eh_admin %}
+              <th scope="col">Paróquia</th>
+            {% endif %}
+            {% comment %} <th scope="col">Comunidade</th> {% endcomment %}
+            <th scope="col">Data de nascimento</th>
           </tr>
         </thead>
         <tbody>
@@ -59,11 +61,13 @@
               </td>
               <td width="80">{{ dizimista.pk|stringformat:"03d" }}</td>
               <td>{{ dizimista.nome }}</td>
-              <td>{{ dizimista.endereco }}</td>
-              <td>{{ dizimista.bairro }}</td>
-              <td>{{ dizimista.paroquia }}</td>
-              <td>{{ dizimista.comunidade }}</td>
-              {% comment %} <td>{{ dizimista.data_nascimento }}</td> {% endcomment %}
+              <td>{{ dizimista.endereco|default:"-" }}</td>
+              <td>{{ dizimista.bairro|default:"-" }}</td>
+              {% if eh_admin %}
+                <td>{{ dizimista.paroquia }}</td>
+              {% endif %}
+              {% comment %} <td>{{ dizimista.comunidade|default:"-" }}</td> {% endcomment %}
+              <td>{{ dizimista.data_nascimento }}</td>
             </tr>
           {% endfor %}
         </tbody>
@@ -72,4 +76,4 @@
   </div>
 
   {% include 'includes/pagination.html' %}
-{% endblock %}
+  {% endblock %}

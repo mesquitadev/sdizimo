@@ -2,6 +2,7 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.core.exceptions import PermissionDenied
 from django.db.models import Sum
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
@@ -10,21 +11,28 @@ from easy_pdf.views import PDFTemplateView, PDFTemplateResponseMixin
 from search_views.search import SearchListView
 
 from apps.comum.mixins import LoggedInPermissionsMixin
-from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao, Paroquia, Igreja, \
+from .models import Dizimista, Oferta, Dizimo, Batismo, Doacao, Paroquia, \
     TipoPagamento, Pagamento
 from .filters import DizimistaFilter, RecebimentoFilter, ParoquiaFilter, TipoPagamentoFilter
 from .forms import DizimistaForm, TelefoneFormSet, ConsultaDizimistaForm, ConsultaOfertaForm, OfertaForm, \
     DizimoForm, ConsultaDizimoForm, BatismoForm, ConsultaBatismoForm, DoacaoForm, ConsultaDoacaoForm, \
-    RecebimentosPorPeriodoForm, ParoquiaForm, ConsultaParoquiaForm, IgrejaForm, \
+    RecebimentosPorPeriodoForm, ParoquiaForm, ConsultaParoquiaForm, \
     TipoPagamentoForm, PagamentoForm, ConsultaPagamentoForm
 from .utils import MESES
+
+
+class ListFilterParoquiaByUserView(SearchListView):
+    def get_object_list(self, request, search_errors=None):
+        object_list = super().get_object_list(request, search_errors)
+        # if request.user.perfil.eh_administrador():
+        #     return object_list
+        return object_list.filter(paroquia=request.user.perfil.paroquia)
 
 
 ###########################################################
 #  DIZIMISTAS                                             #
 ###########################################################
-
-class ListaDizimistas(LoggedInPermissionsMixin, SearchListView):
+class ListaDizimistas(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
     model = Dizimista
     context_object_name = 'dizimistas'
     template_name = 'dizimistas/lista.html'
@@ -35,6 +43,7 @@ class ListaDizimistas(LoggedInPermissionsMixin, SearchListView):
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'
+        kwargs['eh_admin'] = self.request.user.perfil.eh_administrador()
         return super().get_context_data(**kwargs)
 
 
@@ -60,12 +69,20 @@ class NovoDizimista(LoggedInPermissionsMixin, CreateView):
         context = self.get_context_data()
         formset = context['formset']
         if form.is_valid() and formset.is_valid():
-            self.object = form.save()
+            self.object = form.save(commit=False)
+            self.object.paroquia = self.request.user.perfil.paroquia
+            self.object.save()
             formset.instance = self.object
             formset.save()
             return redirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
+
+    # def get_form_class(self):
+    #     if self.request.user.perfil.eh_administrador():
+    #         return DizimistaAdminForm
+    #     else:
+    #         return self.form_class
 
 
 class EditaDizimista(LoggedInPermissionsMixin, UpdateView):
@@ -99,6 +116,19 @@ class EditaDizimista(LoggedInPermissionsMixin, UpdateView):
         else:
             return self.render_to_response(self.get_context_data(form=form))
 
+    # def get_form_class(self):
+    #     if self.request.user.perfil.eh_administrador():
+    #         return DizimistaAdminForm
+    #     else:
+    #         return self.form_class
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ExibeDizimista(LoggedInPermissionsMixin, DetailView):
     model = Dizimista
@@ -109,6 +139,13 @@ class ExibeDizimista(LoggedInPermissionsMixin, DetailView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'dizimistas'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ExibeDizimistaPDF(LoggedInPermissionsMixin, PDFTemplateResponseMixin, DetailView):
@@ -125,6 +162,13 @@ class ExibeDizimistaPDF(LoggedInPermissionsMixin, PDFTemplateResponseMixin, Deta
 
         return super().get_context_data(**kwargs)
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ExcluiDizimista(LoggedInPermissionsMixin, DeleteView):
     model = Dizimista
@@ -137,13 +181,20 @@ class ExcluiDizimista(LoggedInPermissionsMixin, DeleteView):
         kwargs['menu'] = 'dizimistas'
         return super().get_context_data(**kwargs)
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 @login_required
 @permission_required('dizimo.list_dizimista', raise_exception=True)
 def aniversariantes(request):
     mes_escolhido = int(request.GET.get('mes', datetime.today().month))
 
-    lista_aniversariantes = Dizimista.objects.filter(data_nascimento__month=mes_escolhido).order_by('data_nascimento', 'nome')
+    lista_aniversariantes = Dizimista.objects.filter(paroquia=request.user.perfil.paroquia, data_nascimento__month=mes_escolhido).order_by('data_nascimento', 'nome')
 
     context = {
         'menu': 'relatorios',
@@ -159,7 +210,7 @@ def aniversariantes(request):
 #  OFERTAS                                                #
 ###########################################################
 
-class ListaOfertas(LoggedInPermissionsMixin, SearchListView):
+class ListaOfertas(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
     model = Oferta
     context_object_name = 'ofertas'
     template_name = 'ofertas/lista.html'
@@ -174,8 +225,8 @@ class ListaOfertas(LoggedInPermissionsMixin, SearchListView):
         return super().get_context_data(**kwargs)
 
     def get_object_list(self, request, search_errors=None):
-        object_list = Oferta.objects.all()
-        self.form = ConsultaOfertaForm(request.GET)
+        object_list = super().get_object_list(request, search_errors)
+        self.form = ConsultaOfertaForm(request.GET, perfil=request.user.perfil)
         if self.form and self.form.is_valid():
             usuario = self.form.cleaned_data['usuario']
             data_inicio = self.form.cleaned_data['data_inicio']
@@ -191,6 +242,11 @@ class ListaOfertas(LoggedInPermissionsMixin, SearchListView):
         else:
             print(self.form.errors)
         return object_list
+
+    def get_form_kwargs(self):
+        kwargs = super(ListaOfertas, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
 
 
 class NovaOferta(LoggedInPermissionsMixin, CreateView):
@@ -234,6 +290,13 @@ class EditaOferta(LoggedInPermissionsMixin, UpdateView):
         context['menu_dropdown'] = 'ofertas'
         return context
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ExibeOferta(LoggedInPermissionsMixin, DetailView):
     model = Oferta
@@ -245,6 +308,13 @@ class ExibeOferta(LoggedInPermissionsMixin, DetailView):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'ofertas'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ExcluiOferta(LoggedInPermissionsMixin, DeleteView):
@@ -259,6 +329,13 @@ class ExcluiOferta(LoggedInPermissionsMixin, DeleteView):
         kwargs['menu_dropdown'] = 'ofertas'
         return super().get_context_data(**kwargs)
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ReciboOferta(LoggedInPermissionsMixin, DetailView):
     model = Oferta
@@ -269,17 +346,24 @@ class ReciboOferta(LoggedInPermissionsMixin, DetailView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'ofertas'
-        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['paroquia'] = self.get_object().paroquia
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 ###########################################################
 #  DIZIMOS                                                #
 ###########################################################
 
-class ListaDizimos(LoggedInPermissionsMixin, SearchListView):
+class ListaDizimos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
     model = Dizimo
     context_object_name = 'dizimos'
     template_name = 'dizimos/lista.html'
@@ -294,8 +378,8 @@ class ListaDizimos(LoggedInPermissionsMixin, SearchListView):
         return super().get_context_data(**kwargs)
 
     def get_object_list(self, request, search_errors=None):
-        object_list = Dizimo.objects.all()
-        self.form = ConsultaDizimoForm(request.GET)
+        object_list = super().get_object_list(request, search_errors)
+        self.form = ConsultaDizimoForm(request.GET, perfil=request.user.perfil)
         if self.form and self.form.is_valid():
             dizimista = self.form.cleaned_data['dizimista']
             referencia = self.form.cleaned_data['referencia']
@@ -318,6 +402,11 @@ class ListaDizimos(LoggedInPermissionsMixin, SearchListView):
         else:
             print(self.form.errors)
         return object_list
+
+    def get_form_kwargs(self):
+        kwargs = super(ListaDizimos, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
 
 
 class NovoDizimo(LoggedInPermissionsMixin, CreateView):
@@ -344,6 +433,11 @@ class NovoDizimo(LoggedInPermissionsMixin, CreateView):
         else:
             return self.render_to_response(self.get_context_data(form=form))
 
+    def get_form_kwargs(self):
+        kwargs = super(NovoDizimo, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
+
 
 class ClonaDizimo(LoggedInPermissionsMixin, CreateView):
     model = Dizimo
@@ -362,6 +456,7 @@ class ClonaDizimo(LoggedInPermissionsMixin, CreateView):
 
     def get_form_kwargs(self):
         kwargs = super(ClonaDizimo, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
         if self.kwargs['ref']:
             novo_dizimo = get_object_or_404(Dizimo, pk=self.kwargs['ref'])
             novo_dizimo.pk = None
@@ -385,6 +480,18 @@ class EditaDizimo(LoggedInPermissionsMixin, UpdateView):
         context['menu_dropdown'] = 'dizimos'
         return context
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
+    def get_form_kwargs(self):
+        kwargs = super(EditaDizimo, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
+
 
 class ExibeDizimo(LoggedInPermissionsMixin, DetailView):
     model = Dizimo
@@ -396,6 +503,13 @@ class ExibeDizimo(LoggedInPermissionsMixin, DetailView):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'dizimos'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ExcluiDizimo(LoggedInPermissionsMixin, DeleteView):
@@ -410,6 +524,13 @@ class ExcluiDizimo(LoggedInPermissionsMixin, DeleteView):
         kwargs['menu_dropdown'] = 'dizimos'
         return super().get_context_data(**kwargs)
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ReciboDizimo(LoggedInPermissionsMixin, DetailView):
     model = Dizimo
@@ -420,18 +541,25 @@ class ReciboDizimo(LoggedInPermissionsMixin, DetailView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'dizimos'
-        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['paroquia'] = self.get_object().paroquia
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 ###########################################################
 #  BATISMOS                                               #
 ###########################################################
 
-class ListaBatismos(LoggedInPermissionsMixin, SearchListView):
-    model = Dizimo
+class ListaBatismos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
+    model = Batismo
     context_object_name = 'batismos'
     template_name = 'batismos/lista.html'
     paginate_by = 20
@@ -445,8 +573,8 @@ class ListaBatismos(LoggedInPermissionsMixin, SearchListView):
         return super().get_context_data(**kwargs)
 
     def get_object_list(self, request, search_errors=None):
-        object_list = Batismo.objects.all()
-        self.form = ConsultaBatismoForm(request.GET)
+        object_list = super().get_object_list(request, search_errors)
+        self.form = ConsultaBatismoForm(request.GET, perfil=request.user.perfil)
         if self.form and self.form.is_valid():
             nome_batizando = self.form.cleaned_data['nome_batizando']
             nome_solicitante = self.form.cleaned_data['nome_solicitante']
@@ -467,6 +595,11 @@ class ListaBatismos(LoggedInPermissionsMixin, SearchListView):
         else:
             print(self.form.errors)
         return object_list
+
+    def get_form_kwargs(self):
+        kwargs = super(ListaBatismos, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
 
 
 class NovoBatismo(LoggedInPermissionsMixin, CreateView):
@@ -510,6 +643,13 @@ class EditaBatismo(LoggedInPermissionsMixin, UpdateView):
         context['menu_dropdown'] = 'batismos'
         return context
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ExibeBatismo(LoggedInPermissionsMixin, DetailView):
     model = Batismo
@@ -521,6 +661,13 @@ class ExibeBatismo(LoggedInPermissionsMixin, DetailView):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'batismos'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ExcluiBatismo(LoggedInPermissionsMixin, DeleteView):
@@ -535,6 +682,13 @@ class ExcluiBatismo(LoggedInPermissionsMixin, DeleteView):
         kwargs['menu_dropdown'] = 'batismos'
         return super().get_context_data(**kwargs)
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ReciboBatismo(LoggedInPermissionsMixin, DetailView):
     model = Batismo
@@ -545,17 +699,24 @@ class ReciboBatismo(LoggedInPermissionsMixin, DetailView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'batismos'
-        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['paroquia'] = self.get_object().paroquia
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 ###########################################################
 #  DOACOES                                                #
 ###########################################################
 
-class ListaDoacoes(LoggedInPermissionsMixin, SearchListView):
+class ListaDoacoes(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
     model = Doacao
     context_object_name = 'doacoes'
     template_name = 'doacoes/lista.html'
@@ -570,8 +731,8 @@ class ListaDoacoes(LoggedInPermissionsMixin, SearchListView):
         return super().get_context_data(**kwargs)
 
     def get_object_list(self, request, search_errors=None):
-        object_list = Doacao.objects.all()
-        self.form = ConsultaDoacaoForm(request.GET)
+        object_list = super().get_object_list(request, search_errors)
+        self.form = ConsultaDoacaoForm(request.GET, perfil=request.user.perfil)
         if self.form and self.form.is_valid():
             descricao = self.form.cleaned_data['descricao']
             usuario = self.form.cleaned_data['usuario']
@@ -590,6 +751,11 @@ class ListaDoacoes(LoggedInPermissionsMixin, SearchListView):
         else:
             print(self.form.errors)
         return object_list
+
+    def get_form_kwargs(self):
+        kwargs = super(ListaDoacoes, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
 
 
 class NovaDoacao(LoggedInPermissionsMixin, CreateView):
@@ -633,6 +799,13 @@ class EditaDoacao(LoggedInPermissionsMixin, UpdateView):
         context['menu_dropdown'] = 'doacoes'
         return context
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ExibeDoacao(LoggedInPermissionsMixin, DetailView):
     model = Doacao
@@ -644,6 +817,13 @@ class ExibeDoacao(LoggedInPermissionsMixin, DetailView):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'doacoes'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ExcluiDoacao(LoggedInPermissionsMixin, DeleteView):
@@ -658,6 +838,13 @@ class ExcluiDoacao(LoggedInPermissionsMixin, DeleteView):
         kwargs['menu_dropdown'] = 'doacoes'
         return super().get_context_data(**kwargs)
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ReciboDoacao(LoggedInPermissionsMixin, DetailView):
     model = Doacao
@@ -668,10 +855,17 @@ class ReciboDoacao(LoggedInPermissionsMixin, DetailView):
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'recebimentos'
         kwargs['menu_dropdown'] = 'doacoes'
-        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['paroquia'] = self.get_object().paroquia
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 ###########################################################
@@ -688,7 +882,7 @@ class ListaParoquias(LoggedInPermissionsMixin, SearchListView):
     permission_required = 'dizimo.list_paroquia'
 
     def get_context_data(self, **kwargs):
-        kwargs['menu'] = 'configuracoes'
+        kwargs['menu'] = 'cadastros'
         kwargs['menu_dropdown'] = 'paroquias'
         return super().get_context_data(**kwargs)
 
@@ -704,7 +898,7 @@ class NovaParoquia(LoggedInPermissionsMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = 'configuracoes'
+        context['menu'] = 'cadastros'
         context['menu_dropdown'] = 'paroquias'
         return context
 
@@ -721,7 +915,7 @@ class EditaParoquia(LoggedInPermissionsMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = 'configuracoes'
+        context['menu'] = 'cadastros'
         context['menu_dropdown'] = 'paroquias'
         return context
 
@@ -735,42 +929,16 @@ class ExcluiParoquia(LoggedInPermissionsMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = 'configuracoes'
+        context['menu'] = 'cadastros'
         context['menu_dropdown'] = 'paroquias'
         return context
-
-
-###########################################################
-#  IGREJA                                                 #
-###########################################################
-
-@login_required
-@permission_required('dizimo.change_igreja', raise_exception=True)
-def dados_igreja(request):
-    igreja = Igreja.objects.first()
-    if request.method == 'POST':
-        form = IgrejaForm(request.POST, instance=igreja)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Dados atualizados com sucesso!')
-    else:
-        form = IgrejaForm(instance=igreja)
-
-    context = {
-        'form': form,
-        'menu': 'configuracoes',
-        'menu_dropdown': 'dados_igreja',
-        'igreja': igreja,
-    }
-
-    return render(request, 'dados_igreja.html', context)
 
 
 ###########################################################
 #  TIPOS DE PAGAMENTOS                                    #
 ###########################################################
 
-class ListaTiposPagamentos(LoggedInPermissionsMixin, SearchListView):
+class ListaTiposPagamentos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
     model = TipoPagamento
     context_object_name = 'tipos_pagamentos'
     template_name = 'tipos_pagamentos/lista.html'
@@ -781,7 +949,7 @@ class ListaTiposPagamentos(LoggedInPermissionsMixin, SearchListView):
 
     def get_context_data(self, **kwargs):
         kwargs['title'] = 'Tipos de Pagamentos'
-        kwargs['menu'] = 'configuracoes'
+        kwargs['menu'] = 'cadastros'
         kwargs['menu_dropdown'] = 'tipos_pagamentos'
         return super().get_context_data(**kwargs)
 
@@ -798,9 +966,18 @@ class NovoTipoPagamento(LoggedInPermissionsMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Novo tipo de pagamento'
-        context['menu'] = 'configuracoes'
+        context['menu'] = 'cadastros'
         context['menu_dropdown'] = 'tipos_pagamentos'
         return context
+
+    def form_valid(self, form):
+        if form.is_valid():
+            self.object = form.save(commit=False)
+            self.object.paroquia = self.request.user.perfil.paroquia
+            self.object.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
 
 class EditaTipoPagamento(LoggedInPermissionsMixin, UpdateView):
@@ -816,9 +993,16 @@ class EditaTipoPagamento(LoggedInPermissionsMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Editando {0}'.format(self.object)
-        context['menu'] = 'configuracoes'
+        context['menu'] = 'cadastros'
         context['menu_dropdown'] = 'tipos_pagamentos'
         return context
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class ExcluiTipoPagamento(LoggedInPermissionsMixin, DeleteView):
@@ -830,16 +1014,23 @@ class ExcluiTipoPagamento(LoggedInPermissionsMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         kwargs['title'] = 'Excluindo {0}'.format(self.object)
-        kwargs['menu'] = 'configuracoes'
+        kwargs['menu'] = 'cadastros'
         kwargs['menu_dropdown'] = 'tipos_pagamentos'
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 ###########################################################
 #  PAGAMENTOS                                             #
 ###########################################################
 
-class ListaPagamentos(LoggedInPermissionsMixin, SearchListView):
+class ListaPagamentos(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
     model = Pagamento
     context_object_name = 'pagamentos'
     template_name = 'pagamentos/lista.html'
@@ -854,8 +1045,8 @@ class ListaPagamentos(LoggedInPermissionsMixin, SearchListView):
         return super().get_context_data(**kwargs)
 
     def get_object_list(self, request, search_errors=None):
-        object_list = Pagamento.objects.all()
-        self.form = ConsultaPagamentoForm(request.GET)
+        object_list = super().get_object_list(request, search_errors)
+        self.form = ConsultaPagamentoForm(request.GET, perfil=request.user.perfil)
         if self.form and self.form.is_valid():
             tipo = self.form.cleaned_data['tipo']
             descricao = self.form.cleaned_data['descricao']
@@ -877,6 +1068,11 @@ class ListaPagamentos(LoggedInPermissionsMixin, SearchListView):
         else:
             print(self.form.errors)
         return object_list
+
+    def get_form_kwargs(self):
+        kwargs = super(ListaPagamentos, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
 
 
 class NovoPagamento(LoggedInPermissionsMixin, CreateView):
@@ -903,6 +1099,11 @@ class NovoPagamento(LoggedInPermissionsMixin, CreateView):
         else:
             return self.render_to_response(self.get_context_data(form=form))
 
+    def get_form_kwargs(self):
+        kwargs = super(NovoPagamento, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
+
 
 class ExibePagamento(LoggedInPermissionsMixin, DetailView):
     model = Pagamento
@@ -914,6 +1115,13 @@ class ExibePagamento(LoggedInPermissionsMixin, DetailView):
         kwargs['menu'] = 'pagamentos'
         kwargs['title'] = self.object
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 class EditaPagamento(LoggedInPermissionsMixin, UpdateView):
@@ -932,6 +1140,18 @@ class EditaPagamento(LoggedInPermissionsMixin, UpdateView):
         context['menu'] = 'pagamentos'
         return context
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
+    def get_form_kwargs(self):
+        kwargs = super(EditaPagamento, self).get_form_kwargs()
+        kwargs.update({'perfil': self.request.user.perfil})
+        return kwargs
+
 
 class ExcluiPagamento(LoggedInPermissionsMixin, DeleteView):
     model = Pagamento
@@ -945,6 +1165,13 @@ class ExcluiPagamento(LoggedInPermissionsMixin, DeleteView):
         kwargs['menu'] = 'pagamentos'
         return super().get_context_data(**kwargs)
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
+
 
 class ReciboPagamento(LoggedInPermissionsMixin, DetailView):
     model = Pagamento
@@ -954,34 +1181,51 @@ class ReciboPagamento(LoggedInPermissionsMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs['menu'] = 'pagamentos'
-        kwargs['igreja'] = Igreja.objects.first()
+        kwargs['paroquia'] = self.get_object().paroquia
         kwargs['titulo_relatorio'] = 'Recibo'
         kwargs['user'] = self.request.user
         return super().get_context_data(**kwargs)
+
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if not self.request.user.perfil.eh_administrador():
+            if not self.request.user.perfil.paroquia == object.paroquia:
+                raise PermissionDenied
+        return object
 
 
 ###########################################################
 #  RELATORIOS                                             #
 ###########################################################
 
-def get_batismos(data_inicio, data_fim):
-    return Batismo.objects.filter(data_batismo__gte=data_inicio, data_batismo__lte=data_fim).order_by('data_batismo', 'nome_batizando')
+def get_batismos(usuario, data_inicio, data_fim):
+    if usuario.perfil.eh_administrador():
+        return Batismo.objects.filter(data_batismo__gte=data_inicio, data_batismo__lte=data_fim).order_by('data_batismo', 'nome_batizando')
+    return Batismo.objects.filter(paroquia=usuario.perfil.paroquia, data_batismo__gte=data_inicio, data_batismo__lte=data_fim).order_by('data_batismo', 'nome_batizando')
 
 
-def get_dizimos(data_inicio, data_fim):
-    return Dizimo.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('referencia', 'dizimista__nome')
+def get_dizimos(usuario, data_inicio, data_fim):
+    if usuario.perfil.eh_administrador():
+        return Dizimo.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('referencia', 'dizimista__nome')
+    return Dizimo.objects.filter(paroquia=usuario.perfil.paroquia, cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('referencia', 'dizimista__nome')
 
 
-def get_doacoes(data_inicio, data_fim):
-    return Doacao.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+def get_doacoes(usuario, data_inicio, data_fim):
+    if usuario.perfil.eh_administrador():
+        return Doacao.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+    return Doacao.objects.filter(paroquia=usuario.perfil.paroquia, cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
 
 
-def get_ofertas(data_inicio, data_fim):
-    return Oferta.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+def get_ofertas(usuario, data_inicio, data_fim):
+    if usuario.perfil.eh_administrador():
+        return Oferta.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+    return Oferta.objects.filter(paroquia=usuario.perfil.paroquia, cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
 
 
-def get_pagamentos(data_inicio, data_fim):
-    return Pagamento.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+def get_pagamentos(usuario, data_inicio, data_fim):
+    if usuario.perfil.eh_administrador():
+        return Pagamento.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+    return Pagamento.objects.filter(paroquia=usuario.perfil.paroquia, cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
 
 
 @login_required
@@ -998,7 +1242,9 @@ def relatorio_batismos(request):
             data_fim = form.cleaned_data['data_fim']
 
             # consulta batismos
-            batismos = get_batismos(data_inicio, data_fim)
+            batismos = get_batismos(request.user, data_inicio, data_fim)
+            if not batismos.exists():
+                messages.warning(request, 'Nenhum resultado encontrado!')
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1027,7 +1273,9 @@ def relatorio_dizimos(request):
             data_fim = form.cleaned_data['data_fim']
 
             # consulta dizimos
-            dizimos = get_dizimos(data_inicio, data_fim)
+            dizimos = get_dizimos(request.user, data_inicio, data_fim)
+            if not dizimos.exists():
+                messages.warning(request, 'Nenhum resultado encontrado!')
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1056,7 +1304,9 @@ def relatorio_doacoes(request):
             data_fim = form.cleaned_data['data_fim']
 
             # consulta doacoes
-            doacoes = get_doacoes(data_inicio, data_fim)
+            doacoes = get_doacoes(request.user, data_inicio, data_fim)
+            if not doacoes.exists():
+                messages.warning(request, 'Nenhum resultado encontrado!')
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1085,7 +1335,9 @@ def relatorio_ofertas(request):
             data_fim = form.cleaned_data['data_fim']
 
             # consulta ofertas
-            ofertas = get_ofertas(data_inicio, data_fim)
+            ofertas = get_ofertas(request.user, data_inicio, data_fim)
+            if not ofertas.exists():
+                messages.warning(request, 'Nenhum resultado encontrado!')
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1117,13 +1369,15 @@ def relatorio_geral_recebimentos(request):
             data_fim = form.cleaned_data['data_fim']
 
             # consulta dizimos
-            dizimos = get_dizimos(data_inicio, data_fim)
+            dizimos = get_dizimos(request.user, data_inicio, data_fim)
             # consulta ofertas
-            ofertas = get_ofertas(data_inicio, data_fim)
+            ofertas = get_ofertas(request.user, data_inicio, data_fim)
             # consulta batismos
-            batismos = get_batismos(data_inicio, data_fim)
+            batismos = get_batismos(request.user, data_inicio, data_fim)
             # consulta doacoes
-            doacoes = get_doacoes(data_inicio, data_fim)
+            doacoes = get_doacoes(request.user, data_inicio, data_fim)
+            if not batismos.exists() and not dizimos.exists() and not ofertas.exists() and not doacoes.exists():
+                messages.warning(request, 'Nenhum resultado encontrado!')
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1155,7 +1409,9 @@ def relatorio_pagamentos(request):
             data_fim = form.cleaned_data['data_fim']
 
             # consulta pagamentos
-            pagamentos = get_pagamentos(data_inicio, data_fim)
+            pagamentos = get_pagamentos(request.user, data_inicio, data_fim)
+            if not pagamentos.exists():
+                messages.warning(request, 'Nenhum resultado encontrado!')
     else:
         form = RecebimentosPorPeriodoForm()
 
@@ -1187,7 +1443,7 @@ class RelatorioPagamentosPDF(LoggedInPermissionsMixin, PDFTemplateView):
             data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
         # consulta pagamentos
-        pagamentos = get_pagamentos(data_inicio, data_fim)
+        pagamentos = get_pagamentos(self.request.user, data_inicio, data_fim)
         total_pagamentos = pagamentos.aggregate(total=Sum('valor'))
 
         context['titulo_relatorio'] = 'Relatório de pagamentos relativo ao período de {0} a {1}'.format(dt_inicio, dt_fim)
@@ -1214,7 +1470,7 @@ class RelatorioBatismosPDF(LoggedInPermissionsMixin, PDFTemplateView):
             data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
         # consulta batismos
-        batismos = get_batismos(data_inicio, data_fim)
+        batismos = get_batismos(self.request.user, data_inicio, data_fim)
         total_batismos = batismos.aggregate(total=Sum('valor'))
 
         # somatorio
@@ -1247,7 +1503,7 @@ class RelatorioDizimosPDF(LoggedInPermissionsMixin, PDFTemplateView):
             data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
         # consulta dizimos
-        dizimos = get_dizimos(data_inicio, data_fim)
+        dizimos = get_dizimos(self.request.user, data_inicio, data_fim)
         total_dizimos = dizimos.aggregate(total=Sum('valor'))
 
         # somatorio
@@ -1280,7 +1536,7 @@ class RelatorioDoacoesPDF(LoggedInPermissionsMixin, PDFTemplateView):
             data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
         # consulta doacoes
-        doacoes = get_doacoes(data_inicio, data_fim)
+        doacoes = get_doacoes(self.request.user, data_inicio, data_fim)
         total_doacoes = doacoes.aggregate(total=Sum('valor'))
         # somatorio
         total_geral = 0
@@ -1312,7 +1568,7 @@ class RelatorioOfertasPDF(LoggedInPermissionsMixin, PDFTemplateView):
             data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
         # consulta ofertas
-        ofertas = get_ofertas(data_inicio, data_fim)
+        ofertas = get_ofertas(self.request.user, data_inicio, data_fim)
         total_ofertas = ofertas.aggregate(total=Sum('valor'))
         # somatorio
         total_geral = 0
@@ -1344,16 +1600,16 @@ class RelatorioGeralRecebimentosPDF(LoggedInPermissionsMixin, PDFTemplateView):
             data_fim = datetime.strptime(dt_fim, '%d/%m/%Y')
 
         # consulta dizimos
-        dizimos = get_dizimos(data_inicio, data_fim)
+        dizimos = get_dizimos(self.request.user, data_inicio, data_fim)
         total_dizimos = dizimos.aggregate(total=Sum('valor'))
         # consulta ofertas
-        ofertas = get_ofertas(data_inicio, data_fim)
+        ofertas = get_ofertas(self.request.user, data_inicio, data_fim)
         total_ofertas = ofertas.aggregate(total=Sum('valor'))
         # consulta batismos
-        batismos = get_batismos(data_inicio, data_fim)
+        batismos = get_batismos(self.request.user, data_inicio, data_fim)
         total_batismos = batismos.aggregate(total=Sum('valor'))
         # consulta doacoes
-        doacoes = get_doacoes(data_inicio, data_fim)
+        doacoes = get_doacoes(self.request.user, data_inicio, data_fim)
         total_doacoes = doacoes.aggregate(total=Sum('valor'))
         # somatorio
         total_geral = 0
@@ -1390,7 +1646,9 @@ class RelatorioAniversariantesPDF(LoggedInPermissionsMixin, PDFTemplateView):
         context = super().get_context_data(**kwargs)
         mes_escolhido = int(self.request.GET.get('mes', datetime.today().month))
         mes = MESES[mes_escolhido-1]
-        lista_aniversariantes = Dizimista.objects.filter(data_nascimento__month=mes_escolhido).order_by('data_nascimento', 'nome')
+        lista_aniversariantes = Dizimista.objects.filter(
+            data_nascimento__month=mes_escolhido,
+            paroquia=self.request.user.perfil.paroquia).order_by('data_nascimento', 'nome')
 
         context['titulo_relatorio'] = 'Relatório de Aniversariantes de {0}'.format(mes['nome'])
         context['aniversariantes'] = lista_aniversariantes
@@ -1401,7 +1659,7 @@ class RelatorioAniversariantesPDF(LoggedInPermissionsMixin, PDFTemplateView):
 @login_required
 @permission_required('dizimo.list_dizimista', raise_exception=True)
 def relatorio_dizimistas(request):
-    dizimistas = Dizimista.objects.all()
+    dizimistas = Dizimista.objects.filter(paroquia=request.user.perfil.paroquia)
     context = {
         'menu': 'relatorios',
         'menu_dropdown': 'relatorio_dizimistas',
@@ -1420,7 +1678,7 @@ class RelatorioDizimistasPDF(LoggedInPermissionsMixin, PDFTemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['titulo_relatorio'] = 'Relatório de Dizimistas'
-        context['dizimistas'] = Dizimista.objects.all()
+        context['dizimistas'] = Dizimista.objects.filter(paroquia=self.request.user.perfil.paroquia)
         context['user'] = self.request.user
         return context
 
@@ -1462,7 +1720,7 @@ class RelatorioIndividualDizimistaPDF(LoggedInPermissionsMixin, PDFTemplateRespo
         context = super().get_context_data(**kwargs)
 
         # consulta dizimos
-        dizimos = self.object.dizimos.all().order_by('referencia')
+        dizimos = self.object.dizimos.filter(paroquia=self.request.user.perfil.paroquia).order_by('referencia')
         total_dizimos = dizimos.aggregate(total=Sum('valor'))
 
         # somatorio

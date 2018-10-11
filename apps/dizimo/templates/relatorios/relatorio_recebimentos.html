@@ -62,7 +62,7 @@
                 <td>{{ batismo.data_batismo }} às {{ batismo.hora_batismo }}</td>
                 <td>{{ batismo.valor }}</td>
                 <td>{{ batismo.cadastrado_em }}</td>
-                <td>{{ batismo.usuario.username }}</td>
+                <td>{{ batismo.usuario }}</td>
               </tr>
             {% endfor %}
           </tbody>
@@ -99,7 +99,7 @@
                 <td>{{ dizimo.referencia|date:"m/Y" }}</td>
                 <td>{{ dizimo.valor }}</td>
                 <td>{{ dizimo.cadastrado_em }}</td>
-                <td>{{ dizimo.usuario.username }}</td>
+                <td>{{ dizimo.usuario }}</td>
               </tr>
             {% endfor %}
           </tbody>
@@ -134,7 +134,7 @@
                 <td>{{ doacao.descricao }}</td>
                 <td>{{ doacao.valor }}</td>
                 <td>{{ doacao.cadastrado_em }}</td>
-                <td>{{ doacao.usuario.username }}</td>
+                <td>{{ doacao.usuario }}</td>
               </tr>
             {% endfor %}
           </tbody>
@@ -167,7 +167,7 @@
                 </td>
                 <td>{{ oferta.valor }}</td>
                 <td>{{ oferta.cadastrado_em }}</td>
-                <td>{{ oferta.usuario.username }}</td>
+                <td>{{ oferta.usuario }}</td>
               </tr>
             {% endfor %}
           </tbody>

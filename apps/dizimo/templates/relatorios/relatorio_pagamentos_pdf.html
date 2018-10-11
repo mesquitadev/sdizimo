@@ -21,7 +21,7 @@
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.tipo }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.descricao }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.cadastrado_em|date:"d/m/Y H:i" }}</td>
-            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.usuario.username }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.usuario }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.valor }}</td>
           </tr>
         {% endfor %}

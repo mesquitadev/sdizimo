@@ -50,6 +50,10 @@
               <td class="text-right"><strong>Perfil</strong></td>
               <td>{{ usuario.perfil.get_papel_display }}</td>
             </tr>
+            <tr>
+              <td class="text-right"><strong>Paróquia</strong></td>
+              <td>{{ usuario.perfil.paroquia|default:"-" }}</td>
+            </tr>
           </table>
         </div>
         <div class="col">

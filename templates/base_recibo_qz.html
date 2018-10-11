@@ -44,8 +44,8 @@
     <!-- "padding-**mm" is optional: you can set 10, 15, 20 or 25 -->
     <section class="sheet padding-5mm">
       <h5 pb-4>
-        <strong>{{igreja.nome}}</strong><br>
-        <small>{{igreja.endereco}}.<br>Tel.: {{igreja.telefone}}</small>
+        <strong>{{paroquia.nome}}</strong><br>
+        <small>{{paroquia.endereco}}.<br>Tel.: {{paroquia.telefone}}</small>
       </h5>
       <div class="mt-4 mb-3 text-center">
           RECIBO
@@ -81,20 +81,20 @@
 
   function removerAcentos(s){ return s.replace(/[\W\[\] ]/g,function(a){return map[a]||a}) };
 
-  qz.websocket.connect().then(function() { 
+  qz.websocket.connect().then(function() {
     return qz.printers.find("daruma")               // Pass the printer name into the next Promise
   }).then(function(printer) {
     var config = qz.configs.create(printer);       // Create a default config for the found printer
     var cabecalho = removerAcentos(
       '------------------------------------------------\n' +
-      '{{igreja.nome|escapejs}}\n' +
-      '{{igreja.endereco|escapejs}}.\n' +
-      'Tel.: {{igreja.telefone|escapejs}}\n' +
+      '{{paroquia.nome|escapejs}}\n' +
+      '{{paroquia.endereco|escapejs}}.\n' +
+      'Tel.: {{paroquia.telefone|escapejs}}\n' +
       '------------------------------------------------\n' +
       '\n' +
       '                    RECIBO\n' +
       '\n'
-    ); 
+    );
     var texto = removerAcentos({% block recibo_raw %}{% endblock %});
     var rodape = removerAcentos(
       '\n' +
@@ -102,7 +102,7 @@
       "Emitido em {% now 'SHORT_DATETIME_FORMAT' %}\n" +
       '\n\n\n\n\n\n\n\n'
     );
-    var data = [ 
+    var data = [
       cabecalho,
       texto,
       rodape

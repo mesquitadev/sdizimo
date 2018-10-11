@@ -48,15 +48,15 @@
               </tr>
               <tr>
                 <td class="text-right"><strong>Endereço</strong></td>
-                <td>{{dizimista.endereco}}</td>
+                <td>{{dizimista.endereco|default:"-"}}</td>
               </tr>
               <tr>
                 <td class="text-right"><strong>Bairro</strong></td>
-                <td>{{dizimista.bairro}}</td>
+                <td>{{dizimista.bairro|default:"-"}}</td>
               </tr>
               <tr>
                 <td class="text-right"><strong>Cidade</strong></td>
-                <td>{{dizimista.cidade}}/{{dizimista.estado}}</td>
+                <td>{{dizimista.cidade|default:"-"}}/{{dizimista.estado|default:"-"}}</td>
               </tr>
               <tr>
                 <td class="text-right"><strong>Data de nascimento</strong></td>
@@ -68,7 +68,7 @@
               </tr>
               <tr>
                 <td class="text-right"><strong>Comunidade</strong></td>
-                <td>{{dizimista.comunidade}}</td>
+                <td>{{dizimista.comunidade|default:"-"}}</td>
               </tr>
               <tr>
                 <td class="text-right"><strong>Sexo</strong></td>
@@ -76,7 +76,7 @@
               </tr>
               <tr>
                 <td class="text-right"><strong>Estado Civil</strong></td>
-                <td>{{dizimista.get_estado_civil_display}}</td>
+                <td>{{dizimista.get_estado_civil_display|default:"-"}}</td>
               </tr>
             </table>
           </div>
@@ -98,13 +98,13 @@
           </tr>
           <tr>
             <td class="text-right"><strong>Endereço</strong></td>
-            <td>{{dizimista.endereco}}</td>
+            <td>{{dizimista.endereco|default:"-"}}</td>
             <td class="text-right"><strong>Bairro</strong></td>
-            <td>{{dizimista.bairro}}</td>
+            <td>{{dizimista.bairro|default:"-"}}</td>
           </tr>
           <tr>
             <td class="text-right"><strong>Cidade</strong></td>
-            <td>{{dizimista.cidade}}/{{dizimista.estado}}</td>
+            <td>{{dizimista.cidade|default:"-"}}/{{dizimista.estado|default:"-"}}</td>
             <td class="text-right"><strong>Data de nascimento</strong></td>
             <td>{{dizimista.data_nascimento}}</td>
           </tr>
@@ -116,9 +116,9 @@
           </tr>
           <tr>
             <td class="text-right"><strong>Comunidade</strong></td>
-            <td>{{dizimista.comunidade}}</td>
+            <td>{{dizimista.comunidade|default:"-"}}</td>
             <td class="text-right"><strong>Estado Civil</strong></td>
-            <td>{{dizimista.get_estado_civil_display}}</td>
+            <td>{{dizimista.get_estado_civil_display|default:"-"}}</td>
           </tr>
         </table>
       {% endif %}

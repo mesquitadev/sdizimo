@@ -3,15 +3,19 @@ django-bootstrap-datepicker==1.2.3
 django-cleanup==2.1.0
 django-compressor==2.2
 django-easy-pdf==0.1.1
+django-heroku==0.3.1
 django-localflavor==2.0
 django-qsstats-magic==1.0.0
 django-search-views==0.3.7
 django-select2==6.3.1
 django-widget-tweaks==1.4.1
+dj-database-url==0.5.0
 # ipdb==0.10.3
 # Pillow==4.3.0
 # pylint==1.7.4
 # pylint-django==0.7.2
+gunicorn==19.9.0
 python-dateutil==2.7.3
-psycopg2==2.7.3.2
+psycopg2-binary==2.7.5
 sorl-thumbnail==12.4.1
+whitenoise==4.1

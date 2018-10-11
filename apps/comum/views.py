@@ -10,28 +10,30 @@ from apps.dizimo.models import Dizimista, Dizimo, Oferta, Batismo, Doacao, Pagam
 
 @login_required
 def inicio(request):
+    paroquia = request.user.perfil.paroquia
     mes_atual = datetime.today().month
-    qtd_dizimistas = Dizimista.objects.count()
-    qtd_dizimos = Dizimo.objects.filter(cadastrado_em__month=mes_atual).count()
-    qtd_ofertas = Oferta.objects.filter(cadastrado_em__month=mes_atual).count()
-    qtd_batismos = Batismo.objects.filter(cadastrado_em__month=mes_atual).count()
-    qtd_doacoes = Doacao.objects.filter(cadastrado_em__month=mes_atual).count()
-    qtd_pagamentos = Pagamento.objects.filter(cadastrado_em__month=mes_atual).count()
+
+    qtd_dizimistas = Dizimista.objects.filter(paroquia=paroquia).count()
+    qtd_dizimos = Dizimo.objects.filter(cadastrado_em__month=mes_atual, paroquia=paroquia).count()
+    qtd_ofertas = Oferta.objects.filter(cadastrado_em__month=mes_atual, paroquia=paroquia).count()
+    qtd_batismos = Batismo.objects.filter(cadastrado_em__month=mes_atual, paroquia=paroquia).count()
+    qtd_doacoes = Doacao.objects.filter(cadastrado_em__month=mes_atual, paroquia=paroquia).count()
+    qtd_pagamentos = Pagamento.objects.filter(cadastrado_em__month=mes_atual, paroquia=paroquia).count()
 
     qtd_recebimentos = qtd_dizimos + qtd_batismos + qtd_doacoes + qtd_ofertas
 
-    qtd_aniversariantes = Dizimista.objects.filter(data_nascimento__month=mes_atual).count()
+    qtd_aniversariantes = Dizimista.objects.filter(data_nascimento__month=mes_atual, paroquia=paroquia).count()
 
     # grafico pagamentos x recebimentos
     ano_atual = datetime.today().year
     ini, fim = date(ano_atual, 1, 1), date(ano_atual, 12, 31)
     # pagamentos
-    estatisticas_pagamentos = [float(r[1]) for r in gera_estatisticas(Pagamento.objects.filter(cadastrado_em__year=ano_atual), ini, fim)]
+    estatisticas_pagamentos = [float(r[1]) for r in gera_estatisticas(Pagamento.objects.filter(cadastrado_em__year=ano_atual, paroquia=paroquia), ini, fim)]
     # recebimentos
-    dizimos = [float(r[1]) for r in gera_estatisticas(Dizimo.objects.filter(cadastrado_em__year=ano_atual), ini, fim)]
-    ofertas = [float(r[1]) for r in gera_estatisticas(Oferta.objects.filter(cadastrado_em__year=ano_atual), ini, fim)]
-    batismos = [float(r[1]) for r in gera_estatisticas(Batismo.objects.filter(cadastrado_em__year=ano_atual), ini, fim)]
-    doacoes = [float(r[1]) for r in gera_estatisticas(Doacao.objects.filter(cadastrado_em__year=ano_atual), ini, fim)]
+    dizimos = [float(r[1]) for r in gera_estatisticas(Dizimo.objects.filter(cadastrado_em__year=ano_atual, paroquia=paroquia), ini, fim)]
+    ofertas = [float(r[1]) for r in gera_estatisticas(Oferta.objects.filter(cadastrado_em__year=ano_atual, paroquia=paroquia), ini, fim)]
+    batismos = [float(r[1]) for r in gera_estatisticas(Batismo.objects.filter(cadastrado_em__year=ano_atual, paroquia=paroquia), ini, fim)]
+    doacoes = [float(r[1]) for r in gera_estatisticas(Doacao.objects.filter(cadastrado_em__year=ano_atual, paroquia=paroquia), ini, fim)]
     recebimentos = [dizimos, ofertas, batismos, doacoes]
     estatisticas_recebimentos = [sum(x) for x in zip(*recebimentos)]
 
@@ -41,7 +43,7 @@ def inicio(request):
     # calendario batismos mes atual
     cal = Calendario()
     cal.mostrar_mes_ano_cabecalho_mes = True
-    batismos_mes_atual = Batismo.objects.filter(data_batismo__month=mes_atual).order_by('data_batismo', 'hora_batismo')
+    batismos_mes_atual = Batismo.objects.filter(data_batismo__month=mes_atual, paroquia=paroquia).order_by('data_batismo', 'hora_batismo')
     for batismo in batismos_mes_atual:
         cal.adicionar_evento_calendario(batismo.data_batismo, batismo.data_batismo, '{0} - {1}'.format(batismo.nome_batizando, batismo.hora_batismo.strftime('%H:%M')), 'success')
     calendario_mes_atual = cal.formato_mes(ano_atual, mes_atual)
@@ -50,7 +52,7 @@ def inicio(request):
     proximo_mes = mes_atual + 1
     cal2 = Calendario()
     cal2.mostrar_mes_ano_cabecalho_mes = True
-    batismos_proximo_mes = Batismo.objects.filter(data_batismo__month=proximo_mes).order_by('data_batismo', 'hora_batismo')
+    batismos_proximo_mes = Batismo.objects.filter(data_batismo__month=proximo_mes, paroquia=paroquia).order_by('data_batismo', 'hora_batismo')
     for batismo in batismos_proximo_mes:
         cal2.adicionar_evento_calendario(batismo.data_batismo, batismo.data_batismo, '{0} - {1}'.format(batismo.nome_batizando, batismo.hora_batismo.strftime('%H:%M')), 'info')
     calendario_proximo_mes = cal2.formato_mes(ano_atual, proximo_mes)
