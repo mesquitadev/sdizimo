@@ -83,7 +83,7 @@ class DizimoForm(forms.ModelForm):
         queryset=Dizimista.objects.all(),
         label='Dizimista', widget=ModelSelect2Widget(
             model=Dizimista,
-            search_fields=['nome__unaccent__icontains'],
+            search_fields=['nome__icontains'],
         )
     )
 
