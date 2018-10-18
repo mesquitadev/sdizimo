@@ -35,11 +35,11 @@ ALLOWED_HOSTS = [
 #     }
 # }
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.webfaction.com'
-# EMAIL_HOST_USER = 'gobma_site'
-# EMAIL_HOST_PASSWORD = 'G0bM@M@il'
-# SERVER_EMAIL = 'contato@gobma.org.br'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.infobits.net.br'
+EMAIL_HOST_USER = 'sdizimo'
+EMAIL_HOST_PASSWORD = 'Sd1z1m01nf0b1ts'
+SERVER_EMAIL = 'sdizimo@infobits.net.br'
 
 # SECURE_SSL_REDIRECT = True
 
