@@ -37,7 +37,7 @@ ALLOWED_HOSTS = [
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.infobits.net.br'
-EMAIL_HOST_USER = 'sdizimo'
+EMAIL_HOST_USER = 'sdizimo@infobits.net.br'
 EMAIL_HOST_PASSWORD = 'Sd1z1m01nf0b1ts'
 SERVER_EMAIL = 'sdizimo@infobits.net.br'
 
