@@ -70,7 +70,7 @@ def inicio(request):
         'estatisticas_pagamentos': estatisticas_pagamentos,
         'estatisticas_recebimentos': estatisticas_recebimentos,
         'estatisticas_dizimistas': estatisticas_dizimistas,
-        'dizimistas_em_dia_mes_atual': estatisticas_dizimistas[mes_atual-1],
+        'dizimistas_em_dia_mes_atual': estatisticas_dizimistas[mes_atual-1] if estatisticas_dizimistas else 0,
         'calendario_mes_atual': calendario_mes_atual,
         'calendario_proximo_mes': calendario_proximo_mes
     }
@@ -87,8 +87,9 @@ def gera_estatisticas(queryset, inicio_intervalo, fim_intervalo):
 
 
 def gera_estatisticas_dizimistas_em_dia(qtd_dizimistas, ano):
-    ini, fim = date(ano, 1, 1), date(ano, 12, 31)
-    queryset = Dizimo.objects.filter(referencia__year=ano)
-    estatisticas = qsstats.QuerySetStats(queryset, 'referencia')
-    qtd_dizimos_por_mes = estatisticas.time_series(ini, fim, interval='months')
-    return [int(porcentagem(x[1], qtd_dizimistas)) for x in qtd_dizimos_por_mes]
+    if qtd_dizimistas > 0:
+        ini, fim = date(ano, 1, 1), date(ano, 12, 31)
+        queryset = Dizimo.objects.filter(referencia__year=ano)
+        estatisticas = qsstats.QuerySetStats(queryset, 'referencia')
+        qtd_dizimos_por_mes = estatisticas.time_series(ini, fim, interval='months')
+        return [int(porcentagem(x[1], qtd_dizimistas)) for x in qtd_dizimos_por_mes]

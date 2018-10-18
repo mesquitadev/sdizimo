@@ -113,7 +113,7 @@ WSGI_APPLICATION = 'sdizimo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sdizimo',
+        'NAME': 'sdizimo_teste',
         'USER': 'sdizimo',
         'PASSWORD': 'sdizimo',
         'HOST': '127.0.0.1',
