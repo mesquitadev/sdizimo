@@ -235,41 +235,61 @@ if not DEBUG:
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': True,
+#     'filters': {
+#         'require_debug_false': {
+#             '()': 'django.utils.log.RequireDebugFalse',
+#         },
+#         'require_debug_true': {
+#             '()': 'django.utils.log.RequireDebugTrue',
+#         },
+#     },
 #     'formatters': {
-#         'standard': {
-#             'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-#             'datefmt': "%d/%b/%Y %H:%M:%S"
+#         'simple': {
+#             'format': '[%(asctime)s] %(levelname)s %(message)s',
+#             'datefmt': '%Y-%m-%d %H:%M:%S'
+#         },
+#         'verbose': {
+#             'format': '[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s',
+#             'datefmt': '%Y-%m-%d %H:%M:%S'
 #         },
 #     },
 #     'handlers': {
-#         'logfile': {
-#             'level': 'DEBUG',
-#             'class': 'logging.handlers.RotatingFileHandler',
-#             'filename': LOGS_ROOT + "/sdizimo_log",
-#             'maxBytes': 50000,
-#             'backupCount': 2,
-#             'formatter': 'standard',
-#         },
 #         'console': {
-#             'level': 'INFO',
+#             'level': 'DEBUG',
+#             'filters': ['require_debug_true'],
 #             'class': 'logging.StreamHandler',
-#             'formatter': 'standard'
+#             'formatter': 'simple'
+#         },
+#         'development_logfile': {
+#             'level': 'DEBUG',
+#             'filters': ['require_debug_true'],
+#             'class': 'logging.FileHandler',
+#             'filename': LOGS_ROOT + '/sdizimo_dev.log',
+#             'formatter': 'verbose'
+#         },
+#         'production_logfile': {
+#             'level': 'ERROR',
+#             'filters': ['require_debug_false'],
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': LOGS_ROOT + '/sdizimo_prod.log',
+#             'maxBytes': 1024*1024*100,  # 100MB
+#             'backupCount': 5,
+#             'formatter': 'simple'
 #         },
 #     },
+#     'root': {
+#         'level': 'DEBUG',
+#         'handlers': ['console'],
+#     },
 #     'loggers': {
-#         'django': {
-#             'handlers': ['console'],
-#             'propagate': True,
-#             'level': 'WARN',
-#         },
-#         'django.db.backends': {
-#             'handlers': ['console'],
-#             'level': 'DEBUG',
-#             'propagate': False,
-#         },
 #         'sdizimo': {
-#             'handlers': ['console', 'logfile'],
-#             'level': 'DEBUG',
+#             'handlers': ['development_logfile', 'production_logfile'],
+#          },
+#         'django': {
+#             'handlers': ['development_logfile', 'production_logfile'],
+#         },
+#         'py.warnings': {
+#             'handlers': ['development_logfile'],
 #         },
 #     }
 # }
