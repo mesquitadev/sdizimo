@@ -229,3 +229,47 @@ django_heroku.settings(locals())
 
 if not DEBUG:
     DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+
+# LOGS_ROOT = '/home/daniel/Projetos/logs'
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': True,
+#     'formatters': {
+#         'standard': {
+#             'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+#             'datefmt': "%d/%b/%Y %H:%M:%S"
+#         },
+#     },
+#     'handlers': {
+#         'logfile': {
+#             'level': 'DEBUG',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': LOGS_ROOT + "/sdizimo_log",
+#             'maxBytes': 50000,
+#             'backupCount': 2,
+#             'formatter': 'standard',
+#         },
+#         'console': {
+#             'level': 'INFO',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'standard'
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'propagate': True,
+#             'level': 'WARN',
+#         },
+#         'django.db.backends': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#         'sdizimo': {
+#             'handlers': ['console', 'logfile'],
+#             'level': 'DEBUG',
+#         },
+#     }
+# }

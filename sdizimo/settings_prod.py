@@ -47,7 +47,7 @@ SESSION_COOKIE_AGE = 60 * 45  # 45m, in seconds
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
-LOGS_ROOT = '/home/infobits/sdizimo_logs'
+LOGS_ROOT = '/home/infobits/logs'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -58,14 +58,10 @@ LOGGING = {
         },
     },
     'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'django.utils.log.NullHandler',
-        },
         'logfile': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': LOGS_ROOT + "/logfile",
+            'filename': LOGS_ROOT + "/sdizimo_log",
             'maxBytes': 50000,
             'backupCount': 2,
             'formatter': 'standard',
