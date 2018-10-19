@@ -39,6 +39,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.infobits.net.br'
 EMAIL_HOST_USER = 'sdizimo@infobits.net.br'
 EMAIL_HOST_PASSWORD = 'Sd1z1m01nf0b1ts'
+EMAIL_PORT = 587
 SERVER_EMAIL = 'sdizimo@infobits.net.br'
 
 # SECURE_SSL_REDIRECT = True
