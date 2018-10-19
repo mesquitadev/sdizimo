@@ -40,6 +40,7 @@ EMAIL_HOST = 'smtp.infobits.net.br'
 EMAIL_HOST_USER = 'sdizimo@infobits.net.br'
 EMAIL_HOST_PASSWORD = 'Sd1z1m01nf0b1ts'
 EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = 'sdizimo@infobits.net.br'
 SERVER_EMAIL = 'sdizimo@infobits.net.br'
 
 # SECURE_SSL_REDIRECT = True
