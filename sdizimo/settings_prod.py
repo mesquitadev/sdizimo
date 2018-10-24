@@ -43,7 +43,7 @@ EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'sdizimo@infobits.net.br'
 SERVER_EMAIL = 'sdizimo@infobits.net.br'
 
-# SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = True
 
 SESSION_COOKIE_AGE = 60 * 45  # 45m, in seconds
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
