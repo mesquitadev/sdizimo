@@ -13,8 +13,8 @@ class DizimistaFilter(BaseFilter):
 class RecebimentoFilter(BaseFilter):
     search_fields = {
         'usuario': {'operator': '__exact', 'fields': ['usuario']},
-        'data_inicio': {'operator': '__gte', 'fields': ['cadastrado_em']},
-        'data_fim': {'operator': '__lte', 'fields': ['cadastrado_em']},
+        # 'data_inicio': {'operator': '__gte', 'fields': ['cadastrado_em']},
+        # 'data_fim': {'operator': '__lte', 'fields': ['cadastrado_em']},
     }
 
 

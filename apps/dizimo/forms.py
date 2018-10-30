@@ -65,10 +65,11 @@ class ConsultaOfertaForm(forms.Form):
 
 class OfertaForm(forms.ModelForm):
     valor = forms.DecimalField(label='Valor (R$)', max_digits=10, decimal_places=2, localize=True)
+    data = forms.DateField(label='Data', required=True, widget=DatePicker(options={"autoclose": True}))
 
     class Meta:
         model = Oferta
-        fields = ('valor', )
+        fields = ('valor', 'data')
         localized_fields = ('valor', )
 
 

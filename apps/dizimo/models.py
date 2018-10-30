@@ -98,6 +98,8 @@ class Recebimento(models.Model):
 
 
 class Oferta(Recebimento):
+    data = models.DateField(verbose_name='data')
+
     class Meta:
         ordering = ('-cadastrado_em', )
         permissions = (

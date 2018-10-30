@@ -3,7 +3,7 @@
 {% block content %}
   <p>
     Recebemos a importância de <strong>R$ {{oferta.valor}}</strong> referente 
-    ao recebimento de oferta.
+    ao recebimento de oferta em <strong>{{oferta.data|date:"d/m/Y"}}</strong>.
   </p>
   Registrado por: {{oferta.usuario.get_full_name}}<br>
   Data: {{oferta.cadastrado_em|date:"d/m/Y H:i"}}
@@ -11,7 +11,8 @@
 
 {% block recibo_raw %}
   'Recebemos a importância de ' +
-  'R$ {{oferta.valor}} referente ao recebimento de oferta.\n' +
+  'R$ {{oferta.valor}} referente ao recebimento de oferta '+
+  'em {{oferta.data|date:"d/m/Y"}}.\n' +
   '\n' +
   'Registrado por: {{oferta.usuario.get_full_name|escapejs}}\n' +
   'Data: {{oferta.cadastrado_em|date:"d/m/Y H:i"}}\n'

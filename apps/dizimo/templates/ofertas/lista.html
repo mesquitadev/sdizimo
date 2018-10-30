@@ -39,6 +39,7 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Valor (R$)</th>
+            <th scope="col">Data</th>
             <th scope="col">Registrado em</th>
             <th scope="col">Usuário responsável</th>
           </tr>
@@ -53,6 +54,7 @@
                 {% endif %}
               </td>
               <td>{{ oferta.valor }}</td>
+              <td>{{ oferta.data }}</td>
               <td>{{ oferta.cadastrado_em }}</td>
               <td>{{ oferta.usuario }}</td>
             </tr>

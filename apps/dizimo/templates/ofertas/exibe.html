@@ -37,12 +37,14 @@
         <tr>
           <td width="130" class="text-right"><strong>Valor</strong></td>
           <td>R$ {{oferta.valor}}</td>
-          <td class="text-right"><strong>Registrado em</strong></td>
-          <td>{{oferta.cadastrado_em}}</td>
+          <td class="text-right"><strong>Data</strong></td>
+          <td>{{oferta.data}}</td>
         </tr>
         <tr>
           <td class="text-right"><strong>Usuário responsável</strong></td>
-          <td colspan="3" class="align-middle">{{oferta.usuario.get_full_name}} ({{oferta.usuario.username}})</td>
+          <td class="align-middle">{{oferta.usuario.get_full_name}} ({{oferta.usuario.username}})</td>
+          <td class="text-right"><strong>Registrado em</strong></td>
+          <td>{{oferta.cadastrado_em}}</td>
         </tr>
       </table>
     </div>
