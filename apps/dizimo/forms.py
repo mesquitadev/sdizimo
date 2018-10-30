@@ -158,10 +158,11 @@ class ConsultaBatismoForm(forms.Form):
 
 class DoacaoForm(forms.ModelForm):
     valor = forms.DecimalField(label='Valor (R$)', max_digits=10, decimal_places=2, localize=True, required=True)
+    data = forms.DateField(label='Data', required=True, widget=DatePicker(options={"autoclose": True}))
 
     class Meta:
         model = Doacao
-        fields = ('valor', 'descricao')
+        fields = ('valor', 'data', 'descricao')
         localized_fields = ('valor', )
 
 

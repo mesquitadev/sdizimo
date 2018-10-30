@@ -108,7 +108,7 @@ class Oferta(Recebimento):
         )
 
     def __str__(self):
-        return 'R$ {0} - registrada em {1}'.format(self.valor, self.cadastrado_em)
+        return 'R$ {0} - data {1}'.format(self.valor, self.data)
 
 
 class Dizimo(Recebimento):
@@ -146,6 +146,7 @@ class Batismo(Recebimento):
 
 class Doacao(Recebimento):
     descricao = models.CharField(max_length=250, verbose_name='descrição')
+    data = models.DateField(verbose_name='data')
 
     class Meta:
         ordering = ('-cadastrado_em', )
@@ -155,7 +156,7 @@ class Doacao(Recebimento):
         )
 
     def __str__(self):
-        return 'R$ {0} - registrada em {1}'.format(self.valor, self.cadastrado_em)
+        return 'R$ {0} - data {1}'.format(self.valor, self.data)
 
 
 class TipoPagamento(models.Model):

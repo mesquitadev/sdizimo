@@ -37,14 +37,18 @@
         <tr>
           <td width="130" class="text-right"><strong>Valor</strong></td>
           <td>R$ {{doacao.valor}}</td>
-          <td class="text-right"><strong>Registrado em</strong></td>
-          <td>{{doacao.cadastrado_em}}</td>
+          <td class="text-right"><strong>Data</strong></td>
+          <td>{{doacao.data}}</td>
         </tr>
         <tr>
           <td class="text-right"><strong>Descrição</strong></td>
           <td>{{doacao.descricao}}</td>
           <td class="text-right"><strong>Usuário responsável</strong></td>
           <td class="align-middle">{{doacao.usuario.get_full_name}} ({{doacao.usuario.username}})</td>
+        </tr>
+        <tr>
+            <td class="text-right"><strong>Registrado em</strong></td>
+            <td colspan="3">{{doacao.cadastrado_em}}</td>
         </tr>
       </table>
     </div>

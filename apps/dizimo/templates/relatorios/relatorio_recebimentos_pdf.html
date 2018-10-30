@@ -89,6 +89,7 @@
           <th width="170">Registrado em</th>
           <th width="180">Usuário responsável</th>
           <th width="100">Valor (R$)</th>
+          <th>Data</th>
         </tr>
       </thead>
       <tbody>
@@ -99,6 +100,7 @@
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.cadastrado_em|date:"d/m/Y H:i" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.usuario }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.valor }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.data }}</td>
           </tr>
         {% endfor %}
         <tr class="footer_tabela">
@@ -107,6 +109,7 @@
           <td>&nbsp;</td>
           <td>TOTAL</td>
           <td>{{ total_doacoes.total }}</td>
+          <td>&nbsp;</td>
         </tr>
       </tbody>
     </table>

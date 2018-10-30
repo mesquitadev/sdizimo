@@ -743,10 +743,9 @@ class ListaDoacoes(LoggedInPermissionsMixin, ListFilterParoquiaByUserView):
             if usuario:
                 object_list = object_list.filter(usuario=usuario)
             if data_inicio:
-                object_list = object_list.filter(cadastrado_em__gte=data_inicio)
+                object_list = object_list.filter(data__gte=data_inicio)
             if data_fim:
-                data_fim = datetime.combine(data_fim, datetime.max.time())
-                object_list = object_list.filter(cadastrado_em__lte=data_fim)
+                object_list = object_list.filter(data__lte=data_fim)
         else:
             print(self.form.errors)
         return object_list
