@@ -60,7 +60,7 @@
               <td width="80">{{ dizimista.pk }}</td>
               <td>{{ dizimista.nome }}</td>
               <td>{{ dizimista.paroquia }}</td>
-              <td>{{ dizimista.comunidade }}</td>
+              <td>{{ dizimista.comunidade|default:"-" }}</td>
               <td>{{ dizimista.data_nascimento }}</td>
               <td>{{ dizimista.data_nascimento|timesince }}</td>
             </tr>
