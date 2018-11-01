@@ -216,10 +216,11 @@ class TipoPagamentoForm(forms.ModelForm):
 
 class PagamentoForm(forms.ModelForm):
     valor = forms.DecimalField(label='Valor (R$)', max_digits=10, decimal_places=2, localize=True)
+    data = forms.DateField(label='Data', required=True, widget=DatePicker(options={"autoclose": True}))
 
     class Meta:
         model = Pagamento
-        fields = ('tipo', 'valor', 'descricao')
+        fields = ('tipo', 'valor', 'data', 'descricao')
         localized_fields = ('valor', )
 
     def __init__(self, *args, **kwargs):

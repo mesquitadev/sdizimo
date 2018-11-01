@@ -2,7 +2,8 @@
 
 {% block content %}
   <p>
-    Recebemos a importância de <strong>R$ {{doacao.valor}}</strong> referente 
+    Recebemos a importância de <strong>R$ {{doacao.valor}}</strong>,
+    em <strong>{{doacao.data|date:"d/m/Y"}}</strong>, referente 
     a <strong>{{doacao.descricao}}</strong>.
   </p>
   Registrado por: {{doacao.usuario.get_full_name}}<br>
@@ -11,7 +12,8 @@
 
 {% block recibo_raw %}
   'Recebemos a importância de ' +
-  'R$ {{doacao.valor}} referente a {{doacao.descricao|escapejs}}.\n' +
+  'R$ {{doacao.valor}}, em {{doacao.data|date:"d/m/Y"}}, ' +
+  'referente a {{doacao.descricao|escapejs}}.\n' +
   '\n' +
   'Registrado por: {{doacao.usuario.get_full_name|escapejs}}\n' +
   'Data: {{doacao.cadastrado_em|date:"d/m/Y H:i"}}\n'

@@ -36,6 +36,7 @@
             <th scope="col">#</th>
             <th scope="col">Tipo</th>
             <th scope="col">Valor</th>
+            <th scope="col">Data</th>
             <th scope="col">Descrição</th>
             {% if eh_admin %}
               <th scope="col">Paróquia</th>
@@ -55,11 +56,12 @@
               </td>
               <td>{{ pagamento.tipo }}</td>
               <td>{{ pagamento.valor }}</td>
+              <td>{{ pagamento.data|date:"d/m/Y" }}</td>
               <td>{{ pagamento.descricao }}</td>
               {% if eh_admin %}
                 <td>{{ pagamento.paroquia }}</td>
               {% endif %}
-              <td>{{ pagamento.cadastrado_em }}</td>
+              <td>{{ pagamento.cadastrado_em|date:"d/m/Y H:i" }}</td>
               <td>{{ pagamento.usuario }}</td>
             </tr>
           {% endfor %}
@@ -68,4 +70,10 @@
     </div>
   </div>
   {% include 'includes/pagination.html' %}
+  <script>
+    $(document).ready(function(){
+      $('#id_data_inicio').mask("00/00/0000", {placeholder: "__/__/____"});
+      $('#id_data_fim').mask("00/00/0000", {placeholder: "__/__/____"});
+    });
+  </script>
 {% endblock %}

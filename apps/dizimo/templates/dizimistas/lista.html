@@ -67,7 +67,7 @@
                 <td>{{ dizimista.paroquia }}</td>
               {% endif %}
               {% comment %} <td>{{ dizimista.comunidade|default:"-" }}</td> {% endcomment %}
-              <td>{{ dizimista.data_nascimento }}</td>
+              <td>{{ dizimista.data_nascimento|date:"d/m/Y" }}</td>
             </tr>
           {% endfor %}
         </tbody>

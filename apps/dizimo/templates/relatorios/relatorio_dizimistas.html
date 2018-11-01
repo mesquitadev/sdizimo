@@ -48,7 +48,7 @@
               <td>{{ dizimista.nome }}</td>
               <td>{{ dizimista.paroquia }}</td>
               <td>{{ dizimista.comunidade }}</td>
-              <td>{{ dizimista.data_nascimento }}</td>
+              <td>{{ dizimista.data_nascimento|date:"d/m/Y" }}</td>
               <td>{{ dizimista.data_nascimento|timesince }}</td>
             </tr>
           {% endfor %}

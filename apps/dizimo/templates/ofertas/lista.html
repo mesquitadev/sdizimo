@@ -54,8 +54,8 @@
                 {% endif %}
               </td>
               <td>{{ oferta.valor }}</td>
-              <td>{{ oferta.data }}</td>
-              <td>{{ oferta.cadastrado_em }}</td>
+              <td>{{ oferta.data|date:"d/m/Y" }}</td>
+              <td>{{ oferta.cadastrado_em|date:"d/m/Y H:i" }}</td>
               <td>{{ oferta.usuario }}</td>
             </tr>
           {% endfor %}

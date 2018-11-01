@@ -7,8 +7,9 @@
   Descrição: {{pagamento.descricao}}<br>
   Tipo: {{pagamento.tipo}}<br>
   Valor: R$ {{pagamento.valor}}<br>
+  Data: R$ {{pagamento.data|date:"d/m/Y"}}<br>
   Registrado por: {{pagamento.usuario.get_full_name}}<br>
-  Data: {{pagamento.cadastrado_em|date:"d/m/Y H:i"}}
+  Registrado em: {{pagamento.cadastrado_em|date:"d/m/Y H:i"}}
 {% endblock %}
 
 {% block recibo_raw %}
@@ -16,6 +17,7 @@
   'Descrição: {{pagamento.descricao|escapejs}}\n' +
   'Tipo: {{pagamento.tipo|escapejs}}\n' +
   'Valor: R$ {{pagamento.valor}}\n' +
+  'Data: {{pagamento.data|date:"d/m/Y"}}\n'
   'Registrado por: {{pagamento.usuario.get_full_name|escapejs}}\n' +
-  'Data: {{pagamento.cadastrado_em|date:"d/m/Y H:i"}}\n'
+  'Registrado em: {{pagamento.cadastrado_em|date:"d/m/Y H:i"}}\n'
 {% endblock %}

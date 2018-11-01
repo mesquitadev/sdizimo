@@ -57,7 +57,7 @@
               <td>{{ dizimo.dizimista }}</td>
               <td>{{ dizimo.referencia|date:"m/Y" }}</td>
               <td>{{ dizimo.valor }}</td>
-              <td>{{ dizimo.cadastrado_em }}</td>
+              <td>{{ dizimo.cadastrado_em|date:"d/m/Y H:i" }}</td>
               <td>{{ dizimo.usuario }}</td>
             </tr>
           {% endfor %}

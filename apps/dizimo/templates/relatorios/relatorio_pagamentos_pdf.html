@@ -8,6 +8,7 @@
         <tr class="titulo_tabela">
           <th width="40">#</th>
           <th>Tipo</th>
+          <th>Data</th>
           <th>Descrição</th>
           <th width="170">Registrado em</th>
           <th width="200">Usuário responsável</th>
@@ -19,6 +20,7 @@
           <tr>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.tipo }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.data|date:"d/m/Y" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.descricao }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.cadastrado_em|date:"d/m/Y H:i" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ pagamento.usuario }}</td>
@@ -26,6 +28,7 @@
           </tr>
         {% endfor %}
         <tr class="footer_tabela">
+          <td>&nbsp;</td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>

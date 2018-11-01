@@ -61,7 +61,7 @@
                 <td>{{ batismo.nome_solicitante }}</td>
                 <td>{{ batismo.data_batismo }} às {{ batismo.hora_batismo }}</td>
                 <td>{{ batismo.valor }}</td>
-                <td>{{ batismo.cadastrado_em }}</td>
+                <td>{{ batismo.cadastrado_em|date:"d/m/Y H:i" }}</td>
                 <td>{{ batismo.usuario }}</td>
               </tr>
             {% endfor %}
@@ -98,7 +98,7 @@
                 <td>{{ dizimo.dizimista }}</td>
                 <td>{{ dizimo.referencia|date:"m/Y" }}</td>
                 <td>{{ dizimo.valor }}</td>
-                <td>{{ dizimo.cadastrado_em }}</td>
+                <td>{{ dizimo.cadastrado_em|date:"d/m/Y H:i" }}</td>
                 <td>{{ dizimo.usuario }}</td>
               </tr>
             {% endfor %}
@@ -134,8 +134,8 @@
                 </td>
                 <td>{{ doacao.descricao }}</td>
                 <td>{{ doacao.valor }}</td>
-                <td>{{ doacao.data }}</td>
-                <td>{{ doacao.cadastrado_em }}</td>
+                <td>{{ doacao.data|date:"d/m/Y" }}</td>
+                <td>{{ doacao.cadastrado_em|date:"d/m/Y H:i" }}</td>
                 <td>{{ doacao.usuario }}</td>
               </tr>
             {% endfor %}
@@ -169,8 +169,8 @@
                   <a href="{% url 'dizimo:edita_oferta' oferta.pk %}" title="Editar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                 </td>
                 <td>{{ oferta.valor }}</td>
-                <td>{{ oferta.data }}</td>
-                <td>{{ oferta.cadastrado_em }}</td>
+                <td>{{ oferta.data|date:"d/m/Y" }}</td>
+                <td>{{ oferta.cadastrado_em|date:"d/m/Y H:i" }}</td>
                 <td>{{ oferta.usuario }}</td>
               </tr>
             {% endfor %}

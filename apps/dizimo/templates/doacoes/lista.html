@@ -56,8 +56,8 @@
               </td>
               <td>{{ doacao.descricao }}</td>
               <td>{{ doacao.valor }}</td>
-              <td>{{ doacao.data }}</td>
-              <td>{{ doacao.cadastrado_em }}</td>
+              <td>{{ doacao.data|date:"d/m/Y" }}</td>
+              <td>{{ doacao.cadastrado_em|date:"d/m/Y H:i" }}</td>
               <td>{{ doacao.usuario }}</td>
             </tr>
           {% endfor %}

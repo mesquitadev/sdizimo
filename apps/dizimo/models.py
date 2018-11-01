@@ -177,6 +177,7 @@ class TipoPagamento(models.Model):
 class Pagamento(models.Model):
     tipo = models.ForeignKey(TipoPagamento, related_name='pagamentos')
     valor = models.DecimalField(max_digits=10, decimal_places=2)
+    data = models.DateField(verbose_name='data')
     descricao = models.CharField(max_length=250, verbose_name='descrição')
     cadastrado_em = models.DateTimeField(auto_now_add=True, verbose_name='cadastrado em')
     usuario = models.ForeignKey(User, verbose_name='usuário')

@@ -60,9 +60,9 @@
               </td>
               <td>{{ batismo.nome_batizando }}</td>
               <td>{{ batismo.nome_solicitante }}</td>
-              <td>{{ batismo.data_batismo }} às {{ batismo.hora_batismo }}</td>
+              <td>{{ batismo.data_batismo|date:"d/m/Y" }} {{ batismo.hora_batismo }}</td>
               <td>{{ batismo.valor }}</td>
-              <td>{{ batismo.cadastrado_em }}</td>
+              <td>{{ batismo.cadastrado_em|date:"d/m/Y H:i" }}</td>
               <td>{{ batismo.usuario }}</td>
             </tr>
           {% endfor %}
