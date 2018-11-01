@@ -20,7 +20,7 @@
           <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.pk|stringformat:"03d" }}</td>
           <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.nome }}</td>
           <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.paroquia }}</td>
-          <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.comunidade }}</td>
+          <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.comunidade|default:"-" }}</td>
           <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.data_nascimento|date:"d/m/Y" }}</td>
           <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimista.data_nascimento|timesince }}</td>
         </tr>
