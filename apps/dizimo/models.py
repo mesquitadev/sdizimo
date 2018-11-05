@@ -101,7 +101,7 @@ class Oferta(Recebimento):
     data = models.DateField(verbose_name='data')
 
     class Meta:
-        ordering = ('-cadastrado_em', )
+        ordering = ('-data', )
         permissions = (
             ("view_oferta", "Can view oferta"),
             ("list_oferta", "Can list oferta"),
@@ -149,7 +149,7 @@ class Doacao(Recebimento):
     data = models.DateField(verbose_name='data')
 
     class Meta:
-        ordering = ('-cadastrado_em', )
+        ordering = ('-data', )
         permissions = (
             ("view_doacao", "Can view doacao"),
             ("list_doacao", "Can list doacao"),
@@ -184,7 +184,7 @@ class Pagamento(models.Model):
     paroquia = models.ForeignKey(Paroquia, blank=False, null=False, verbose_name='paróquia')
 
     class Meta:
-        ordering = ('-cadastrado_em', )
+        ordering = ('-data', )
         permissions = (
             ("view_pagamento", "Can view pagamento"),
             ("list_pagamento", "Can list pagamento"),
