@@ -57,7 +57,7 @@
     <section class="sheet padding-5mm">
       <h5 pb-4>
         <strong>{{paroquia.nome}}</strong><br>
-        <small>{{paroquia.endereco}}.<br>Tel.: {{paroquia.telefone}}</small>
+        <small>{{paroquia.endereco|default:""}}{% if paroquia.telefone %}.<br>Tel.: {{paroquia.telefone}}{% endif %}</small>
       </h5>
       <div class="mt-4 mb-3 text-center">
           RECIBO
@@ -72,12 +72,13 @@
     </section>
     <div class="footer">
       <p>
-        Para uso da impressora térmica é necessário ter Java e o QZ-Tray instalados. Para fazer a instação do QZ-Tray baixe abaixo versão de acordo com seu sistema operacional.<br>
+        Para uso da impressora térmica é necessário ter Java e o QZ Tray instalados. Para fazer a instação do QZ Tray baixe abaixo versão de acordo com seu sistema operacional.<br>
         Obs.: Para ser reconhecida no sistema, o nome da impressora deve ser <strong>daruma</strong>.
       </p>
       <ul class="list-inline">
-        <li class="list-inline-item"><a href="{% static 'qz/qz-tray-install.run' %}" class="btn btn-success"><i class="fa fa-linux" aria-hidden="true"></i> QZ-Tray Linux/Unix</a></li>
-        <li class="list-inline-item"><a href="{% static 'qz/qz-tray-install.exe' %}" class="btn btn-success"><i class="fa fa-windows" aria-hidden="true"></i> QZ-Tray Windows</a></li>
+        <li class="list-inline-item"><a href="{% static 'qz/qz-tray-install.run' %}" class="btn btn-success"><i class="fa fa-linux" aria-hidden="true"></i> QZ Tray Linux/Unix</a></li>
+        <li class="list-inline-item"><a href="{% static 'qz/qz-tray-install.exe' %}" class="btn btn-success"><i class="fa fa-windows" aria-hidden="true"></i> QZ Tray Windows</a></li>
+        <li class="list-inline-item"><a href="{% static 'qz/qz-tray-install.pkg' %}" class="btn btn-success"><i class="fa fa-apple" aria-hidden="true"></i> QZ Tray macOS</a></li>
       </ul>
     </div>
   </body>
@@ -185,8 +186,8 @@
     var cabecalho = removerAcentos(
       '------------------------------------------------\n' +
       '{{paroquia.nome|escapejs}}\n' +
-      '{{paroquia.endereco|escapejs}}.\n' +
-      'Tel.: {{paroquia.telefone|escapejs}}\n' +
+      '{{paroquia.endereco|escapejs|default:""}}\n' +
+      '{% if paroquia.telefone %}Tel.: {{paroquia.telefone|escapejs}}{% endif %}\n' +
       '------------------------------------------------\n' +
       '\n' +
       '                    RECIBO\n' +
