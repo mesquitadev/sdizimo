@@ -86,10 +86,10 @@
         <tr class="titulo_tabela">
           <th width="40">#</th>
           <th>Descrição</th>
+          <th width="120">Data</th>
           <th width="170">Registrado em</th>
-          <th width="180">Usuário responsável</th>
+          <th width="170">Usuário responsável</th>
           <th width="100">Valor (R$)</th>
-          <th>Data</th>
         </tr>
       </thead>
       <tbody>
@@ -97,19 +97,19 @@
           <tr>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.descricao }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.data|date:"d/m/Y" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.cadastrado_em|date:"d/m/Y H:i" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.usuario }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.valor }}</td>
-            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ doacao.data|date:"d/m/Y" }}</td>
           </tr>
         {% endfor %}
         <tr class="footer_tabela">
           <td>&nbsp;</td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
+          <td>&nbsp;</td>
           <td>TOTAL</td>
           <td>{{ total_doacoes.total }}</td>
-          <td>&nbsp;</td>
         </tr>
       </tbody>
     </table>
@@ -122,23 +122,24 @@
       <thead>
         <tr class="titulo_tabela">
           <th width="40">#</th>
+          <th>Data</th>
           <th>Registrado em</th>
           <th>Usuário responsável</th>
           <th>Valor (R$)</th>
-          <th>Data</th>
         </tr>
       </thead>
       <tbody>
         {% for oferta in ofertas %}
           <tr>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ oferta.data|date:"d/m/Y" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ oferta.cadastrado_em|date:"d/m/Y H:i" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ oferta.usuario }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ oferta.valor }}</td>
-            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ oferta.data|date:"d/m/Y" }}</td>
           </tr>
         {% endfor %}
         <tr class="footer_tabela">
+          <td>&nbsp;</td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
           <td>TOTAL</td>
