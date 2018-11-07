@@ -1209,20 +1209,20 @@ def get_dizimos(usuario, data_inicio, data_fim):
 
 def get_doacoes(usuario, data_inicio, data_fim):
     if usuario.perfil.eh_administrador():
-        return Doacao.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
-    return Doacao.objects.filter(paroquia=usuario.perfil.paroquia, cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+        return Doacao.objects.filter(data__gte=data_inicio, data__lte=data_fim).order_by('data')
+    return Doacao.objects.filter(paroquia=usuario.perfil.paroquia, data__gte=data_inicio, data__lte=data_fim).order_by('data')
 
 
 def get_ofertas(usuario, data_inicio, data_fim):
     if usuario.perfil.eh_administrador():
-        return Oferta.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
-    return Oferta.objects.filter(paroquia=usuario.perfil.paroquia, cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+        return Oferta.objects.filter(data__gte=data_inicio, data__lte=data_fim).order_by('data')
+    return Oferta.objects.filter(paroquia=usuario.perfil.paroquia, data__gte=data_inicio, data__lte=data_fim).order_by('data')
 
 
 def get_pagamentos(usuario, data_inicio, data_fim):
     if usuario.perfil.eh_administrador():
-        return Pagamento.objects.filter(cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
-    return Pagamento.objects.filter(paroquia=usuario.perfil.paroquia, cadastrado_em__date__gte=data_inicio, cadastrado_em__date__lte=data_fim).order_by('cadastrado_em')
+        return Pagamento.objects.filter(data__gte=data_inicio, data__lte=data_fim).order_by('data')
+    return Pagamento.objects.filter(paroquia=usuario.perfil.paroquia, data__gte=data_inicio, data__lte=data_fim).order_by('data')
 
 
 @login_required
