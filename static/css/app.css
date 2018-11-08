@@ -43,6 +43,13 @@ nav.navbar .container-fluid {
   width: inherit;
 }
 
+/* css para corrigir largura minima da sidebar qdo recolhida */
+nav.side-navbar.shrinked {
+  min-width: 110px;
+  max-width: 110px;
+  text-align: center;
+}
+
 /* css para corrigir alinhamento do breadcrumb */
 .breadcrumb {
   padding: 20px 30px;
