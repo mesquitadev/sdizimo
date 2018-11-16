@@ -29,9 +29,10 @@ class Dizimista(models.Model):
     ]
 
     ESTADO_CIVIL = [
-        ['C', 'Casado'],
-        ['S', 'Solteiro'],
-        ['D', 'Divorciado'],
+        ['C', 'Casado(a)'],
+        ['S', 'Solteiro(a)'],
+        ['D', 'Divorciado(a)'],
+        ['V', 'Viúvo(a)'],
     ]
 
     nome = models.CharField(max_length=250, blank=False, null=False)
