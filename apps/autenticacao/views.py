@@ -87,6 +87,7 @@ class NovoUsuario(LoggedInPermissionsMixin, CreateView):
                 perfil.usuario.is_superuser = True
             else:
                 perfil.usuario.is_superuser = False
+            perfil.usuario.save()
             perfil.save()
             return redirect(self.get_success_url())
         else:
@@ -123,6 +124,7 @@ class EditaUsuario(LoggedInPermissionsMixin, UpdateView):
                 perfil.usuario.is_superuser = True
             else:
                 perfil.usuario.is_superuser = False
+            perfil.usuario.save()
             perfil.save()
             return redirect(self.get_success_url())
         else:
