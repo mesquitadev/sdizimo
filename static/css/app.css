@@ -104,6 +104,11 @@ span.select2 {
   height: 40px;
 }
 
+/* css para alterar tamanho do nome do usuario no menu lateral */
+.side-navbar h1.h5 {
+  font-size: 0.97em;
+}
+
 /* Calendários */
 .calendarios {
   display: inline-block;
