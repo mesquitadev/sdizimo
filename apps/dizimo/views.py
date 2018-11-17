@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Sum
+from django.db.models.functions import ExtractDay
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from django.urls import reverse_lazy
@@ -194,7 +195,12 @@ class ExcluiDizimista(LoggedInPermissionsMixin, DeleteView):
 def aniversariantes(request):
     mes_escolhido = int(request.GET.get('mes', datetime.today().month))
 
-    lista_aniversariantes = Dizimista.objects.filter(paroquia=request.user.perfil.paroquia, data_nascimento__month=mes_escolhido).order_by('data_nascimento', 'nome')
+    lista_aniversariantes = Dizimista.objects.filter(
+            paroquia=request.user.perfil.paroquia,
+            data_nascimento__month=mes_escolhido
+        ).annotate(
+            dia=ExtractDay('data_nascimento')
+        ).order_by('dia', 'nome')
 
     context = {
         'menu': 'relatorios',
@@ -1644,9 +1650,11 @@ class RelatorioAniversariantesPDF(LoggedInPermissionsMixin, PDFTemplateView):
         mes_escolhido = int(self.request.GET.get('mes', datetime.today().month))
         mes = MESES[mes_escolhido-1]
         lista_aniversariantes = Dizimista.objects.filter(
-            data_nascimento__month=mes_escolhido,
-            paroquia=self.request.user.perfil.paroquia).order_by('data_nascimento', 'nome')
-
+            paroquia=self.request.user.perfil.paroquia,
+            data_nascimento__month=mes_escolhido
+        ).annotate(
+            dia=ExtractDay('data_nascimento')
+        ).order_by('dia', 'nome')
         context['titulo_relatorio'] = 'Relatório de Aniversariantes de {0}'.format(mes['nome'])
         context['aniversariantes'] = lista_aniversariantes
         context['user'] = self.request.user
