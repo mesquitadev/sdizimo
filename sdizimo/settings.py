@@ -35,6 +35,15 @@ ALLOWED_HOSTS = [
     '10.0.3.11',  # Allow domain and subdomains
 ]
 
+ADMINS = (
+    ('Daniel Lima', 'danielslz@gmail.com'),
+)
+
+MANAGERS = ADMINS
+
+DEFAULT_FROM_NAME = 'SDízimo'
+
+
 # Application definition
 
 DJANGO_APPS = (
