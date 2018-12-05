@@ -53,6 +53,9 @@ def inicio(request):
 
     # calendario proximo mes
     proximo_mes = mes_atual + 1
+    if proximo_mes > 12:
+            proximo_mes = 1
+            ano_atual += 1
     cal2 = Calendario()
     cal2.mostrar_mes_ano_cabecalho_mes = True
     # batismos
