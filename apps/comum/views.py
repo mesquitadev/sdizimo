@@ -48,7 +48,7 @@ def inicio(request):
     adiciona_batismos_calendario(cal, batismos_mes_atual)
     # aniversariantes
     aniversariantes_mes_atual = Dizimista.objects.filter(paroquia=paroquia, data_nascimento__month=mes_atual).order_by('data_nascimento', 'nome')
-    adiciona_aniversariantes_calendario(cal, aniversariantes_mes_atual)
+    adiciona_aniversariantes_calendario(cal, aniversariantes_mes_atual, ano_atual)
     calendario_mes_atual = cal.formato_mes(ano_atual, mes_atual)
 
     # calendario proximo mes
@@ -63,7 +63,7 @@ def inicio(request):
     adiciona_batismos_calendario(cal2, batismos_proximo_mes)
     # aniversariantes
     aniversariantes_proximo_mes = Dizimista.objects.filter(paroquia=paroquia, data_nascimento__month=proximo_mes).order_by('data_nascimento', 'nome')
-    adiciona_aniversariantes_calendario(cal2, aniversariantes_proximo_mes)
+    adiciona_aniversariantes_calendario(cal2, aniversariantes_proximo_mes, ano_atual)
     calendario_proximo_mes = cal2.formato_mes(ano_atual, proximo_mes)
 
     context = {
@@ -109,9 +109,8 @@ def adiciona_batismos_calendario(calendario, batismos):
         calendario.adicionar_evento_calendario(batismo.data_batismo, batismo.data_batismo, 'Batismo de {0} às {1}'.format(batismo.nome_batizando, batismo.hora_batismo.strftime('%H:%M')), 'success')
 
 
-def adiciona_aniversariantes_calendario(calendario, aniversariantes):
-    ano_atual = datetime.today().year
+def adiciona_aniversariantes_calendario(calendario, aniversariantes, ano):
     for dizimista in aniversariantes:
-        data_aniversario = dizimista.data_nascimento.replace(year=ano_atual)
+        data_aniversario = dizimista.data_nascimento.replace(year=ano)
         idade = data_aniversario.year - dizimista.data_nascimento.year
         calendario.adicionar_evento_calendario(data_aniversario, data_aniversario, 'Aniversário de {0} ({1} anos)'.format(dizimista.nome, idade), 'success')
