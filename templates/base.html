@@ -97,7 +97,7 @@
                 </ul>
               </li>
               <li {% if menu == 'dizimistas' %}class="active"{% endif %}><a href="{% url 'dizimo:dizimistas' %}"><i class="fa fa-address-card-o fa-fw" aria-hidden="true"></i>Dizimistas</a></li>
-              <li {% if menu == 'usuarios' %}class="active"{% endif %}><a href="{% url 'dizimo:pagamentos' %}"><i class="fa fa-credit-card fa-fw" aria-hidden="true"></i>Pagamentos</a></li>
+              <li {% if menu == 'pagamentos' %}class="active"{% endif %}><a href="{% url 'dizimo:pagamentos' %}"><i class="fa fa-credit-card fa-fw" aria-hidden="true"></i>Pagamentos</a></li>
               <li><a href="#menu_recebimentos" aria-expanded="{% if menu == 'recebimentos' %}true{% else %}false{% endif %}" data-toggle="collapse"> <i class="fa fa-money fa-fw"></i>Recebimentos</a>
                 <ul id="menu_recebimentos" class="collapse list-unstyled {% if menu == 'recebimentos' %}show{% endif %}">
                   <li {% if menu_dropdown == 'batismos' %}class="active-dropdown"{% endif %}><a href="{% url 'dizimo:batismos' %}">Batismos</a></li>
