@@ -89,6 +89,33 @@
 <script type="text/javascript" src="{% static 'qz/dependencies/sha-256.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'qz/qz-tray.js' %}"></script>
 <script type="text/javascript">
+  qz.security.setCertificatePromise(function (resolve, reject) {
+    resolve("-----BEGIN CERTIFICATE-----\n" +
+    "MIIEEDCCAvigAwIBAgIJANUcaGbstXZgMA0GCSqGSIb3DQEBCwUAMIGbMQswCQYD\n" +
+    "VQQGEwJCUjERMA8GA1UECAwITWFyYW5oYW8xETAPBgNVBAcMCFNhbyBMdWlzMRAw\n" +
+    "DgYDVQQKDAdTRGl6aW1vMRAwDgYDVQQLDAdTRGl6aW1vMRowGAYDVQQDDBEqLmlu\n" +
+    "Zm9iaXRzLm5ldC5icjEmMCQGCSqGSIb3DQEJARYXc2Rpemltb0BpbmZvYml0cy5u\n" +
+    "ZXQuYnIwIBcNMTgxMTA1MjM1NDE5WhgPMjA1MDA0MzAyMzU0MTlaMIGbMQswCQYD\n" +
+    "VQQGEwJCUjERMA8GA1UECAwITWFyYW5oYW8xETAPBgNVBAcMCFNhbyBMdWlzMRAw\n" +
+    "DgYDVQQKDAdTRGl6aW1vMRAwDgYDVQQLDAdTRGl6aW1vMRowGAYDVQQDDBEqLmlu\n" +
+    "Zm9iaXRzLm5ldC5icjEmMCQGCSqGSIb3DQEJARYXc2Rpemltb0BpbmZvYml0cy5u\n" +
+    "ZXQuYnIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDjECXwO7TacgPB\n" +
+    "+rT32/b5rLyRyL0xtKiw5XMFrG0DMOyqSutILY1LCnqt9QbO4RyY8i2u4sFo0aaS\n" +
+    "2t1B4hv2CvMQuGnDMrB+gIjhLLUuv9qwtrMyIda7ksEgnld3UijffPd/JIlPl0fI\n" +
+    "RDVzu6wEZfR5Zow0gC4dCVvDe+7Vdb/+6zK7U4Mc8ba2wPrV6Szw7TOnWfO4WYYP\n" +
+    "CArc5rA4khuZEnkEgT0Nm9mPWlMAfpwxIOlJRqrPsyIhpwPspdvCTnsP7NxoH0u/\n" +
+    "gVIXvk05gJ8W59vjcNXsls9KFZDgWUiJhliVsBEtSAul8BBVXzSWn5AMTE0FfaNS\n" +
+    "so1tHqcbAgMBAAGjUzBRMB0GA1UdDgQWBBRziVvE+CODLg8I7271dnfd6UH/NTAf\n" +
+    "BgNVHSMEGDAWgBRziVvE+CODLg8I7271dnfd6UH/NTAPBgNVHRMBAf8EBTADAQH/\n" +
+    "MA0GCSqGSIb3DQEBCwUAA4IBAQDUdGM5cpU1TNJg+fyInFmwUdyGp1yzB49V2GS1\n" +
+    "puqs5aLEmpx9o/Tk+t0eojTTtROIfVealUYSX1bZOkssl5NWb4xpRe4pr9e1VB2U\n" +
+    "LDwaLF8N/+IsLaxgU1SBE66sK/Ob5dgy5XNXoE8gOb8rlKVokNPvmWdH8H5tiZ5i\n" +
+    "n9q9tGwzcGFf2dkKx9bh7DNV7UFHWJjz4fV/SMWm0o1/128XZnhKyxVWRIQLwc91\n" +
+    "6BDRPgSppjbCrNBlWaq7cpRLmyArDIOD02EICbbdgzXVA3TPKZOxKWltxVnDdHlA\n" +
+    "xk3HziNMLbb0ZONRGg7Gp5P6MBlvYmBKQMOAAWFXV7tzE7GF\n" +
+    "-----END CERTIFICATE-----\n");
+  });
+
   var privateKey = "-----BEGIN PRIVATE KEY-----\n" +
     "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDjECXwO7TacgPB\n" +
     "+rT32/b5rLyRyL0xtKiw5XMFrG0DMOyqSutILY1LCnqt9QbO4RyY8i2u4sFo0aaS\n" +
