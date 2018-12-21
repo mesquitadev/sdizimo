@@ -84,6 +84,7 @@
               <th scope="col">Dizimista</th>
               <th scope="col">Referência</th>
               <th scope="col">Valor (R$)</th>
+              <th scope="col">Data</th>
               <th scope="col">Registrado em</th>
               <th scope="col">Usuário responsável</th>
             </tr>
@@ -98,6 +99,7 @@
                 <td>{{ dizimo.dizimista }}</td>
                 <td>{{ dizimo.referencia|date:"m/Y" }}</td>
                 <td>{{ dizimo.valor }}</td>
+                <td>{{ dizimo.data|date:"d/m/Y" }}</td>
                 <td>{{ dizimo.cadastrado_em|date:"d/m/Y H:i" }}</td>
                 <td>{{ dizimo.usuario }}</td>
               </tr>

@@ -3,8 +3,9 @@
 {% block content %}
   <p>
     Recebemos de <strong>{{dizimo.dizimista.nome}}</strong> a importância de
-    <strong>R$ {{dizimo.valor}}</strong> referente ao pagamento de dízimo
-    relativo ao mês de <strong>{{dizimo.referencia|date:"m/Y"}}</strong>.
+    <strong>R$ {{dizimo.valor}}</strong>, em <strong>{{dizimo.data|date:"d/m/Y"}}</strong>,
+    referente ao pagamento de dízimo relativo ao mês de 
+    <strong>{{dizimo.referencia|date:"m/Y"}}</strong>.
   </p>
   Registrado por: {{dizimo.usuario.get_full_name}}<br>
   Data: {{dizimo.cadastrado_em|date:"d/m/Y H:i"}}
@@ -12,8 +13,8 @@
 
 {% block recibo_raw %}
   'Recebemos de {{dizimo.dizimista.nome|escapejs}} a importância de ' +
-  'R$ {{dizimo.valor}} referente ao pagamento de dízimo relativo ao mês de ' +
-  '{{dizimo.referencia|date:"m/Y"}}.\n' +
+  'R$ {{dizimo.valor}}, em {{doacao.data|date:"d/m/Y"}}, referente ao ' +
+  'pagamento de dízimo relativo ao mês de {{dizimo.referencia|date:"m/Y"}}.\n' +
   '\n' +
   'Registrado por: {{dizimo.usuario.get_full_name|escapejs}}\n' +
   'Data: {{dizimo.cadastrado_em|date:"d/m/Y H:i"}}\n'

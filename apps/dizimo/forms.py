@@ -78,6 +78,7 @@ class OfertaForm(forms.ModelForm):
 ###########################################################
 
 class DizimoForm(forms.ModelForm):
+    data = forms.DateField(label='Data', required=True, widget=DatePicker(options={"autoclose": True}))
     valor = forms.DecimalField(label='Valor (R$)', max_digits=10, decimal_places=2, localize=True, required=True)
     referencia = MesAnoField(label='Referência (Mês/Ano)', required=True)
     dizimista = forms.ModelChoiceField(
@@ -90,7 +91,7 @@ class DizimoForm(forms.ModelForm):
 
     class Meta:
         model = Dizimo
-        fields = ('dizimista', 'referencia', 'valor')
+        fields = ('dizimista', 'referencia', 'valor', 'data')
         localized_fields = ('valor', )
 
     def __init__(self, *args, **kwargs):

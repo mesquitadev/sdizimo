@@ -33,6 +33,7 @@
     $(document).ready(function(){
       $('#id_referencia').mask("00/0000", {placeholder: "__/____"});
       $('#id_valor').mask("#.##0,00", {reverse: true});
+      $('#id_data').mask("00/00/0000", {placeholder: "__/__/____"});
       $('.django-select2').djangoSelect2({
         theme: 'bootstrap4',
         allowClear: true

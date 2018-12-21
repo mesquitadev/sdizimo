@@ -49,10 +49,11 @@
         <tr class="titulo_tabela">
           <th width="40">#</th>
           <th>Dizimista</th>
-          <th width="110">Referência</th>
-          <th width="170">Registrado em</th>
-          <th width="200">Usuário responsável</th>
-          <th width="110">Valor (R$)</th>
+          <th width="120">Referência</th>
+          <th width="120">Data</th>
+          <th width="190">Registrado em</th>
+          <th width="220">Usuário responsável</th>
+          <th width="120">Valor (R$)</th>
         </tr>
       </thead>
       <tbody>
@@ -61,12 +62,14 @@
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ forloop.counter }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.dizimista }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.referencia|date:"m/Y" }}</td>
+            <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.data|date:"d/m/Y" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.cadastrado_em|date:"d/m/Y H:i" }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.usuario }}</td>
             <td {% if forloop.first %}class='primeira_linha'{% endif %}>{{ dizimo.valor }}</td>
           </tr>
         {% endfor %}
         <tr class="footer_tabela">
+          <td>&nbsp;</td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>
           <td>&nbsp;</td>

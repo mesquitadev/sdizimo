@@ -113,11 +113,12 @@ class Oferta(Recebimento):
 
 
 class Dizimo(Recebimento):
+    data = models.DateField(verbose_name='data')
     dizimista = models.ForeignKey(Dizimista, related_name='dizimos')
     referencia = models.DateField(verbose_name='referência', help_text='Mês/Ano')
 
     class Meta:
-        ordering = ('-referencia', '-cadastrado_em')
+        ordering = ('-referencia', '-data')
         unique_together = ('dizimista', 'referencia')
         permissions = (
             ("view_dizimo", "Can view dizimo"),
