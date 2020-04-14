@@ -32,7 +32,9 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '.localhost',  # Allow domain and subdomains
     '.pythonanywhere.com',  # Allow domain and subdomains
-    '10.0.3.11',  # Allow domain and subdomains
+    '10.0.3.11',  # Allow domain and subdomains,
+    '35.209.76.28',
+    'dizimo.infobits.net.br'
 ]
 
 ADMINS = (
