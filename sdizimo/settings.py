@@ -34,7 +34,9 @@ ALLOWED_HOSTS = [
     '.pythonanywhere.com',  # Allow domain and subdomains
     '10.0.3.11',  # Allow domain and subdomains,
     '35.209.76.28',
-    'dizimo.infobits.net.br'
+    'dizimo.infobits.net.br',
+    '[::1]',
+    'dizimo.mesquitadev.com.br'
 ]
 
 ADMINS = (
