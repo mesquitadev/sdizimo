@@ -124,9 +124,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'sdizimo',
-        'USER': 'sdizimo',
-        'PASSWORD': 'sdizimo',
-        'HOST': '127.0.0.1',
+        'USER': 'postgres',
+        'PASSWORD': 'Postgres2019!',
+        'HOST': 'db_sdizimo',
         'PORT': '5432',
         'CONN_MAX_AGE': 600,
     }
