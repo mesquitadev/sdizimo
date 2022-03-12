@@ -36,7 +36,8 @@ ALLOWED_HOSTS = [
     '35.209.76.28',
     'dizimo.infobits.net.br',
     '[::1]',
-    'dizimo.mesquitadev.com.br'
+    'dizimo.mesquitadev.com.br',
+    '0.0.0.0'
 ]
 
 ADMINS = (

@@ -9,4 +9,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Expondo a porta da APP
 EXPOSE 80
 # Executando o comando para subir a aplicacao
-CMD ["gunicorn", "sdizimo.wsgi:application", "--bind", "0.0.0.0:80", "--workers", "3"]
+CMD ["gunicorn", "sdizimo.wsgi:application", "--bind", "*:80", "--workers", "3"]
