@@ -29,16 +29,7 @@ SECRET_KEY = '$g!aedey%=%ftvxs^i2i%ovkg76jrn$+)nj!yzdjdxg##uo_^u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '.localhost',  # Allow domain and subdomains
-    '.pythonanywhere.com',  # Allow domain and subdomains
-    '10.0.3.11',  # Allow domain and subdomains,
-    '35.209.76.28',
-    'dizimo.infobits.net.br',
-    '[::1]',
-    'dizimo.mesquitadev.com.br',
-    '0.0.0.0'
-]
+ALLOWED_HOSTS = ['*',]
 
 ADMINS = (
     ('Daniel Lima', 'danielslz@gmail.com'),
