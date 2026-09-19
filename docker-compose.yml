@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: sdizimo
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - "./sdizimo (1):/dump:ro"
+      - ./backups/db/2022-03-08-pg13-dir:/dump:ro
       - ./docker/restore.sh:/docker-entrypoint-initdb.d/10-restore.sh:ro
     ports:
       - "${SDIZIMO_DB_PORT:-5432}:5432"

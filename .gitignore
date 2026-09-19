@@ -1,11 +1,14 @@
-.DS_Store
 __pycache__/
-*.py[co]
+.claude/
+.DS_Store
+.env
 .idea/
 .vscode/
-sdizimo-back/staticfiles/
-sdizimo-back/db.sqlite3
+*.py[co]
+*.swp
+*~
+backups/db/local-*
 sdizimo-back/media/cache/
-# tar duplicado do dump que ja esta em "sdizimo (1)"
-/sdizimo
-.env
+sdizimo-back/staticfiles/
+sdizimo-back/media/*
+!sdizimo-back/media/.gitkeep
