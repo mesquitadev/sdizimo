@@ -1,50 +1,27 @@
-# README #
+# szdizimo
 
+Sistema de dízimo (Django 1.11 + PostgreSQL 13) empacotado em Docker.
 
-### Requisitos necessários para instalação ###
+## Subir
 
-* Python 3
-* PIP
-* VirtualEnv
-* VirtualEnvWrapper
-* PostgreSQL
-
-### Configuração do ambiente ###
-
-* Instalar as dependências do SO
-```
-#!bash
-sudo apt install python3-dev python-pip virtualenvwrapper
-sudo apt install libpq-dev libjpeg-dev libtiff5-dev libpng-dev
-sudo apt install postgresql postgresql-contrib pgadmin3
+```bash
+docker compose up -d --build
 ```
 
-* Tendo todas as dependências instaladas, configurar o virtualenv
-```
-#!bash
-mkvirtualenv sdizimo --python=/usr/bin/python3
+Acesse http://localhost:8000. Na primeira subida o dump em `sdizimo (1)/` (pg_dump formato diretório, 2022-03-08) é restaurado automaticamente no volume do Postgres.
+
+## Comandos úteis
+
+```bash
+docker compose logs -f web                                   # logs da aplicação
+docker compose exec web python manage.py changepassword USER  # trocar senha
+docker compose down                                          # parar (mantém o banco)
+docker compose down -v                                       # parar e apagar o banco (restaura o dump de novo ao subir)
 ```
 
-* Instalar as dependências com o PIP
-```
-#!bash
-pip install -r requirements.txt
-```
+## Estrutura
 
-* Rodar a apliação
-```
-#!bash
-python manage.py runserver
-```
-
-* Fazer backup do banco
-```
-#!bash
-pg_dump -Fc -h 127.0.0.1 -p 5432 -U sdizimo sdizimo > db_backup_YYYYMMDD
-```
-
-* Restaurar backup do banco
-```
-#!bash
-pg_restore -c -h 127.0.0.1 -p 5432 -U sdizimo -d sdizimo db_backup_YYYYMMDD
-```
+- `sdizimo-back/` — código Django (histórico original preservado)
+- `sdizimo (1)/` — dump mais recente do banco (usado no restore)
+- `sdizimo-back/db_backup_2018*` — dumps antigos em formato custom
+- `docker/` — Dockerfile, constraints de pip e script de restore
