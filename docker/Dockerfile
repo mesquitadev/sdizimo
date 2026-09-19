@@ -17,6 +17,7 @@ COPY docker/constraints.txt /app/constraints.txt
 RUN pip install --no-cache-dir -c constraints.txt -r requirements.txt "Pillow<7"
 
 COPY sdizimo-back/ /app/
+COPY docker/entrypoint.sh /entrypoint.sh
 
 EXPOSE 8000
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["/entrypoint.sh"]

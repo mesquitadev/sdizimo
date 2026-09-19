@@ -24,10 +24,10 @@ PROJECT_PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$g!aedey%=%ftvxs^i2i%ovkg76jrn$+)nj!yzdjdxg##uo_^u'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') or '$g!aedey%=%ftvxs^i2i%ovkg76jrn$+)nj!yzdjdxg##uo_^u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '0') == '1'
 
 ALLOWED_HOSTS = [
     '*',
@@ -219,7 +219,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # django compressor
 
-COMPRESS_ENABLED = True
+# Em producao o whitenoise serve o STATIC_ROOT; o compressor gera arquivos em
+# runtime que o whitenoise nao enxerga, entao fica ativo so em DEBUG.
+COMPRESS_ENABLED = DEBUG
 COMPRESS_OUTPUT_DIR = 'cache'
 
 
