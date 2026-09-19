@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:13
+    restart: unless-stopped
     environment:
       POSTGRES_DB: sdizimo
       POSTGRES_USER: sdizimo
@@ -21,6 +22,7 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
+    restart: unless-stopped
     environment:
       DB_HOST: db
     volumes:
