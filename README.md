@@ -62,8 +62,7 @@ o web em `127.0.0.1:8000` e o db em `127.0.0.1:5433` (a 5432 é do Postgres do h
 Deploy a partir desta máquina:
 
 ```bash
-scripts/deploy.sh                       # rsync + docker compose up -d --build (em background)
-ssh mesquitadev@100.115.95.70 tail -f ~/stacks/sdizimo/build.log
+scripts/deploy.sh                       # rsync + docker compose up -d --build no servidor
 ```
 
 Entrada no Caddyfile (`~/stacks/homelab/Caddyfile`):

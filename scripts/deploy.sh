@@ -12,6 +12,6 @@ rsync -az --delete \
   --exclude 'media/cache' --exclude 'backups/db/*.tar' --exclude 'backups/db/local-*' \
   "$ROOT/" "$HOST:$DEST/"
 
-# O build demora alguns minutos; roda desanexado para não morrer com a sessão SSH.
-ssh "$HOST" "cd $DEST && nohup docker compose up -d --build > build.log 2>&1 &"
-echo "Build iniciado em $HOST:$DEST (acompanhe com: ssh $HOST tail -f $DEST/build.log)"
+# O build da imagem leva alguns minutos na primeira vez (depois usa cache).
+ssh -o ServerAliveInterval=30 "$HOST" "cd $DEST && docker compose up -d --build 2>&1 | grep -vE '^\s*$' | tail -5"
+echo "Deploy concluído em $HOST:$DEST"
