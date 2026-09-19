@@ -10,7 +10,7 @@ services:
       - "./sdizimo (1):/dump:ro"
       - ./docker/restore.sh:/docker-entrypoint-initdb.d/10-restore.sh:ro
     ports:
-      - "5432:5432"
+      - "${SDIZIMO_DB_PORT:-5432}:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U sdizimo -d sdizimo"]
       interval: 5s
@@ -26,7 +26,7 @@ services:
     volumes:
       - ./sdizimo-back:/app
     ports:
-      - "8000:8000"
+      - "${SDIZIMO_WEB_PORT:-8000}:8000"
     depends_on:
       db:
         condition: service_healthy

@@ -8,3 +8,4 @@ sdizimo-back/db.sqlite3
 sdizimo-back/media/cache/
 # tar duplicado do dump que ja esta em "sdizimo (1)"
 /sdizimo
+.env
