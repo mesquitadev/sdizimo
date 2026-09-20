@@ -121,14 +121,27 @@ WSGI_APPLICATION = 'sdizimo.wsgi.application'
 #     }
 # }
 
+# Credenciais vêm do ambiente. Antes só o HOST vinha de fora e o resto estava
+# fixo aqui — o que significava a senha do banco em texto claro no repositório.
+# Isso passou a pesar quando o banco deixou de ser um container só deste
+# projeto e virou o Postgres compartilhado do servidor.
+#
+# Os padrões reproduzem os valores antigos, então quem rodar sem configurar
+# nada continua tendo o mesmo comportamento de sempre.
+#
+# Variáveis separadas em vez de uma DATABASE_URL única de propósito: ler URL
+# exigiria acrescentar dj-database-url ao requirements, e instalar dependência
+# nova em Python 3.7 é procurar problema. Separadas, dá também para marcar só
+# a senha como secreta no painel de deploy, e some o escape de caracteres que
+# uma senha com @ ou : obrigaria numa URL.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'sdizimo',
-        'USER': 'sdizimo',
-        'PASSWORD': 'sdizimo',
+        'NAME': os.environ.get('DB_NAME', 'sdizimo'),
+        'USER': os.environ.get('DB_USER', 'sdizimo'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'sdizimo'),
         'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
-        'PORT': '5432',
+        'PORT': os.environ.get('DB_PORT', '5432'),
         'CONN_MAX_AGE': 600,
     }
 }
