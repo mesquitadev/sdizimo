@@ -11,7 +11,7 @@ docker/            Dockerfile, entrypoint (collectstatic + migrate + gunicorn), 
 docker-compose.yml Serviços db (Postgres 13) e web (gunicorn na 8000)
 sdizimo-back/      Código Django
 backups/db/        Dump do banco de 2022-03-08 (restaurado na primeira subida); dumps locais ficam fora do git
-scripts/           deploy.sh (rsync + build no servidor) e backup-db.sh
+scripts/           deploy.sh (git pull + build no servidor) e backup-db.sh
 .env.example       Variáveis suportadas
 ```
 
@@ -62,7 +62,7 @@ o web em `127.0.0.1:8000` e o db em `127.0.0.1:5433` (a 5432 é do Postgres do h
 Deploy a partir desta máquina:
 
 ```bash
-scripts/deploy.sh                       # rsync + docker compose up -d --build no servidor
+scripts/deploy.sh                       # git pull + docker compose up -d --build no servidor
 ```
 
 Entrada no Caddyfile (`~/stacks/homelab/Caddyfile`):
