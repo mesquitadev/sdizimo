@@ -1,4 +1,4 @@
-# szdizimo
+# sdizimo
 
 Sistema de gestão de dízimo de paróquia. Django 1.11 (Python 3.7) + PostgreSQL 13, empacotado em Docker.
 
