@@ -220,6 +220,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Logout default url
 
+CSRF_FAILURE_VIEW = 'apps.autenticacao.views.csrf_failure'
+
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = 'inicio'
 LOGIN_URL = 'login'

@@ -9,5 +9,14 @@
     {% include 'includes/form.html' %}
     <button type="submit" class="btn btn-primary">Entrar</button>
   </form>
+  <script>
+    // Evita envio duplicado (clique duplo): o segundo POST chegaria com o
+    // token CSRF antigo, ja trocado pelo login, e cairia num 403.
+    document.getElementById('login-form').addEventListener('submit', function () {
+      var btn = this.querySelector('button[type=submit]');
+      btn.disabled = true;
+      btn.textContent = 'Entrando...';
+    });
+  </script>
   <a href="{% url 'password_reset' %}" class="forgot-pass">Esqueceu sua senha?</a>
 {% endblock %}

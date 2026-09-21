@@ -6,12 +6,25 @@ from django.contrib.auth.models import User
 from django.views.generic import UpdateView, CreateView, DeleteView, DetailView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.views.csrf import csrf_failure as django_csrf_failure
 from search_views.search import SearchListView
 
 from apps.comum.mixins import LoggedInPermissionsMixin
 from .filters import UsuarioFilter
 from .forms import ConsultaUsuarioForm, NovoUsuarioForm, EditaUsuarioForm, PerfilForm, MeuPerfilForm, MeuUsuarioForm
 from .models import Perfil
+
+
+def csrf_failure(request, reason=''):
+    """
+    O Django troca o token CSRF ao logar. Um segundo POST do formulario de
+    login (clique duplo, aba antiga) chega com o token velho e falha, mesmo
+    com o usuario ja autenticado. Nesse caso e melhor levar para a home do
+    que mostrar a pagina de erro.
+    """
+    if request.user.is_authenticated:
+        return redirect('inicio')
+    return django_csrf_failure(request, reason=reason)
 
 
 class EditaMeuUsuario(LoginRequiredMixin, UpdateView):
